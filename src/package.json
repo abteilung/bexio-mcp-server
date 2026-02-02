@@ -20,6 +20,10 @@
     "start": "node dist/index.js",
     "test": "vitest",
     "type-check": "tsc --noEmit",
+    "clean": "node -e \"const fs=require('fs'); if(fs.existsSync('dist')){fs.rmSync('dist',{recursive:true}); console.log('Cleaned dist/')}\"",
+    "prebuild": "npm run clean",
+    "pack:mcpb": "npm run build && cd .. && mcpb pack",
+    "validate:mcpb": "cd .. && mcpb validate",
     "prepublishOnly": "npm run build"
   },
   "repository": {
