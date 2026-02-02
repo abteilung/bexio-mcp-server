@@ -1,6 +1,6 @@
 /**
  * Purchase tool definitions.
- * Contains MCP tool metadata for bills (creditor invoices) and expenses.
+ * Contains MCP tool metadata for bills, expenses, purchase orders, and outgoing payments.
  */
 
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
@@ -211,6 +211,177 @@ export const toolDefinitions: Tool[] = [
         },
       },
       required: ["expense_id"],
+    },
+  },
+
+  // ===== PURCHASE ORDERS =====
+  {
+    name: "list_purchase_orders",
+    description: "List all purchase orders with optional pagination",
+    inputSchema: {
+      type: "object",
+      properties: {
+        limit: {
+          type: "integer",
+          description: "Maximum number of purchase orders to return (default: 50)",
+        },
+        offset: {
+          type: "integer",
+          description: "Number of purchase orders to skip (default: 0)",
+        },
+      },
+    },
+  },
+  {
+    name: "get_purchase_order",
+    description: "Get a specific purchase order by ID",
+    inputSchema: {
+      type: "object",
+      properties: {
+        purchase_order_id: {
+          type: "integer",
+          description: "The ID of the purchase order to retrieve",
+        },
+      },
+      required: ["purchase_order_id"],
+    },
+  },
+  {
+    name: "create_purchase_order",
+    description: "Create a new purchase order to a supplier",
+    inputSchema: {
+      type: "object",
+      properties: {
+        purchase_order_data: {
+          type: "object",
+          description: "Purchase order data including contact_id, title, positions, etc.",
+        },
+      },
+      required: ["purchase_order_data"],
+    },
+  },
+  {
+    name: "update_purchase_order",
+    description: "Update an existing purchase order",
+    inputSchema: {
+      type: "object",
+      properties: {
+        purchase_order_id: {
+          type: "integer",
+          description: "The ID of the purchase order to update",
+        },
+        purchase_order_data: {
+          type: "object",
+          description: "Purchase order data to update",
+        },
+      },
+      required: ["purchase_order_id", "purchase_order_data"],
+    },
+  },
+  {
+    name: "delete_purchase_order",
+    description: "Delete a purchase order",
+    inputSchema: {
+      type: "object",
+      properties: {
+        purchase_order_id: {
+          type: "integer",
+          description: "The ID of the purchase order to delete",
+        },
+      },
+      required: ["purchase_order_id"],
+    },
+  },
+
+  // ===== OUTGOING PAYMENTS (linked to bills) =====
+  {
+    name: "list_outgoing_payments",
+    description: "List all outgoing payments for a specific bill (creditor invoice)",
+    inputSchema: {
+      type: "object",
+      properties: {
+        bill_id: {
+          type: "integer",
+          description: "The ID of the bill to get payments for",
+        },
+      },
+      required: ["bill_id"],
+    },
+  },
+  {
+    name: "get_outgoing_payment",
+    description: "Get a specific outgoing payment for a bill (creditor invoice)",
+    inputSchema: {
+      type: "object",
+      properties: {
+        bill_id: {
+          type: "integer",
+          description: "The ID of the bill",
+        },
+        payment_id: {
+          type: "integer",
+          description: "The ID of the payment to retrieve",
+        },
+      },
+      required: ["bill_id", "payment_id"],
+    },
+  },
+  {
+    name: "create_outgoing_payment",
+    description: "Create a new outgoing payment for a bill (creditor invoice)",
+    inputSchema: {
+      type: "object",
+      properties: {
+        bill_id: {
+          type: "integer",
+          description: "The ID of the bill to create a payment for",
+        },
+        payment_data: {
+          type: "object",
+          description: "Payment data including amount, date, etc.",
+        },
+      },
+      required: ["bill_id", "payment_data"],
+    },
+  },
+  {
+    name: "update_outgoing_payment",
+    description: "Update an existing outgoing payment for a bill (creditor invoice)",
+    inputSchema: {
+      type: "object",
+      properties: {
+        bill_id: {
+          type: "integer",
+          description: "The ID of the bill",
+        },
+        payment_id: {
+          type: "integer",
+          description: "The ID of the payment to update",
+        },
+        payment_data: {
+          type: "object",
+          description: "Payment data to update",
+        },
+      },
+      required: ["bill_id", "payment_id", "payment_data"],
+    },
+  },
+  {
+    name: "delete_outgoing_payment",
+    description: "Delete an outgoing payment for a bill (creditor invoice)",
+    inputSchema: {
+      type: "object",
+      properties: {
+        bill_id: {
+          type: "integer",
+          description: "The ID of the bill",
+        },
+        payment_id: {
+          type: "integer",
+          description: "The ID of the payment to delete",
+        },
+      },
+      required: ["bill_id", "payment_id"],
     },
   },
 ];

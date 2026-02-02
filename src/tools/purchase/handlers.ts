@@ -1,6 +1,6 @@
 /**
  * Purchase tool handlers.
- * Implements the logic for bills (creditor invoices) and expenses.
+ * Implements the logic for bills, expenses, purchase orders, and outgoing payments.
  */
 
 import { BexioClient } from "../../bexio-client.js";
@@ -19,6 +19,16 @@ import {
   CreateExpenseParamsSchema,
   UpdateExpenseParamsSchema,
   DeleteExpenseParamsSchema,
+  ListPurchaseOrdersParamsSchema,
+  GetPurchaseOrderParamsSchema,
+  CreatePurchaseOrderParamsSchema,
+  UpdatePurchaseOrderParamsSchema,
+  DeletePurchaseOrderParamsSchema,
+  ListOutgoingPaymentsParamsSchema,
+  GetOutgoingPaymentParamsSchema,
+  CreateOutgoingPaymentParamsSchema,
+  UpdateOutgoingPaymentParamsSchema,
+  DeleteOutgoingPaymentParamsSchema,
 } from "../../types/index.js";
 
 export type HandlerFn = (
@@ -100,5 +110,65 @@ export const handlers: Record<string, HandlerFn> = {
   delete_expense: async (client, args) => {
     const { expense_id } = DeleteExpenseParamsSchema.parse(args);
     return client.deleteExpense(expense_id);
+  },
+
+  // ===== PURCHASE ORDERS =====
+  list_purchase_orders: async (client, args) => {
+    const { limit, offset } = ListPurchaseOrdersParamsSchema.parse(args);
+    return client.listPurchaseOrders({ limit, offset });
+  },
+
+  get_purchase_order: async (client, args) => {
+    const { purchase_order_id } = GetPurchaseOrderParamsSchema.parse(args);
+    const purchaseOrder = await client.getPurchaseOrder(purchase_order_id);
+    if (!purchaseOrder) {
+      throw McpError.notFound("Purchase Order", purchase_order_id);
+    }
+    return purchaseOrder;
+  },
+
+  create_purchase_order: async (client, args) => {
+    const { purchase_order_data } = CreatePurchaseOrderParamsSchema.parse(args);
+    return client.createPurchaseOrder(purchase_order_data);
+  },
+
+  update_purchase_order: async (client, args) => {
+    const { purchase_order_id, purchase_order_data } = UpdatePurchaseOrderParamsSchema.parse(args);
+    return client.updatePurchaseOrder(purchase_order_id, purchase_order_data);
+  },
+
+  delete_purchase_order: async (client, args) => {
+    const { purchase_order_id } = DeletePurchaseOrderParamsSchema.parse(args);
+    return client.deletePurchaseOrder(purchase_order_id);
+  },
+
+  // ===== OUTGOING PAYMENTS (linked to bills) =====
+  list_outgoing_payments: async (client, args) => {
+    const { bill_id } = ListOutgoingPaymentsParamsSchema.parse(args);
+    return client.listOutgoingPayments(bill_id);
+  },
+
+  get_outgoing_payment: async (client, args) => {
+    const { bill_id, payment_id } = GetOutgoingPaymentParamsSchema.parse(args);
+    const payment = await client.getOutgoingPayment(bill_id, payment_id);
+    if (!payment) {
+      throw McpError.notFound("Outgoing Payment", payment_id);
+    }
+    return payment;
+  },
+
+  create_outgoing_payment: async (client, args) => {
+    const { bill_id, payment_data } = CreateOutgoingPaymentParamsSchema.parse(args);
+    return client.createOutgoingPayment(bill_id, payment_data);
+  },
+
+  update_outgoing_payment: async (client, args) => {
+    const { bill_id, payment_id, payment_data } = UpdateOutgoingPaymentParamsSchema.parse(args);
+    return client.updateOutgoingPayment(bill_id, payment_id, payment_data);
+  },
+
+  delete_outgoing_payment: async (client, args) => {
+    const { bill_id, payment_id } = DeleteOutgoingPaymentParamsSchema.parse(args);
+    return client.deleteOutgoingPayment(bill_id, payment_id);
   },
 };
