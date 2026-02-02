@@ -19,17 +19,17 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Existing Tools (Backward Compatibility)
 
-- [ ] **EXIST-01**: Preserve all 56 v1 tool names exactly (no renaming)
-- [ ] **EXIST-02**: Contacts: list, get, search, advanced search, find by number/name, update (7 tools)
-- [ ] **EXIST-03**: Invoices: list, list_all, get, search, search_by_customer, create, issue, cancel, mark_sent, send, copy, statuses (13 tools)
-- [ ] **EXIST-04**: Quotes: list, get, create, search, search_by_customer, issue, accept, decline, send, convert to order/invoice (10 tools)
-- [ ] **EXIST-05**: Orders: list, get, create, search, search_by_customer, convert from quote (6 tools)
+- [ ] **EXIST-01**: Preserve all 83 v1 tool names exactly (no renaming)
+- [ ] **EXIST-02**: Contacts: list, get, search, advanced_search, find_by_number, find_by_name, update (7 tools)
+- [ ] **EXIST-03**: Invoices: list, list_all, get, search, search_by_customer, create, issue, cancel, mark_sent, send, copy, statuses, list_all_statuses, get_open, get_overdue (15 tools)
+- [ ] **EXIST-04**: Quotes: list, get, create, search, search_by_customer, issue, accept, decline, send, create_order_from, create_invoice_from (11 tools)
+- [ ] **EXIST-05**: Orders: list, get, create, search, search_by_customer, create_delivery_from, create_invoice_from (7 tools)
 - [ ] **EXIST-06**: Payments: list, get, create, delete (4 tools)
-- [ ] **EXIST-07**: Reminders: list, get, create, delete, mark_sent, send, search, sent_this_week (8 tools)
-- [ ] **EXIST-08**: Deliveries: list, get, issue, search, create from order (5 tools)
+- [ ] **EXIST-07**: Reminders: list, get, create, delete, mark_sent, send, search, get_sent_this_week (8 tools)
+- [ ] **EXIST-08**: Deliveries: list, get, issue, search (4 tools)
 - [ ] **EXIST-09**: Items & Taxes: list, get, create items; list, get taxes (5 tools)
-- [ ] **EXIST-10**: Reports: revenue, customer revenue, invoice status, overdue, monthly, top customers (6 tools)
-- [ ] **EXIST-11**: Users: current user, fictional users CRUD (6 tools)
+- [ ] **EXIST-10**: Reports: revenue, customer_revenue, invoice_status, overdue_invoices, monthly_revenue, top_customers, tasks_due_this_week (7 tools)
+- [ ] **EXIST-11**: Users: current_user, fictional_users CRUD (6 tools)
 - [ ] **EXIST-12**: Comments & Relations: list, get, create comments; relations CRUD + search (9 tools)
 
 ### Reference Data (New)
@@ -114,7 +114,7 @@ Acknowledged but deferred to future releases.
 
 ### Extended Features
 
-- **EXT-01**: Tool consolidation (reduce 56 tools to 15-30 polymorphic tools)
+- **EXT-01**: Tool consolidation (reduce 83 tools to 15-30 polymorphic tools)
 - **EXT-02**: Notes: list, get, create, delete
 - **EXT-03**: Tasks: list, get, create, update, delete with priorities/statuses
 - **EXT-04**: Users v3 API: full user management

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This roadmap transforms the v1 Bexio MCP server (56 tools, SDK 0.5.0, 2,418-line monolith) into a modern v2 distribution with one-click installation, complete API coverage, and modular architecture. The journey starts with SDK migration and architectural refactoring, expands to full Bexio API coverage across 8 feature domains, and culminates in MCPB packaging for zero-friction installation.
+This roadmap transforms the v1 Bexio MCP server (83 tools, SDK 0.5.0, 2,418-line monolith) into a modern v2 distribution with one-click installation, complete API coverage, and modular architecture. The journey starts with SDK migration and architectural refactoring, expands to full Bexio API coverage across 8 feature domains, and culminates in MCPB packaging for zero-friction installation.
 
 ## Phases
 
@@ -12,7 +12,7 @@ This roadmap transforms the v1 Bexio MCP server (56 tools, SDK 0.5.0, 2,418-line
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Migration** - SDK upgrade, modular architecture, existing 56 tools working
+- [ ] **Phase 1: Foundation & Migration** - SDK upgrade, modular architecture, existing 83 tools working
 - [ ] **Phase 2: Reference Data & Banking** - Foundational configuration data, Swiss banking/payments
 - [ ] **Phase 3: Projects & Accounting** - Time tracking, project management, chart of accounts, manual entries
 - [ ] **Phase 4: Purchase, Files & Payroll** - Bills, expenses, documents, HR (conditional)
@@ -31,12 +31,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Tool code is organized into domain modules (contacts/, invoices/, etc.) with <200 lines each
   4. HTTP transport works for n8n/remote access (dual transport maintained)
   5. No stdout contamination - all logs go to stderr only
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: SDK Migration - Upgrade to 1.25.2, fix breaking changes, pin Zod 3.22.x
-- [ ] 01-02: Modular Architecture - Extract domain modules from monolith
-- [ ] 01-03: Tool Migration - Migrate all 56 tools to new structure, validate backward compatibility
+- [ ] 01-01-PLAN.md - SDK Migration: Upgrade to 1.25.2, fix breaking changes, pin Zod 3.22.x
+- [ ] 01-02-PLAN.md - Modular Architecture: Create types/, shared/, tools/ structure with aggregation patterns
+- [ ] 01-03-PLAN.md - Tool Migration: Migrate all 83 tools to new structure, add HTTP transport, validate backward compatibility
 
 ### Phase 2: Reference Data & Banking
 **Goal**: Complete foundational data APIs and Swiss-standard banking/payment tools
@@ -128,7 +128,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Migration | 0/3 | Not started | - |
+| 1. Foundation & Migration | 0/3 | **Planned** | - |
 | 2. Reference Data & Banking | 0/3 | Not started | - |
 | 3. Projects & Accounting | 0/3 | Not started | - |
 | 4. Purchase, Files & Payroll | 0/3 | Not started | - |
@@ -137,4 +137,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 
 ---
 *Roadmap created: 2026-02-01*
+*Phase 1 planned: 2026-02-01*
 *Total requirements: 67 | Phases: 6 | Plans: 17 (estimated)*
