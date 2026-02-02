@@ -1057,4 +1057,124 @@ export class BexioClient {
 
     return statuses[documentType] || [];
   }
+
+  // ===== PROJECTS =====
+  async listProjects(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/pr_project", params);
+  }
+
+  async getProject(projectId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/pr_project/${projectId}`);
+  }
+
+  async createProject(data: {
+    user_id: number;
+    name: string;
+    contact_id?: number;
+    pr_state_id?: number;
+    pr_project_type_id?: number;
+    start_date?: string;
+    end_date?: string;
+    comment?: string;
+  }): Promise<unknown> {
+    return this.makeRequest("POST", "/pr_project", undefined, data);
+  }
+
+  async updateProject(projectId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", `/pr_project/${projectId}`, undefined, data);
+  }
+
+  async deleteProject(projectId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/pr_project/${projectId}`);
+  }
+
+  async archiveProject(projectId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/pr_project/${projectId}/archive`);
+  }
+
+  async unarchiveProject(projectId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/pr_project/${projectId}/unarchive`);
+  }
+
+  async searchProjects(searchParams: Record<string, unknown>[]): Promise<unknown[]> {
+    return this.makeRequest("POST", "/pr_project/search", undefined, searchParams);
+  }
+
+  // ===== PROJECT TYPES =====
+  async listProjectTypes(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/pr_project_type", params);
+  }
+
+  async getProjectType(typeId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/pr_project_type/${typeId}`);
+  }
+
+  // ===== PROJECT STATUSES =====
+  async listProjectStatuses(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/pr_project_state", params);
+  }
+
+  async getProjectStatus(statusId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/pr_project_state/${statusId}`);
+  }
+
+  // ===== TIMESHEETS (PROJ-06) =====
+  // Note: Duration format is "HH:MM" (e.g., "02:30" for 2.5 hours)
+  async listTimesheets(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/timesheet", params);
+  }
+
+  async getTimesheet(timesheetId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/timesheet/${timesheetId}`);
+  }
+
+  async createTimesheet(data: {
+    user_id: number;
+    date: string;
+    duration: string; // HH:MM format
+    pr_project_id?: number;
+    pr_package_id?: number;
+    pr_milestone_id?: number;
+    client_service_id?: number;
+    text?: string;
+    allowable_bill?: boolean;
+  }): Promise<unknown> {
+    return this.makeRequest("POST", "/timesheet", undefined, data);
+  }
+
+  async deleteTimesheet(timesheetId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/timesheet/${timesheetId}`);
+  }
+
+  async searchTimesheets(searchParams: Record<string, unknown>[]): Promise<unknown[]> {
+    return this.makeRequest("POST", "/timesheet/search", undefined, searchParams);
+  }
+
+  // ===== TIMESHEET STATUSES (PROJ-07) =====
+  async listTimesheetStatuses(): Promise<unknown[]> {
+    return this.makeRequest("GET", "/timesheet_status");
+  }
+
+  // ===== BUSINESS ACTIVITIES (PROJ-08) =====
+  // Also known as "client_service" in Bexio API
+  async listBusinessActivities(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/client_service", params);
+  }
+
+  async getBusinessActivity(activityId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/client_service/${activityId}`);
+  }
+
+  async createBusinessActivity(data: { name: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/client_service", undefined, data);
+  }
+
+  // ===== COMMUNICATION TYPES (PROJ-09) =====
+  async listCommunicationTypes(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/communication_kind", params);
+  }
+
+  async getCommunicationType(typeId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/communication_kind/${typeId}`);
+  }
 }
