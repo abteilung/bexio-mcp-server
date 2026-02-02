@@ -5,3 +5,6 @@
 
 # Local marketing/docs (not for git)
 marketing/
+
+# Internal workflow docs (not for public repo)
+PUBLISHING.md
