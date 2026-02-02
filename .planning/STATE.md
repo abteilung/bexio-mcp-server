@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 1 of 6 (Foundation & Migration)
-Plan: 0 of 3 in current phase
-Status: **Planned** - 3 plans created, verified, ready to execute
-Last activity: 2026-02-01 -- Phase 1 planned with 3 plans (SDK, Architecture, Tools)
+Plan: 1 of 3 in current phase
+Status: **In progress** - Plan 01 (SDK Migration) complete
+Last activity: 2026-02-01 -- Completed 01-01-PLAN.md (SDK Migration)
 
-Progress: [------------------] 0%
+Progress: [#-----------------] 5%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: -
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 4 min
+- Total execution time: 4 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-foundation-migration | 1/3 | 4 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: -
-- Trend: Not started
+- Last 5 plans: 01-01 (4 min)
+- Trend: Started
 
 *Updated after each plan completion*
 
@@ -47,28 +47,30 @@ Recent decisions affecting current work:
 - [Roadmap]: Payroll tools (PAY-*) conditional on Bexio module availability
 - [Planning]: v1 has 83 tools (not 56 as initially documented) - updated all plans
 - [Planning]: Zod pinned to exactly 3.22.5 (not ^3.22.0) to avoid v4 issues
-- [Planning]: Wave structure: SDK (1) → Architecture (2) → Tools (3)
+- [Planning]: Wave structure: SDK (1) -> Architecture (2) -> Tools (3)
+- [01-01]: SDK import from /server/mcp.js (not /server/index.js) per 1.25.2 convention
+- [01-01]: All logging via console.error() to preserve stdout for JSON-RPC
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-- SDK migration from 0.5.0 to 1.25.2 has limited official documentation (research flagged for Phase 1)
+- ~~SDK migration from 0.5.0 to 1.25.2 has limited official documentation~~ RESOLVED in 01-01
 - Swiss QR-invoice spec compliance needs research (Phase 2)
 - MCP Apps (UI-*) based on SEP-1865 proposal, not yet stable (Phase 5 risk)
 
 ## Session Continuity
 
-Last session: 2026-02-01
-Stopped at: Phase 1 planned, ready for execution with /gsd:execute-phase 1
+Last session: 2026-02-01 15:21 UTC
+Stopped at: Completed 01-01-PLAN.md (SDK Migration)
 Resume file: None
 
 ## Phase 1 Plans
 
 | Plan | Wave | Description | Status |
 |------|------|-------------|--------|
-| 01-01-PLAN.md | 1 | SDK Migration (1.25.2, Zod pin, logger) | Ready |
+| 01-01-PLAN.md | 1 | SDK Migration (1.25.2, Zod pin, logger) | COMPLETE |
 | 01-02-PLAN.md | 2 | Modular Architecture (types, shared, contacts pattern) | Ready |
 | 01-03-PLAN.md | 3 | Tool Migration (83 tools) + HTTP transport | Ready |
