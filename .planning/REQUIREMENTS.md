@@ -142,23 +142,80 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 to FOUND-07 | Phase 1 | Pending |
-| EXIST-01 to EXIST-12 | Phase 2 | Pending |
-| REFDATA-01 to REFDATA-10 | Phase 3 | Pending |
-| BANK-01 to BANK-04 | Phase 4 | Pending |
-| PROJ-01 to PROJ-09 | Phase 5 | Pending |
-| ACCT-01 to ACCT-07 | Phase 6 | Pending |
-| PURCH-01 to PURCH-05 | Phase 7 | Pending |
-| FILES-01 to FILES-03 | Phase 8 | Pending |
-| PAY-01 to PAY-03 | Phase 9 | Pending |
-| UI-01 to UI-04 | Phase 10 | Pending |
-| DIST-01 to DIST-04 | Phase 11 | Pending |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 5 | Pending |
+| FOUND-04 | Phase 5 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| FOUND-06 | Phase 1 | Pending |
+| FOUND-07 | Phase 1 | Pending |
+| EXIST-01 | Phase 1 | Pending |
+| EXIST-02 | Phase 1 | Pending |
+| EXIST-03 | Phase 1 | Pending |
+| EXIST-04 | Phase 1 | Pending |
+| EXIST-05 | Phase 1 | Pending |
+| EXIST-06 | Phase 1 | Pending |
+| EXIST-07 | Phase 1 | Pending |
+| EXIST-08 | Phase 1 | Pending |
+| EXIST-09 | Phase 1 | Pending |
+| EXIST-10 | Phase 1 | Pending |
+| EXIST-11 | Phase 1 | Pending |
+| EXIST-12 | Phase 1 | Pending |
+| REFDATA-01 | Phase 2 | Pending |
+| REFDATA-02 | Phase 2 | Pending |
+| REFDATA-03 | Phase 2 | Pending |
+| REFDATA-04 | Phase 2 | Pending |
+| REFDATA-05 | Phase 2 | Pending |
+| REFDATA-06 | Phase 2 | Pending |
+| REFDATA-07 | Phase 2 | Pending |
+| REFDATA-08 | Phase 2 | Pending |
+| REFDATA-09 | Phase 2 | Pending |
+| REFDATA-10 | Phase 2 | Pending |
+| BANK-01 | Phase 2 | Pending |
+| BANK-02 | Phase 2 | Pending |
+| BANK-03 | Phase 2 | Pending |
+| BANK-04 | Phase 2 | Pending |
+| PROJ-01 | Phase 3 | Pending |
+| PROJ-02 | Phase 3 | Pending |
+| PROJ-03 | Phase 3 | Pending |
+| PROJ-04 | Phase 3 | Pending |
+| PROJ-05 | Phase 3 | Pending |
+| PROJ-06 | Phase 3 | Pending |
+| PROJ-07 | Phase 3 | Pending |
+| PROJ-08 | Phase 3 | Pending |
+| PROJ-09 | Phase 3 | Pending |
+| ACCT-01 | Phase 3 | Pending |
+| ACCT-02 | Phase 3 | Pending |
+| ACCT-03 | Phase 3 | Pending |
+| ACCT-04 | Phase 3 | Pending |
+| ACCT-05 | Phase 3 | Pending |
+| ACCT-06 | Phase 3 | Pending |
+| ACCT-07 | Phase 3 | Pending |
+| PURCH-01 | Phase 4 | Pending |
+| PURCH-02 | Phase 4 | Pending |
+| PURCH-03 | Phase 4 | Pending |
+| PURCH-04 | Phase 4 | Pending |
+| PURCH-05 | Phase 4 | Pending |
+| FILES-01 | Phase 4 | Pending |
+| FILES-02 | Phase 4 | Pending |
+| FILES-03 | Phase 4 | Pending |
+| PAY-01 | Phase 4 | Pending |
+| PAY-02 | Phase 4 | Pending |
+| PAY-03 | Phase 4 | Pending |
+| UI-01 | Phase 5 | Pending |
+| UI-02 | Phase 5 | Pending |
+| UI-03 | Phase 5 | Pending |
+| UI-04 | Phase 5 | Pending |
+| DIST-01 | Phase 6 | Pending |
+| DIST-02 | Phase 6 | Pending |
+| DIST-03 | Phase 6 | Pending |
+| DIST-04 | Phase 6 | Pending |
 
 **Coverage:**
 - v2.0 requirements: 67 total
 - Mapped to phases: 67
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-01*
-*Last updated: 2026-02-01 after scoping session*
+*Last updated: 2026-02-01 after roadmap creation*
