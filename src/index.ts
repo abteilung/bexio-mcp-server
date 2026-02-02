@@ -14,14 +14,18 @@
  * stdout is reserved for MCP JSON-RPC protocol messages (stdio mode only).
  */
 
-import { config } from "dotenv";
 import { BexioMcpServer } from "./server.js";
 import { BexioClient } from "./bexio-client.js";
 import { logger } from "./logger.js";
 import { createHttpServer } from "./transports/http.js";
 
-// Load environment variables from .env file
-config();
+// Load environment variables from .env file (optional - for development)
+// In MCPB bundles, env vars are already set by Claude Desktop
+import("dotenv")
+  .then((dotenv) => dotenv.config())
+  .catch(() => {
+    // dotenv not available - that's fine for MCPB bundles
+  });
 
 // Configuration from environment
 const BEXIO_API_TOKEN = process.env["BEXIO_API_TOKEN"];
