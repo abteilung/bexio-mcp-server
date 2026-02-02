@@ -1177,4 +1177,96 @@ export class BexioClient {
   async getCommunicationType(typeId: number): Promise<unknown> {
     return this.makeRequest("GET", `/communication_kind/${typeId}`);
   }
+
+  // ===== ACCOUNTS (Chart of Accounts - ACCT-01) =====
+  async listAccounts(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/accounts", params);
+  }
+
+  async getAccount(accountId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/accounts/${accountId}`);
+  }
+
+  async createAccount(data: {
+    account_no: number;
+    name: string;
+    account_group_id: number;
+    is_active?: boolean;
+    tax_id?: number;
+  }): Promise<unknown> {
+    return this.makeRequest("POST", "/accounts", undefined, data);
+  }
+
+  async searchAccounts(searchParams: Record<string, unknown>[]): Promise<unknown[]> {
+    return this.makeRequest("POST", "/accounts/search", undefined, searchParams);
+  }
+
+  // ===== ACCOUNT GROUPS (ACCT-02) =====
+  async listAccountGroups(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/account_groups", params);
+  }
+
+  // ===== CALENDAR YEARS (ACCT-03) =====
+  async listCalendarYears(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/calendar_year", params);
+  }
+
+  async getCalendarYear(yearId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/calendar_year/${yearId}`);
+  }
+
+  // ===== BUSINESS YEARS (ACCT-04) =====
+  async listBusinessYears(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/business_year", params);
+  }
+
+  // ===== MANUAL ENTRIES (ACCT-05) =====
+  async listManualEntries(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/manual_entry", params);
+  }
+
+  async getManualEntry(entryId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/manual_entry/${entryId}`);
+  }
+
+  async createManualEntry(data: {
+    type: string;
+    date: string;
+    reference_nr?: string;
+    entries: Array<{
+      debit_account_id: number;
+      credit_account_id: number;
+      tax_id?: number;
+      tax_account_id?: number;
+      description: string;
+      amount: number;
+      currency_id?: number;
+      currency_factor?: number;
+    }>;
+  }): Promise<unknown> {
+    return this.makeRequest("POST", "/manual_entry", undefined, data);
+  }
+
+  async updateManualEntry(entryId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/manual_entry/${entryId}`, undefined, data);
+  }
+
+  async deleteManualEntry(entryId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/manual_entry/${entryId}`);
+  }
+
+  // ===== VAT PERIODS (ACCT-06) =====
+  async listVatPeriods(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/vat_period", params);
+  }
+
+  // ===== ACCOUNTING JOURNAL (ACCT-07) =====
+  async getJournal(params: {
+    start_date?: string;
+    end_date?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<unknown[]> {
+    return this.makeRequest("GET", "/journal", params);
+  }
 }

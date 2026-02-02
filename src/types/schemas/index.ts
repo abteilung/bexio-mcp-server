@@ -50,3 +50,6 @@ export * from "./projects.js";
 
 // Time Tracking (Timesheets, Statuses, Business Activities, Communication Types)
 export * from "./timetracking.js";
+
+// Accounting (Accounts, Account Groups, Years, Manual Entries, VAT, Journal)
+export * from "./accounting.js";
