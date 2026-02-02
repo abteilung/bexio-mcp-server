@@ -8,11 +8,14 @@ import { McpError } from "./errors.js";
 interface McpContent {
   type: "text";
   text: string;
+  [key: string]: unknown;
 }
 
-interface McpResponse {
+// SDK requires indexable type for responses
+export interface McpResponse {
   content: McpContent[];
   isError?: boolean;
+  [key: string]: unknown;
 }
 
 interface ResponseMeta {

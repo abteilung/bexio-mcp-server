@@ -15,6 +15,7 @@
 
 import { config } from "dotenv";
 import { BexioMcpServer } from "./server.js";
+import { BexioClient } from "./bexio-client.js";
 import { logger } from "./logger.js";
 
 // Load environment variables from .env file
@@ -54,7 +55,15 @@ async function main(): Promise<void> {
   if (mode === "stdio") {
     logger.info("Starting in stdio mode (for Claude Desktop)");
 
+    // Create Bexio client
+    const client = new BexioClient({
+      baseUrl: BEXIO_BASE_URL,
+      apiToken: BEXIO_API_TOKEN!,
+    });
+
+    // Create and initialize server with client
     const server = new BexioMcpServer();
+    server.initialize(client);
     await server.run();
   } else {
     logger.error(`Invalid mode: ${mode}. Only 'stdio' is supported in v2.0.`);
