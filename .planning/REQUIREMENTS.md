@@ -54,45 +54,45 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Projects & Time Tracking (New)
 
-- [ ] **PROJ-01**: Projects: list, get, create, update, delete
-- [ ] **PROJ-02**: Project types: list, get
-- [ ] **PROJ-03**: Project statuses: list, get
-- [ ] **PROJ-04**: Milestones: list, get, create, delete
-- [ ] **PROJ-05**: Work packages: list, get, create, update, delete
-- [ ] **PROJ-06**: Timesheets: list, get, create, delete
-- [ ] **PROJ-07**: Timesheet statuses: list
-- [ ] **PROJ-08**: Business activities: list, get, create
-- [ ] **PROJ-09**: Communication types: list, get
+- [x] **PROJ-01**: Projects: list, get, create, update, delete
+- [x] **PROJ-02**: Project types: list, get
+- [x] **PROJ-03**: Project statuses: list, get
+- [x] **PROJ-04**: Milestones: list, get, create, delete
+- [x] **PROJ-05**: Work packages: list, get, create, update, delete
+- [x] **PROJ-06**: Timesheets: list, get, create, delete
+- [x] **PROJ-07**: Timesheet statuses: list
+- [x] **PROJ-08**: Business activities: list, get, create
+- [x] **PROJ-09**: Communication types: list, get
 
 ### Accounting (New)
 
-- [ ] **ACCT-01**: Accounts (chart of accounts): list, get, create
-- [ ] **ACCT-02**: Account groups: list
-- [ ] **ACCT-03**: Calendar years: list, get
-- [ ] **ACCT-04**: Business years: list
-- [ ] **ACCT-05**: Manual entries: list, get, create, update, delete
-- [ ] **ACCT-06**: VAT periods: list
-- [ ] **ACCT-07**: Accounting journal: get
+- [x] **ACCT-01**: Accounts (chart of accounts): list, get, create
+- [x] **ACCT-02**: Account groups: list
+- [x] **ACCT-03**: Calendar years: list, get
+- [x] **ACCT-04**: Business years: list
+- [x] **ACCT-05**: Manual entries: list, get, create, update, delete
+- [x] **ACCT-06**: VAT periods: list
+- [x] **ACCT-07**: Accounting journal: get
 
 ### Purchase Management (New)
 
-- [ ] **PURCH-01**: Bills (creditor invoices): list, get, create, update, delete
-- [ ] **PURCH-02**: Bill actions: issue, mark paid
-- [ ] **PURCH-03**: Expenses: list, get, create, update, delete
-- [ ] **PURCH-04**: Purchase orders: list, get, create, update, delete
-- [ ] **PURCH-05**: Outgoing payments: list, get, create, update, delete
+- [x] **PURCH-01**: Bills (creditor invoices): list, get, create, update, delete
+- [x] **PURCH-02**: Bill actions: issue, mark paid
+- [x] **PURCH-03**: Expenses: list, get, create, update, delete
+- [x] **PURCH-04**: Purchase orders: list, get, create, update, delete
+- [x] **PURCH-05**: Outgoing payments: list, get, create, update, delete
 
 ### Files & Documents (New)
 
-- [ ] **FILES-01**: Files: list, get, create, delete, update
-- [ ] **FILES-02**: File download: get file content/PDF
-- [ ] **FILES-03**: Additional addresses: list, get, create, delete
+- [x] **FILES-01**: Files: list, get, create, delete, update
+- [x] **FILES-02**: File download: get file content/PDF
+- [x] **FILES-03**: Additional addresses: list, get, create, delete
 
 ### Payroll (Conditional - requires Bexio payroll module)
 
-- [ ] **PAY-01**: Employees: list, get, create, update
-- [ ] **PAY-02**: Absences: list, get, create, update, delete
-- [ ] **PAY-03**: Payroll documents: list
+- [x] **PAY-01**: Employees: list, get, create, update
+- [x] **PAY-02**: Absences: list, get, create, update, delete
+- [x] **PAY-03**: Payroll documents: list
 
 ### MCP Apps / UI Elements (New)
 
@@ -175,33 +175,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BANK-02 | Phase 2 | Complete |
 | BANK-03 | Phase 2 | Complete |
 | BANK-04 | Phase 2 | Complete |
-| PROJ-01 | Phase 3 | Pending |
-| PROJ-02 | Phase 3 | Pending |
-| PROJ-03 | Phase 3 | Pending |
-| PROJ-04 | Phase 3 | Pending |
-| PROJ-05 | Phase 3 | Pending |
-| PROJ-06 | Phase 3 | Pending |
-| PROJ-07 | Phase 3 | Pending |
-| PROJ-08 | Phase 3 | Pending |
-| PROJ-09 | Phase 3 | Pending |
-| ACCT-01 | Phase 3 | Pending |
-| ACCT-02 | Phase 3 | Pending |
-| ACCT-03 | Phase 3 | Pending |
-| ACCT-04 | Phase 3 | Pending |
-| ACCT-05 | Phase 3 | Pending |
-| ACCT-06 | Phase 3 | Pending |
-| ACCT-07 | Phase 3 | Pending |
-| PURCH-01 | Phase 4 | Pending |
-| PURCH-02 | Phase 4 | Pending |
-| PURCH-03 | Phase 4 | Pending |
-| PURCH-04 | Phase 4 | Pending |
-| PURCH-05 | Phase 4 | Pending |
-| FILES-01 | Phase 4 | Pending |
-| FILES-02 | Phase 4 | Pending |
-| FILES-03 | Phase 4 | Pending |
-| PAY-01 | Phase 4 | Pending |
-| PAY-02 | Phase 4 | Pending |
-| PAY-03 | Phase 4 | Pending |
+| PROJ-01 | Phase 3 | Complete |
+| PROJ-02 | Phase 3 | Complete |
+| PROJ-03 | Phase 3 | Complete |
+| PROJ-04 | Phase 3 | Complete |
+| PROJ-05 | Phase 3 | Complete |
+| PROJ-06 | Phase 3 | Complete |
+| PROJ-07 | Phase 3 | Complete |
+| PROJ-08 | Phase 3 | Complete |
+| PROJ-09 | Phase 3 | Complete |
+| ACCT-01 | Phase 3 | Complete |
+| ACCT-02 | Phase 3 | Complete |
+| ACCT-03 | Phase 3 | Complete |
+| ACCT-04 | Phase 3 | Complete |
+| ACCT-05 | Phase 3 | Complete |
+| ACCT-06 | Phase 3 | Complete |
+| ACCT-07 | Phase 3 | Complete |
+| PURCH-01 | Phase 4 | Complete |
+| PURCH-02 | Phase 4 | Complete |
+| PURCH-03 | Phase 4 | Complete |
+| PURCH-04 | Phase 4 | Complete |
+| PURCH-05 | Phase 4 | Complete |
+| FILES-01 | Phase 4 | Complete |
+| FILES-02 | Phase 4 | Complete |
+| FILES-03 | Phase 4 | Complete |
+| PAY-01 | Phase 4 | Complete |
+| PAY-02 | Phase 4 | Complete |
+| PAY-03 | Phase 4 | Complete |
 | UI-01 | Phase 5 | Pending |
 | UI-02 | Phase 5 | Pending |
 | UI-03 | Phase 5 | Pending |

@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation & Migration** - SDK upgrade, modular architecture, existing 83 tools working
 - [x] **Phase 2: Reference Data & Banking** - Foundational configuration data, Swiss banking/payments
 - [x] **Phase 3: Projects & Accounting** - Time tracking, project management, chart of accounts, manual entries
-- [ ] **Phase 4: Purchase, Files & Payroll** - Bills, expenses, documents, HR (conditional)
+- [x] **Phase 4: Purchase, Files & Payroll** - Bills, expenses, documents, HR (conditional)
 - [ ] **Phase 5: UI & Packaging** - MCP Apps capability, MCPB bundle, npm package
 - [ ] **Phase 6: Distribution** - MCP Registry, npm publish, GitHub release, documentation
 
@@ -86,10 +86,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md - Bills & Expenses: Bills CRUD, search, actions (issue, mark paid), expenses CRUD (13 tools)
-- [ ] 04-02-PLAN.md - Purchase Orders & Outgoing Payments: Purchase orders CRUD, outgoing payments linked to bills (10 tools)
-- [ ] 04-03-PLAN.md - Files & Documents: Files CRUD, download, additional addresses (10 tools)
-- [ ] 04-04-PLAN.md - Payroll (Conditional): Employees, absences, payroll documents with module detection (10 tools)
+- [x] 04-01-PLAN.md - Bills & Expenses: Bills CRUD, search, actions (issue, mark paid), expenses CRUD (13 tools)
+- [x] 04-02-PLAN.md - Purchase Orders & Outgoing Payments: Purchase orders CRUD, outgoing payments linked to bills (10 tools)
+- [x] 04-03-PLAN.md - Files & Documents: Files CRUD, download, additional addresses (10 tools)
+- [x] 04-04-PLAN.md - Payroll (Conditional): Employees, absences, payroll documents with module detection (10 tools)
 
 ### Phase 5: UI & Packaging
 **Goal**: Add MCP Apps UI elements and create distribution-ready MCPB bundle
@@ -133,7 +133,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 1. Foundation & Migration | 3/3 | **Complete** | 2026-02-01 |
 | 2. Reference Data & Banking | 3/3 | **Complete** | 2026-02-01 |
 | 3. Projects & Accounting | 4/4 | **Complete** | 2026-02-01 |
-| 4. Purchase, Files & Payroll | 0/4 | Planned | - |
+| 4. Purchase, Files & Payroll | 4/4 | **Complete** | 2026-02-01 |
 | 5. UI & Packaging | 0/3 | Not started | - |
 | 6. Distribution | 0/2 | Not started | - |
 
@@ -142,5 +142,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 *Phase 1 complete: 2026-02-01*
 *Phase 2 complete: 2026-02-01*
 *Phase 3 complete: 2026-02-01*
-*Phase 4 planned: 2026-02-01*
+*Phase 4 complete: 2026-02-01*
 *Total requirements: 67 | Phases: 6 | Plans: 19 (estimated)*
