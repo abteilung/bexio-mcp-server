@@ -35,3 +35,6 @@ export * from "./users.js";
 
 // Misc (Comments, Contact Relations)
 export * from "./misc.js";
+
+// Reference Data (Contact Groups, Sectors, Salutations, Titles, Countries, Languages, Units)
+export * from "./reference.js";

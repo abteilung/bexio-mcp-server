@@ -72,6 +72,117 @@ export class BexioClient {
     return response.data;
   }
 
+  // ===== CONTACT GROUPS =====
+  async listContactGroups(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/contact_group", params);
+  }
+
+  async getContactGroup(groupId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/contact_group/${groupId}`);
+  }
+
+  async createContactGroup(data: { name: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/contact_group", undefined, data);
+  }
+
+  async deleteContactGroup(groupId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/contact_group/${groupId}`);
+  }
+
+  // ===== CONTACT SECTORS =====
+  async listContactSectors(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/contact_sector", params);
+  }
+
+  async getContactSector(sectorId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/contact_sector/${sectorId}`);
+  }
+
+  async createContactSector(data: { name: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/contact_sector", undefined, data);
+  }
+
+  // ===== SALUTATIONS =====
+  async listSalutations(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/salutation", params);
+  }
+
+  async getSalutation(salutationId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/salutation/${salutationId}`);
+  }
+
+  async createSalutation(data: { name: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/salutation", undefined, data);
+  }
+
+  async deleteSalutation(salutationId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/salutation/${salutationId}`);
+  }
+
+  // ===== TITLES =====
+  async listTitles(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/title", params);
+  }
+
+  async getTitle(titleId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/title/${titleId}`);
+  }
+
+  async createTitle(data: { name: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/title", undefined, data);
+  }
+
+  async deleteTitle(titleId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/title/${titleId}`);
+  }
+
+  // ===== COUNTRIES =====
+  async listCountries(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/country", params);
+  }
+
+  async getCountry(countryId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/country/${countryId}`);
+  }
+
+  async createCountry(data: { name: string; iso_3166_alpha2: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/country", undefined, data);
+  }
+
+  async deleteCountry(countryId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/country/${countryId}`);
+  }
+
+  // ===== LANGUAGES =====
+  async listLanguages(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/language", params);
+  }
+
+  async getLanguage(languageId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/language/${languageId}`);
+  }
+
+  async createLanguage(data: { name: string; iso_639_1: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/language", undefined, data);
+  }
+
+  // ===== UNITS =====
+  async listUnits(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/unit", params);
+  }
+
+  async getUnit(unitId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/unit/${unitId}`);
+  }
+
+  async createUnit(data: { name: string }): Promise<unknown> {
+    return this.makeRequest("POST", "/unit", undefined, data);
+  }
+
+  async deleteUnit(unitId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/unit/${unitId}`);
+  }
+
   // ===== ORDERS =====
   async listOrders(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/kb_order", params);
