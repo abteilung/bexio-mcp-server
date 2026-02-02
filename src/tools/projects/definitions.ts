@@ -1,7 +1,7 @@
 /**
  * Projects tool definitions.
  * Contains MCP tool metadata for projects domain.
- * Includes: Projects (CRUD, archive, search), Project Types, Project Statuses
+ * Includes: Projects (CRUD, archive, search), Project Types, Project Statuses, Milestones, Work Packages
  */
 
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
@@ -242,6 +242,196 @@ export const toolDefinitions: Tool[] = [
         },
       },
       required: ["status_id"],
+    },
+  },
+
+  // ===== MILESTONES (PROJ-04) =====
+  {
+    name: "list_milestones",
+    description: "List milestones for a specific project in Bexio",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project to list milestones for",
+        },
+        limit: {
+          type: "integer",
+          description: "Maximum number of milestones to return (default: 100)",
+          default: 100,
+        },
+        offset: {
+          type: "integer",
+          description: "Number of milestones to skip (default: 0)",
+          default: 0,
+        },
+      },
+      required: ["project_id"],
+    },
+  },
+  {
+    name: "get_milestone",
+    description: "Get a specific milestone by ID from a project in Bexio",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project containing the milestone",
+        },
+        milestone_id: {
+          type: "integer",
+          description: "The ID of the milestone to retrieve",
+        },
+      },
+      required: ["project_id", "milestone_id"],
+    },
+  },
+  {
+    name: "create_milestone",
+    description: "Create a new milestone in a project. Milestones track key deadlines and deliverables.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project to add the milestone to",
+        },
+        name: {
+          type: "string",
+          description: "The name of the milestone",
+        },
+        end_date: {
+          type: "string",
+          description: "Optional: Target completion date in YYYY-MM-DD format",
+        },
+      },
+      required: ["project_id", "name"],
+    },
+  },
+  {
+    name: "delete_milestone",
+    description: "Delete a milestone from a project in Bexio",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project containing the milestone",
+        },
+        milestone_id: {
+          type: "integer",
+          description: "The ID of the milestone to delete",
+        },
+      },
+      required: ["project_id", "milestone_id"],
+    },
+  },
+
+  // ===== WORK PACKAGES (PROJ-05) =====
+  {
+    name: "list_work_packages",
+    description: "List work packages for a specific project in Bexio",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project to list work packages for",
+        },
+        limit: {
+          type: "integer",
+          description: "Maximum number of work packages to return (default: 100)",
+          default: 100,
+        },
+        offset: {
+          type: "integer",
+          description: "Number of work packages to skip (default: 0)",
+          default: 0,
+        },
+      },
+      required: ["project_id"],
+    },
+  },
+  {
+    name: "get_work_package",
+    description: "Get a specific work package by ID from a project in Bexio",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project containing the work package",
+        },
+        workpackage_id: {
+          type: "integer",
+          description: "The ID of the work package to retrieve",
+        },
+      },
+      required: ["project_id", "workpackage_id"],
+    },
+  },
+  {
+    name: "create_work_package",
+    description: "Create a new work package in a project. Work packages organize deliverables and track estimated effort.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project to add the work package to",
+        },
+        name: {
+          type: "string",
+          description: "The name of the work package",
+        },
+        estimated_time: {
+          type: "string",
+          description: "Optional: Estimated time in HH:MM format (e.g., '02:30' for 2.5 hours)",
+        },
+      },
+      required: ["project_id", "name"],
+    },
+  },
+  {
+    name: "update_work_package",
+    description: "Update an existing work package in a project",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project containing the work package",
+        },
+        workpackage_id: {
+          type: "integer",
+          description: "The ID of the work package to update",
+        },
+        workpackage_data: {
+          type: "object",
+          description: "Object containing the fields to update (e.g., name, estimated_time)",
+        },
+      },
+      required: ["project_id", "workpackage_id", "workpackage_data"],
+    },
+  },
+  {
+    name: "delete_work_package",
+    description: "Delete a work package from a project in Bexio",
+    inputSchema: {
+      type: "object",
+      properties: {
+        project_id: {
+          type: "integer",
+          description: "The ID of the project containing the work package",
+        },
+        workpackage_id: {
+          type: "integer",
+          description: "The ID of the work package to delete",
+        },
+      },
+      required: ["project_id", "workpackage_id"],
     },
   },
 ];

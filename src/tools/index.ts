@@ -37,12 +37,12 @@ export type HandlerFn = (
   args: unknown
 ) => Promise<unknown>;
 
-// Aggregate all tool definitions (166 total)
+// Aggregate all tool definitions (175 total)
 const allDefinitions: Tool[] = [
   ...reference.toolDefinitions,    // 26 tools (contact groups, sectors, salutations, titles, countries, languages, units)
   ...company.toolDefinitions,      // 6 tools (company profile, permissions, payment types)
   ...banking.toolDefinitions,      // 13 tools (bank accounts, currencies, IBAN payments, QR payments)
-  ...projects.toolDefinitions,     // 12 tools (projects, project types, project statuses)
+  ...projects.toolDefinitions,     // 21 tools (projects, project types, project statuses, milestones, work packages)
   ...timetracking.toolDefinitions, // 11 tools (timesheets, statuses, business activities, communication types)
   ...accounting.toolDefinitions,   // 15 tools (accounts, groups, years, entries, VAT, journal)
   ...contacts.toolDefinitions,     // 7 tools

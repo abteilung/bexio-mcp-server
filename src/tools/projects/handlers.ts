@@ -21,6 +21,17 @@ import {
   // Project Statuses
   ListProjectStatusesParamsSchema,
   GetProjectStatusParamsSchema,
+  // Milestones
+  ListMilestonesParamsSchema,
+  GetMilestoneParamsSchema,
+  CreateMilestoneParamsSchema,
+  DeleteMilestoneParamsSchema,
+  // Work Packages
+  ListWorkPackagesParamsSchema,
+  GetWorkPackageParamsSchema,
+  CreateWorkPackageParamsSchema,
+  UpdateWorkPackageParamsSchema,
+  DeleteWorkPackageParamsSchema,
 } from "../../types/index.js";
 
 export type HandlerFn = (
@@ -102,5 +113,60 @@ export const handlers: Record<string, HandlerFn> = {
       throw McpError.notFound("Project Status", status_id);
     }
     return status;
+  },
+
+  // ===== MILESTONES (PROJ-04) =====
+  list_milestones: async (client, args) => {
+    const { project_id, ...params } = ListMilestonesParamsSchema.parse(args);
+    return client.listMilestones(project_id, params);
+  },
+
+  get_milestone: async (client, args) => {
+    const { project_id, milestone_id } = GetMilestoneParamsSchema.parse(args);
+    const milestone = await client.getMilestone(project_id, milestone_id);
+    if (!milestone) {
+      throw McpError.notFound("Milestone", milestone_id);
+    }
+    return milestone;
+  },
+
+  create_milestone: async (client, args) => {
+    const { project_id, ...data } = CreateMilestoneParamsSchema.parse(args);
+    return client.createMilestone(project_id, data);
+  },
+
+  delete_milestone: async (client, args) => {
+    const { project_id, milestone_id } = DeleteMilestoneParamsSchema.parse(args);
+    return client.deleteMilestone(project_id, milestone_id);
+  },
+
+  // ===== WORK PACKAGES (PROJ-05) =====
+  list_work_packages: async (client, args) => {
+    const { project_id, ...params } = ListWorkPackagesParamsSchema.parse(args);
+    return client.listWorkPackages(project_id, params);
+  },
+
+  get_work_package: async (client, args) => {
+    const { project_id, workpackage_id } = GetWorkPackageParamsSchema.parse(args);
+    const pkg = await client.getWorkPackage(project_id, workpackage_id);
+    if (!pkg) {
+      throw McpError.notFound("Work Package", workpackage_id);
+    }
+    return pkg;
+  },
+
+  create_work_package: async (client, args) => {
+    const { project_id, ...data } = CreateWorkPackageParamsSchema.parse(args);
+    return client.createWorkPackage(project_id, data);
+  },
+
+  update_work_package: async (client, args) => {
+    const { project_id, workpackage_id, workpackage_data } = UpdateWorkPackageParamsSchema.parse(args);
+    return client.updateWorkPackage(project_id, workpackage_id, workpackage_data);
+  },
+
+  delete_work_package: async (client, args) => {
+    const { project_id, workpackage_id } = DeleteWorkPackageParamsSchema.parse(args);
+    return client.deleteWorkPackage(project_id, workpackage_id);
   },
 };
