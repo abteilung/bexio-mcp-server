@@ -17,6 +17,8 @@ import * as reference from "./reference/index.js";
 import * as company from "./company/index.js";
 import * as banking from "./banking/index.js";
 import * as projects from "./projects/index.js";
+import * as timetracking from "./timetracking/index.js";
+import * as accounting from "./accounting/index.js";
 import * as contacts from "./contacts/index.js";
 import * as invoices from "./invoices/index.js";
 import * as orders from "./orders/index.js";
@@ -35,13 +37,15 @@ export type HandlerFn = (
   args: unknown
 ) => Promise<unknown>;
 
-// Aggregate all tool definitions (140 total)
+// Aggregate all tool definitions (166 total)
 const allDefinitions: Tool[] = [
-  ...reference.toolDefinitions,  // 26 tools (contact groups, sectors, salutations, titles, countries, languages, units)
-  ...company.toolDefinitions,    // 6 tools (company profile, permissions, payment types)
-  ...banking.toolDefinitions,    // 13 tools (bank accounts, currencies, IBAN payments, QR payments)
-  ...projects.toolDefinitions,   // 12 tools (projects, project types, project statuses)
-  ...contacts.toolDefinitions,   // 7 tools
+  ...reference.toolDefinitions,    // 26 tools (contact groups, sectors, salutations, titles, countries, languages, units)
+  ...company.toolDefinitions,      // 6 tools (company profile, permissions, payment types)
+  ...banking.toolDefinitions,      // 13 tools (bank accounts, currencies, IBAN payments, QR payments)
+  ...projects.toolDefinitions,     // 12 tools (projects, project types, project statuses)
+  ...timetracking.toolDefinitions, // 11 tools (timesheets, statuses, business activities, communication types)
+  ...accounting.toolDefinitions,   // 15 tools (accounts, groups, years, entries, VAT, journal)
+  ...contacts.toolDefinitions,     // 7 tools
   ...invoices.toolDefinitions,   // 15 tools
   ...orders.toolDefinitions,     // 7 tools
   ...quotes.toolDefinitions,     // 11 tools
@@ -60,6 +64,8 @@ const allHandlers: Record<string, HandlerFn> = {
   ...company.handlers,
   ...banking.handlers,
   ...projects.handlers,
+  ...timetracking.handlers,
+  ...accounting.handlers,
   ...contacts.handlers,
   ...invoices.handlers,
   ...orders.handlers,
