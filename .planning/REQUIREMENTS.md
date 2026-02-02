@@ -11,8 +11,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **FOUND-01**: Upgrade SDK from 0.5.0 to 1.25.2 with all breaking changes addressed
 - [x] **FOUND-02**: Refactor server.ts (2,418 lines) into domain-organized modules (<200 lines each)
-- [ ] **FOUND-03**: Create MCPB bundle with manifest.json for one-click Claude Desktop install
-- [ ] **FOUND-04**: Publish npm package with bin field for `npx @bexio/mcp-server` usage
+- [x] **FOUND-03**: Create MCPB bundle with manifest.json for one-click Claude Desktop install
+- [x] **FOUND-04**: Publish npm package with bin field for `npx @bexio/mcp-server` usage
 - [x] **FOUND-05**: Maintain dual transport (stdio for Claude Desktop, HTTP for n8n)
 - [x] **FOUND-06**: Pin Zod to v3.22.x to avoid SDK compatibility issues
 - [x] **FOUND-07**: Configure stderr-only logging to prevent stdout contamination
@@ -96,10 +96,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### MCP Apps / UI Elements (New)
 
-- [ ] **UI-01**: Implement MCP Apps capability declaration
-- [ ] **UI-02**: Invoice preview UI resource (HTML template)
-- [ ] **UI-03**: Contact card UI resource (HTML template)
-- [ ] **UI-04**: Dashboard summary UI resource (optional)
+- [x] **UI-01**: Implement MCP Apps capability declaration
+- [x] **UI-02**: Invoice preview UI resource (HTML template)
+- [x] **UI-03**: Contact card UI resource (HTML template)
+- [x] **UI-04**: Dashboard summary UI resource (optional)
 
 ### Distribution
 
@@ -144,8 +144,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | FOUND-01 | Phase 1 | Complete |
 | FOUND-02 | Phase 1 | Complete |
-| FOUND-03 | Phase 5 | Pending |
-| FOUND-04 | Phase 5 | Pending |
+| FOUND-03 | Phase 5 | Complete |
+| FOUND-04 | Phase 5 | Complete |
 | FOUND-05 | Phase 1 | Complete |
 | FOUND-06 | Phase 1 | Complete |
 | FOUND-07 | Phase 1 | Complete |
@@ -202,10 +202,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PAY-01 | Phase 4 | Complete |
 | PAY-02 | Phase 4 | Complete |
 | PAY-03 | Phase 4 | Complete |
-| UI-01 | Phase 5 | Pending |
-| UI-02 | Phase 5 | Pending |
-| UI-03 | Phase 5 | Pending |
-| UI-04 | Phase 5 | Pending |
+| UI-01 | Phase 5 | Complete |
+| UI-02 | Phase 5 | Complete |
+| UI-03 | Phase 5 | Complete |
+| UI-04 | Phase 5 | Complete |
 | DIST-01 | Phase 6 | Pending |
 | DIST-02 | Phase 6 | Pending |
 | DIST-03 | Phase 6 | Pending |
@@ -218,4 +218,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-02-01*
-*Last updated: 2026-02-01 after roadmap creation*
+*Last updated: 2026-02-02 after Phase 5 completion*

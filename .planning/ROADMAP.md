@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Reference Data & Banking** - Foundational configuration data, Swiss banking/payments
 - [x] **Phase 3: Projects & Accounting** - Time tracking, project management, chart of accounts, manual entries
 - [x] **Phase 4: Purchase, Files & Payroll** - Bills, expenses, documents, HR (conditional)
-- [ ] **Phase 5: UI & Packaging** - MCP Apps capability, MCPB bundle, npm package
+- [x] **Phase 5: UI & Packaging** - MCP Apps capability, MCPB bundle, npm package
 - [ ] **Phase 6: Distribution** - MCP Registry, npm publish, GitHub release, documentation
 
 ## Phase Details
@@ -104,9 +104,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md - MCP Apps Implementation: UI tools (preview_invoice, show_contact_card, show_dashboard), HTML templates, Vite bundling
-- [ ] 05-02-PLAN.md - MCPB Bundle: manifest.json, icon, user_config, mcpb pack validation
-- [ ] 05-03-PLAN.md - npm Package: Scoped package name, bin field, shebang, LICENSE, README
+- [x] 05-01-PLAN.md - MCP Apps Implementation: UI tools (preview_invoice, show_contact_card, show_dashboard), HTML templates, Vite bundling
+- [x] 05-02-PLAN.md - MCPB Bundle: manifest.json, icon, user_config, mcpb pack validation
+- [x] 05-03-PLAN.md - npm Package: Scoped package name, bin field, shebang, LICENSE, README
 
 ### Phase 6: Distribution
 **Goal**: Publish to all distribution channels with installation documentation
@@ -134,7 +134,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 2. Reference Data & Banking | 3/3 | **Complete** | 2026-02-01 |
 | 3. Projects & Accounting | 4/4 | **Complete** | 2026-02-01 |
 | 4. Purchase, Files & Payroll | 4/4 | **Complete** | 2026-02-01 |
-| 5. UI & Packaging | 0/3 | Not started | - |
+| 5. UI & Packaging | 3/3 | **Complete** | 2026-02-02 |
 | 6. Distribution | 0/2 | Not started | - |
 
 ---
@@ -143,4 +143,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 *Phase 2 complete: 2026-02-01*
 *Phase 3 complete: 2026-02-01*
 *Phase 4 complete: 2026-02-01*
+*Phase 5 complete: 2026-02-02*
 *Total requirements: 67 | Phases: 6 | Plans: 19 (estimated)*
