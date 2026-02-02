@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Enable anyone to connect Claude Desktop to their Bexio accounting system with zero friction
-**Current focus:** Phase 4 - Purchase, Files & Payroll (next)
+**Current focus:** Phase 4 - Purchase, Files & Payroll (plan 01 complete)
 
 ## Current Position
 
-Phase: 3 of 6 (Projects & Accounting)
-Plan: 4 of 4 in current phase
-Status: **Phase 3 Complete, Verified** - 47 new tools (175 total)
-Last activity: 2026-02-01 -- Phase 3 verified, ready for Phase 4
+Phase: 4 of 6 (Purchase, Files & Payroll)
+Plan: 1 of 4 in current phase
+Status: **Plan 04-01 Complete** - 13 new tools (188 total)
+Last activity: 2026-02-01 -- Completed 04-01 (Bills & Expenses)
 
-Progress: [##########--------] 50%
+Progress: [###########-------] 56%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 6.9 min
-- Total execution time: 62 min
+- Total plans completed: 10
+- Average duration: 6.6 min
+- Total execution time: 65 min
 
 **By Phase:**
 
@@ -30,9 +30,10 @@ Progress: [##########--------] 50%
 | 01-foundation-migration | 3/3 | 26 min | 8.7 min |
 | 02-reference-data-banking | 3/3 | 21 min | 7.0 min |
 | 03-projects-accounting | 4/4 | 15 min | 3.8 min |
+| 04-purchase-files-payroll | 1/4 | 3 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (8 min), 03-01 (5 min), 03-03 (5 min), 03-04 (5 min)
+- Last 5 plans: 03-01 (5 min), 03-03 (5 min), 03-04 (5 min), 04-01 (3 min)
 - Trend: Established patterns enabling faster delivery
 
 *Updated after each plan completion*
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - [03-04]: Flat MCP params for manual entries, handler transforms to nested entries array
 - [03-04]: Read-only for account groups, business years, VAT periods (Bexio API limitation)
 - [03-02]: Nested URL pattern /pr_project/{id}/resource for milestones and work packages
+- [04-01]: Standard CRUD pattern for bills and expenses (mirrors sales invoices)
+- [04-01]: Search criteria array for bills (consistent with project search)
 
 ### Pending Todos
 
@@ -80,8 +83,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-01 19:10 UTC
-Stopped at: Phase 3 verified, ready for Phase 4
+Last session: 2026-02-01 21:40 UTC
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
 
 ## Phase 1 Plans (COMPLETE)
@@ -109,6 +112,15 @@ Resume file: None
 | 03-03-PLAN.md | 1 | Time Tracking Tools (11 tools) | COMPLETE |
 | 03-04-PLAN.md | 1 | Accounting Foundation (15 tools) | COMPLETE |
 
+## Phase 4 Plans (IN PROGRESS)
+
+| Plan | Wave | Description | Status |
+|------|------|-------------|--------|
+| 04-01-PLAN.md | 1 | Bills & Expenses (13 tools) | COMPLETE |
+| 04-02-PLAN.md | 1 | Files & Document Management | PENDING |
+| 04-03-PLAN.md | 1 | Additional Purchase Features | PENDING |
+| 04-04-PLAN.md | 1 | Payroll (conditional) | PENDING |
+
 ## Phase 1 Deliverables
 
 - 83 tools in 10 domain modules
@@ -134,3 +146,9 @@ Resume file: None
 - Duration validation: HH:MM format enforced via Zod regex
 - Flat-to-nested transformation for manual entries
 - Total tools: 175 (128 + 47 Phase 3)
+
+## Phase 4 Deliverables (in progress)
+
+- 8 bill tools (list, get, create, update, delete, search, issue, mark_as_paid)
+- 5 expense tools (list, get, create, update, delete)
+- Total tools: 188 (175 + 13 Phase 4 plan 01)
