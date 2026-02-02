@@ -1,0 +1,161 @@
+/**
+ * Banking tool handlers.
+ * Implements the logic for each banking tool.
+ *
+ * Payment handlers transform flat MCP params to nested Bexio API structure.
+ */
+
+import { BexioClient } from "../../bexio-client.js";
+import { McpError } from "../../shared/errors.js";
+import {
+  ListBankAccountsParamsSchema,
+  GetBankAccountParamsSchema,
+  ListCurrenciesParamsSchema,
+  GetCurrencyParamsSchema,
+  CreateCurrencyParamsSchema,
+  UpdateCurrencyParamsSchema,
+  DeleteCurrencyParamsSchema,
+  CreateIbanPaymentParamsSchema,
+  GetIbanPaymentParamsSchema,
+  UpdateIbanPaymentParamsSchema,
+  CreateQrPaymentParamsSchema,
+  GetQrPaymentParamsSchema,
+  UpdateQrPaymentParamsSchema,
+} from "../../types/index.js";
+
+export type HandlerFn = (
+  client: BexioClient,
+  args: unknown
+) => Promise<unknown>;
+
+export const handlers: Record<string, HandlerFn> = {
+  // ===== BANK ACCOUNTS (Read-Only) =====
+  list_bank_accounts: async (client, args) => {
+    const params = ListBankAccountsParamsSchema.parse(args);
+    return client.listBankAccounts(params);
+  },
+
+  get_bank_account: async (client, args) => {
+    const { account_id } = GetBankAccountParamsSchema.parse(args);
+    const account = await client.getBankAccount(account_id);
+    if (!account) {
+      throw McpError.notFound("Bank account", account_id);
+    }
+    return account;
+  },
+
+  // ===== CURRENCIES =====
+  list_currencies: async (client, args) => {
+    const params = ListCurrenciesParamsSchema.parse(args);
+    return client.listCurrencies(params);
+  },
+
+  get_currency: async (client, args) => {
+    const { currency_id } = GetCurrencyParamsSchema.parse(args);
+    const currency = await client.getCurrency(currency_id);
+    if (!currency) {
+      throw McpError.notFound("Currency", currency_id);
+    }
+    return currency;
+  },
+
+  create_currency: async (client, args) => {
+    const params = CreateCurrencyParamsSchema.parse(args);
+    return client.createCurrency(params);
+  },
+
+  update_currency: async (client, args) => {
+    const { currency_id, currency_data } = UpdateCurrencyParamsSchema.parse(args);
+    return client.updateCurrency(currency_id, currency_data);
+  },
+
+  delete_currency: async (client, args) => {
+    const { currency_id } = DeleteCurrencyParamsSchema.parse(args);
+    return client.deleteCurrency(currency_id);
+  },
+
+  // ===== IBAN PAYMENTS (Swiss ISO 20022) =====
+  create_iban_payment: async (client, args) => {
+    const params = CreateIbanPaymentParamsSchema.parse(args);
+
+    // Transform flat params to Bexio API nested structure
+    const paymentData = {
+      bank_account_id: params.bank_account_id,
+      iban: params.iban,
+      instructed_amount: {
+        currency: params.currency,
+        amount: params.amount,
+      },
+      recipient: {
+        name: params.recipient_name,
+        street: params.recipient_street,
+        house_number: params.recipient_house_number,
+        zip: params.recipient_zip,
+        city: params.recipient_city,
+        country_code: params.recipient_country_code,
+      },
+      execution_date: params.execution_date,
+      message: params.message,
+      is_salary_payment: params.is_salary_payment,
+      allowance_type: params.allowance_type,
+    };
+
+    return client.createIbanPayment(paymentData);
+  },
+
+  get_iban_payment: async (client, args) => {
+    const { payment_id } = GetIbanPaymentParamsSchema.parse(args);
+    const payment = await client.getIbanPayment(payment_id);
+    if (!payment) {
+      throw McpError.notFound("IBAN payment", payment_id);
+    }
+    return payment;
+  },
+
+  update_iban_payment: async (client, args) => {
+    const { payment_id, payment_data } = UpdateIbanPaymentParamsSchema.parse(args);
+    return client.updateIbanPayment(payment_id, payment_data);
+  },
+
+  // ===== QR PAYMENTS (Swiss QR-invoice standard) =====
+  create_qr_payment: async (client, args) => {
+    const params = CreateQrPaymentParamsSchema.parse(args);
+
+    // Transform flat params to Bexio API nested structure
+    const paymentData = {
+      bank_account_id: params.bank_account_id,
+      iban: params.iban,
+      instructed_amount: {
+        currency: params.currency,
+        amount: params.amount,
+      },
+      recipient: {
+        name: params.recipient_name,
+        street: params.recipient_street,
+        house_number: params.recipient_house_number,
+        zip: params.recipient_zip,
+        city: params.recipient_city,
+        country_code: params.recipient_country_code,
+      },
+      execution_date: params.execution_date,
+      qr_reference_nr: params.qr_reference_nr,
+      additional_information: params.additional_information,
+    };
+
+    return client.createQrPayment(paymentData);
+  },
+
+  get_qr_payment: async (client, args) => {
+    const { payment_id } = GetQrPaymentParamsSchema.parse(args);
+    const payment = await client.getQrPayment(payment_id);
+    if (!payment) {
+      throw McpError.notFound("QR payment", payment_id);
+    }
+    return payment;
+  },
+
+  update_qr_payment: async (client, args) => {
+    const { payment_id, payment_data } = UpdateQrPaymentParamsSchema.parse(args);
+    return client.updateQrPayment(payment_id, payment_data);
+  },
+};
