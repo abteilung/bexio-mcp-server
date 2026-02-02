@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Enable anyone to connect Claude Desktop to their Bexio accounting system with zero friction
-**Current focus:** Phase 3 - Projects & Accounting (next)
+**Current focus:** Phase 3 - Projects & Accounting (in progress)
 
 ## Current Position
 
-Phase: 2 of 6 (Reference Data & Banking)
-Plan: 3 of 3 in current phase
-Status: **Phase 2 Complete, Verified** - 45 new tools (128 total)
-Last activity: 2026-02-01 -- Phase 2 verified, ready for Phase 3
+Phase: 3 of 6 (Projects & Accounting)
+Plan: 1 of 4 in current phase
+Status: **In Progress** - 12 new tools (140 total)
+Last activity: 2026-02-01 -- Completed 03-01-PLAN.md (Projects Core)
 
-Progress: [######------------] 33%
+Progress: [#######-----------] 37%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 7.8 min
-- Total execution time: 47 min
+- Total plans completed: 7
+- Average duration: 7.4 min
+- Total execution time: 52 min
 
 **By Phase:**
 
@@ -29,10 +29,11 @@ Progress: [######------------] 33%
 |-------|-------|-------|----------|
 | 01-foundation-migration | 3/3 | 26 min | 8.7 min |
 | 02-reference-data-banking | 3/3 | 21 min | 7.0 min |
+| 03-projects-accounting | 1/4 | 5 min | 5.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (15 min), 02-01 (7 min), 02-02 (6 min), 02-03 (8 min)
-- Trend: Consistent execution times, Phase 2 plans faster due to established patterns
+- Last 5 plans: 01-03 (15 min), 02-01 (7 min), 02-02 (6 min), 02-03 (8 min), 03-01 (5 min)
+- Trend: Consistent execution times, established patterns enabling faster delivery
 
 *Updated after each plan completion*
 
@@ -60,6 +61,8 @@ Recent decisions affecting current work:
 - [02-03]: Flat MCP params transformed to nested Bexio API structure in handlers
 - [02-03]: Structured addresses only (type S) for Swiss payments - combined deprecated
 - [02-03]: Currency restricted to CHF/EUR for Swiss IBAN/QR payments
+- [03-01]: Search criteria as array of {field, value, criteria?} for project search
+- [03-01]: Archive/unarchive as separate tools (explicit user intent)
 
 ### Pending Todos
 
@@ -73,8 +76,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-01 17:24 UTC
-Stopped at: Completed 02-03-PLAN.md (Banking Tools)
+Last session: 2026-02-01 17:56 UTC
+Stopped at: Completed 03-01-PLAN.md (Projects Core)
 Resume file: None
 
 ## Phase 1 Plans (COMPLETE)
@@ -93,6 +96,15 @@ Resume file: None
 | 02-02-PLAN.md | 1 | Company & Payments Config (6 tools) | COMPLETE |
 | 02-03-PLAN.md | 1 | Banking Tools (13 tools) | COMPLETE |
 
+## Phase 3 Plans (IN PROGRESS)
+
+| Plan | Wave | Description | Status |
+|------|------|-------------|--------|
+| 03-01-PLAN.md | 1 | Projects Core (12 tools) | COMPLETE |
+| 03-02-PLAN.md | 1 | Project Nested Resources (milestones, work packages) | PENDING |
+| 03-03-PLAN.md | 1 | Time Tracking Tools | PENDING |
+| 03-04-PLAN.md | 1 | Accounting Foundation | PENDING |
+
 ## Phase 1 Deliverables
 
 - 83 tools in 10 domain modules
@@ -108,3 +120,8 @@ Resume file: None
 - 13 banking tools (bank accounts, currencies, IBAN payments, QR payments)
 - Swiss payment compliance (ISO 20022, QR-bill v2.3, structured addresses)
 - Total tools: 128 (83 base + 45 Phase 2)
+
+## Phase 3 Deliverables (Partial)
+
+- 12 project tools (projects CRUD, archive/unarchive, search, types, statuses)
+- Total tools: 140 (128 + 12)
