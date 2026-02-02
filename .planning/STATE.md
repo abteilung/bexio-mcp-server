@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Enable anyone to connect Claude Desktop to their Bexio accounting system with zero friction
-**Current focus:** Phase 3 - Projects & Accounting (in progress)
+**Current focus:** Phase 3 - Projects & Accounting (COMPLETE)
 
 ## Current Position
 
 Phase: 3 of 6 (Projects & Accounting)
-Plan: 3 of 4 in current phase
-Status: **In Progress** - 23 new tools (151 total)
-Last activity: 2026-02-01 -- Completed 03-03-PLAN.md (Time Tracking)
+Plan: 4 of 4 in current phase
+Status: **Phase 3 Complete** - 47 new tools (166 total)
+Last activity: 2026-02-01 -- Completed 03-04-PLAN.md (Accounting Foundation)
 
-Progress: [########----------] 43%
+Progress: [##########--------] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 7.1 min
-- Total execution time: 57 min
+- Total plans completed: 9
+- Average duration: 6.9 min
+- Total execution time: 62 min
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [########----------] 43%
 |-------|-------|-------|----------|
 | 01-foundation-migration | 3/3 | 26 min | 8.7 min |
 | 02-reference-data-banking | 3/3 | 21 min | 7.0 min |
-| 03-projects-accounting | 2/4 | 10 min | 5.0 min |
+| 03-projects-accounting | 4/4 | 15 min | 3.8 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (7 min), 02-02 (6 min), 02-03 (8 min), 03-01 (5 min), 03-03 (5 min)
-- Trend: Consistent execution times, established patterns enabling faster delivery
+- Last 5 plans: 02-03 (8 min), 03-01 (5 min), 03-03 (5 min), 03-04 (5 min)
+- Trend: Established patterns enabling faster delivery
 
 *Updated after each plan completion*
 
@@ -64,6 +64,8 @@ Recent decisions affecting current work:
 - [03-01]: Search criteria as array of {field, value, criteria?} for project search
 - [03-01]: Archive/unarchive as separate tools (explicit user intent)
 - [03-03]: Duration format HH:MM with Zod regex validation (Bexio API requirement)
+- [03-04]: Flat MCP params for manual entries, handler transforms to nested entries array
+- [03-04]: Read-only for account groups, business years, VAT periods (Bexio API limitation)
 
 ### Pending Todos
 
@@ -77,8 +79,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-01 17:57 UTC
-Stopped at: Completed 03-03-PLAN.md (Time Tracking Tools)
+Last session: 2026-02-01 17:58 UTC
+Stopped at: Completed 03-04-PLAN.md (Accounting Foundation)
 Resume file: None
 
 ## Phase 1 Plans (COMPLETE)
@@ -97,14 +99,14 @@ Resume file: None
 | 02-02-PLAN.md | 1 | Company & Payments Config (6 tools) | COMPLETE |
 | 02-03-PLAN.md | 1 | Banking Tools (13 tools) | COMPLETE |
 
-## Phase 3 Plans (IN PROGRESS)
+## Phase 3 Plans (COMPLETE)
 
 | Plan | Wave | Description | Status |
 |------|------|-------------|--------|
 | 03-01-PLAN.md | 1 | Projects Core (12 tools) | COMPLETE |
-| 03-02-PLAN.md | 1 | Project Nested Resources (milestones, work packages) | PENDING |
+| 03-02-PLAN.md | 1 | Project Nested Resources (9 tools) | COMPLETE |
 | 03-03-PLAN.md | 1 | Time Tracking Tools (11 tools) | COMPLETE |
-| 03-04-PLAN.md | 1 | Accounting Foundation | PENDING |
+| 03-04-PLAN.md | 1 | Accounting Foundation (15 tools) | COMPLETE |
 
 ## Phase 1 Deliverables
 
@@ -122,9 +124,12 @@ Resume file: None
 - Swiss payment compliance (ISO 20022, QR-bill v2.3, structured addresses)
 - Total tools: 128 (83 base + 45 Phase 2)
 
-## Phase 3 Deliverables (Partial)
+## Phase 3 Deliverables
 
 - 12 project tools (projects CRUD, archive/unarchive, search, types, statuses)
+- 9 nested resource tools (milestones, work packages)
 - 11 time tracking tools (timesheets CRUD, search, statuses, business activities, communication types)
+- 15 accounting tools (accounts, account groups, years, manual entries, VAT periods, journal)
 - Duration validation: HH:MM format enforced via Zod regex
-- Total tools: 151 (128 + 12 + 11)
+- Flat-to-nested transformation for manual entries
+- Total tools: 166 (128 + 47 Phase 3)
