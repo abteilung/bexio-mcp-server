@@ -23,9 +23,13 @@ Manage invoices, contacts, projects, time tracking, and 200+ more tools through 
 
 **Option A: MCPB Bundle (Easiest)**
 
-1. Download `bexio-mcp-server.mcpb` from [Releases](https://github.com/promptpartner/bexio-mcp-server/releases)
-2. Double-click to install
-3. Enter your Bexio API token when prompted
+1. Download the latest `.mcpb` file from [GitHub Releases](https://github.com/promptpartner/bexio-mcp-server/releases/latest)
+2. In Claude Desktop, go to **Settings → Extensions**
+3. Install the extension using one of these methods:
+   - **Double-click** the downloaded `.mcpb` file, or
+   - **Drag and drop** the file onto the Extensions window, or
+   - Click **Advanced Settings → Install Extension** and select the file
+4. Enter your Bexio API token when prompted
 
 **Option B: npm**
 
