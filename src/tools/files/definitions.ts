@@ -10,6 +10,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_files",
     description: "List files from Bexio with optional pagination",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -29,6 +30,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_file",
     description: "Get a specific file's metadata by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -43,6 +45,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "upload_file",
     description: "Upload a file to Bexio. File content must be provided as base64 encoded string for MCP JSON transport.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -65,6 +68,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "download_file",
     description: "Download a file's content from Bexio. Returns the file content as base64 encoded string for MCP JSON transport.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -79,6 +83,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_file",
     description: "Update a file's metadata in Bexio",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -97,6 +102,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_file",
     description: "Delete a file from Bexio",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -113,6 +119,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_additional_addresses",
     description: "List additional addresses for a contact",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -137,6 +144,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_additional_address",
     description: "Get a specific additional address for a contact",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -155,6 +163,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_additional_address",
     description: "Create an additional address for a contact",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -203,6 +212,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_additional_address",
     description: "Delete an additional address from a contact",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {

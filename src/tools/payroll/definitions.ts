@@ -19,6 +19,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_employees",
     description: "List employees in the payroll system. Requires Bexio Payroll module subscription. Use to get employee IDs for timesheets and absences.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -38,6 +39,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_employee",
     description: "Get a specific employee by ID. Requires Bexio Payroll module subscription.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -52,6 +54,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_employee",
     description: "Create a new employee in the payroll system. Requires Bexio Payroll module subscription. Links a Bexio user to payroll.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -90,6 +93,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_employee",
     description: "Update an existing employee. Requires Bexio Payroll module subscription.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -110,6 +114,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_absences",
     description: "List employee absences (vacation, sick leave, etc.). Requires Bexio Payroll module subscription. Optional year filter.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -133,6 +138,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_absence",
     description: "Get a specific absence record by ID. Requires Bexio Payroll module subscription.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -147,6 +153,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_absence",
     description: "Create a new absence record (vacation, sick leave, etc.). Requires Bexio Payroll module subscription.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -187,6 +194,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_absence",
     description: "Update an existing absence record. Requires Bexio Payroll module subscription.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -205,6 +213,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_absence",
     description: "Delete an absence record. Requires Bexio Payroll module subscription.",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -221,6 +230,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_payroll_documents",
     description: "List payroll documents (payslips, etc.). Requires Bexio Payroll module subscription. Optional employee filter.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {

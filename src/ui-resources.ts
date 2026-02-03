@@ -42,6 +42,7 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
     {
       title: "Preview Invoice",
       description: "Display an interactive invoice preview with line items, totals, and status",
+      annotations: { readOnlyHint: true },
       inputSchema: { invoice_id: z.number().int().describe("The invoice ID to preview") },
       _meta: { ui: { resourceUri: INVOICE_PREVIEW_URI } },
     },
@@ -79,6 +80,7 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
     {
       title: "Show Contact Card",
       description: "Display a formatted contact card with name, contact details, and address",
+      annotations: { readOnlyHint: true },
       inputSchema: { contact_id: z.number().int().describe("The contact ID to display") },
       _meta: { ui: { resourceUri: CONTACT_CARD_URI } },
     },
@@ -116,6 +118,7 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
     {
       title: "Show Dashboard",
       description: "Display a summary dashboard with open invoices, overdue amounts, and recent contacts",
+      annotations: { readOnlyHint: true },
       _meta: { ui: { resourceUri: DASHBOARD_URI } },
     },
     async () => {

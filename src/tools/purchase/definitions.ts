@@ -10,6 +10,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_bills",
     description: "List all bills (creditor invoices) with optional pagination",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -27,6 +28,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_bill",
     description: "Get a specific bill (creditor invoice) by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -41,6 +43,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_bill",
     description: "Create a new bill (creditor invoice) from a supplier",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -55,6 +58,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_bill",
     description: "Update an existing bill (creditor invoice)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -73,6 +77,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_bill",
     description: "Delete a bill (creditor invoice)",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -87,6 +92,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_bills",
     description: "Search bills (creditor invoices) by criteria",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -109,6 +115,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "issue_bill",
     description: "Issue a bill (creditor invoice) to change its status",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -123,6 +130,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "mark_bill_as_paid",
     description: "Mark a bill (creditor invoice) as paid",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -139,6 +147,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_expenses",
     description: "List all expenses with optional pagination",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -156,6 +165,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_expense",
     description: "Get a specific expense by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -170,6 +180,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_expense",
     description: "Create a new expense record",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -184,6 +195,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_expense",
     description: "Update an existing expense",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -202,6 +214,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_expense",
     description: "Delete an expense",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -218,6 +231,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_purchase_orders",
     description: "List all purchase orders with optional pagination",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -235,6 +249,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_purchase_order",
     description: "Get a specific purchase order by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -249,6 +264,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_purchase_order",
     description: "Create a new purchase order to a supplier",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -263,6 +279,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_purchase_order",
     description: "Update an existing purchase order",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -281,6 +298,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_purchase_order",
     description: "Delete a purchase order",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -297,6 +315,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_outgoing_payments",
     description: "List all outgoing payments for a specific bill (creditor invoice)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -311,6 +330,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_outgoing_payment",
     description: "Get a specific outgoing payment for a bill (creditor invoice)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -329,6 +349,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_outgoing_payment",
     description: "Create a new outgoing payment for a bill (creditor invoice)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -347,6 +368,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_outgoing_payment",
     description: "Update an existing outgoing payment for a bill (creditor invoice)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -369,6 +391,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_outgoing_payment",
     description: "Delete an outgoing payment for a bill (creditor invoice)",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
