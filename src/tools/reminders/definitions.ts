@@ -9,6 +9,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_reminders",
     description: "List reminders for a specific invoice",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -23,6 +24,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_reminder",
     description: "Get a specific reminder by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -41,6 +43,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_reminder",
     description: "Create a new reminder for an invoice",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -59,6 +62,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_reminder",
     description: "Delete a reminder",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -77,6 +81,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "mark_reminder_as_sent",
     description: "Mark a reminder as sent",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -95,6 +100,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "send_reminder",
     description: "Send a reminder",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -113,6 +119,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_reminders",
     description: "Search reminders with filters",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -127,6 +134,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_reminders_sent_this_week",
     description: "Get all reminders sent this week",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {},

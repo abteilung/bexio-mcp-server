@@ -10,6 +10,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_comments",
     description: "List all comments",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {},
@@ -18,6 +19,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_comment",
     description: "Get a specific comment by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -32,6 +34,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_comment",
     description: "Create a new comment",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -47,6 +50,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_contact_relations",
     description: "List all contact relations",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {},
@@ -55,6 +59,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_contact_relation",
     description: "Get a specific contact relation by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -69,6 +74,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_contact_relation",
     description: "Create a new contact relation",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -83,6 +89,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_contact_relation",
     description: "Update a contact relation",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -101,6 +108,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_contact_relation",
     description: "Delete a contact relation",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -115,6 +123,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_contact_relations",
     description: "Search contact relations with filters",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {

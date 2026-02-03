@@ -9,6 +9,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_payments",
     description: "List payments for a specific invoice",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -23,6 +24,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_payment",
     description: "Get a specific payment by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -41,6 +43,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_payment",
     description: "Create a new payment for an invoice",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -59,6 +62,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_payment",
     description: "Delete a payment",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {

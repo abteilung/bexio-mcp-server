@@ -9,6 +9,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_orders",
     description: "List orders from Bexio with optional pagination",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -28,6 +29,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_order",
     description: "Get a specific order by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -42,6 +44,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_order",
     description: "Create a new order in Bexio",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -56,6 +59,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_orders",
     description: "Search orders with filters",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -71,6 +75,7 @@ export const toolDefinitions: Tool[] = [
     name: "search_orders_by_customer",
     description:
       "Search orders by customer name (2-step process: find contact by name, then find orders by contact_id)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -90,6 +95,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_delivery_from_order",
     description: "Create a delivery from an order",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -104,6 +110,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_invoice_from_order",
     description: "Create an invoice from an order",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {

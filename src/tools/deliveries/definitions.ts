@@ -9,6 +9,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_deliveries",
     description: "List deliveries from Bexio with optional pagination",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -28,6 +29,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_delivery",
     description: "Get a specific delivery by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -42,6 +44,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "issue_delivery",
     description: "Issue a delivery",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -56,6 +59,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_deliveries",
     description: "Search deliveries with filters",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
