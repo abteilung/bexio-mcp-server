@@ -11,6 +11,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_company_profile",
     description: "Get the company profile including name, address, and settings",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {},
@@ -19,6 +20,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_company_profile",
     description: "Update company profile settings",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -35,6 +37,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_permissions",
     description: "List all available user permissions in the Bexio account",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {},
@@ -45,6 +48,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_payment_types",
     description: "List all payment types available for invoices and payments",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -64,6 +68,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_payment_type",
     description: "Get a specific payment type by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -78,6 +83,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_payment_type",
     description: "Create a new payment type for invoices and payments",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {

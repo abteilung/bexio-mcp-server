@@ -11,6 +11,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_contact_groups",
     description: "List all contact groups for categorizing contacts",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -30,6 +31,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_contact_group",
     description: "Get a specific contact group by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -44,6 +46,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_contact_group",
     description: "Create a new contact group for categorizing contacts",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -58,6 +61,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_contact_group",
     description: "Delete a contact group by ID",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -74,6 +78,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_contact_sectors",
     description: "List all contact sectors (industry types for contacts)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -93,6 +98,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_contact_sector",
     description: "Get a specific contact sector by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -107,6 +113,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_contact_sector",
     description: "Create a new contact sector (industry type)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -123,6 +130,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_salutations",
     description: "List all salutations (e.g., Mr., Mrs., Dr.)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -142,6 +150,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_salutation",
     description: "Get a specific salutation by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -156,6 +165,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_salutation",
     description: "Create a new salutation (e.g., Mr., Mrs., Dr.)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -170,6 +180,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_salutation",
     description: "Delete a salutation by ID",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -186,6 +197,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_titles",
     description: "List all titles (e.g., CEO, Manager, Director)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -205,6 +217,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_title",
     description: "Get a specific title by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -219,6 +232,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_title",
     description: "Create a new title (e.g., CEO, Manager, Director)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -233,6 +247,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_title",
     description: "Delete a title by ID",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -249,6 +264,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_countries",
     description: "List all countries available in Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -268,6 +284,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_country",
     description: "Get a specific country by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -282,6 +299,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_country",
     description: "Create a new country entry",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -300,6 +318,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_country",
     description: "Delete a country by ID",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -316,6 +335,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_languages",
     description: "List all languages available in Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -335,6 +355,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_language",
     description: "Get a specific language by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -349,6 +370,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_language",
     description: "Create a new language entry",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -369,6 +391,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_units",
     description: "List all units of measurement (e.g., hours, pieces, kg)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -388,6 +411,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_unit",
     description: "Get a specific unit by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -402,6 +426,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_unit",
     description: "Create a new unit of measurement",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -416,6 +441,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_unit",
     description: "Delete a unit by ID",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {

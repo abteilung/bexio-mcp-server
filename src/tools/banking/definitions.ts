@@ -16,6 +16,7 @@ export const toolDefinitions: Tool[] = [
     name: "list_bank_accounts",
     description:
       "List all configured bank accounts in Bexio. Returns account details including IBAN, bank name, and currency. Use this to get valid bank_account_id values before creating payments.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -35,6 +36,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_bank_account",
     description: "Get details of a specific bank account by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -52,6 +54,7 @@ export const toolDefinitions: Tool[] = [
     name: "list_currencies",
     description:
       "List all currencies configured in Bexio. Returns currency codes (CHF, EUR, USD, etc.) with their rounding factors for invoicing.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -71,6 +74,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_currency",
     description: "Get details of a specific currency by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -86,6 +90,7 @@ export const toolDefinitions: Tool[] = [
     name: "create_currency",
     description:
       "Create a new currency in Bexio. Swiss default: round_factor 0.05 (5 rappen). Common currencies: CHF, EUR, USD, GBP.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -105,6 +110,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_currency",
     description: "Update an existing currency's settings",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -123,6 +129,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_currency",
     description: "Delete a currency by ID. Cannot delete currencies in use by documents.",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -140,6 +147,7 @@ export const toolDefinitions: Tool[] = [
     name: "create_iban_payment",
     description:
       "Create an IBAN payment (Swiss ISO 20022 standard). First use list_bank_accounts to get a valid bank_account_id. Only CHF and EUR currencies are supported. Recipient address must use structured format (street, house_number, zip, city, country_code).",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -220,6 +228,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_iban_payment",
     description: "Get details of an IBAN payment by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -234,6 +243,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_iban_payment",
     description: "Update a pending IBAN payment. Only pending payments can be modified.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -255,6 +265,7 @@ export const toolDefinitions: Tool[] = [
     name: "create_qr_payment",
     description:
       "Create a QR payment (Swiss QR-invoice standard per SIX Group spec v2.3). First use list_bank_accounts to get a valid bank_account_id. Only CHF and EUR currencies are supported. QR reference must be exactly 27 digits if provided. Recipient address must use structured format.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -328,6 +339,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_qr_payment",
     description: "Get details of a QR payment by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -342,6 +354,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_qr_payment",
     description: "Update a pending QR payment. Only pending payments can be modified.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
