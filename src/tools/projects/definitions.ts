@@ -11,6 +11,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_projects",
     description: "List all projects in Bexio with pagination support",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -30,6 +31,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_project",
     description: "Get a specific project by ID from Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -44,6 +46,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_project",
     description: "Create a new project in Bexio. Requires user_id (owner) and name.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -86,6 +89,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_project",
     description: "Update an existing project in Bexio",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -104,6 +108,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_project",
     description: "Delete a project from Bexio by ID. Consider using archive_project instead for data retention.",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -118,6 +123,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "archive_project",
     description: "Archive a project in Bexio. Archived projects are hidden but not deleted.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -132,6 +138,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "unarchive_project",
     description: "Unarchive a previously archived project in Bexio, making it active again.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -146,6 +153,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_projects",
     description: "Search for projects in Bexio using field-based criteria. Supports exact match and partial matching.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -179,6 +187,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_project_types",
     description: "List all project types available in Bexio (e.g., Internal, Customer Project)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -198,6 +207,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_project_type",
     description: "Get a specific project type by ID from Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -214,6 +224,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_project_statuses",
     description: "List all project statuses available in Bexio (e.g., Active, Completed, On Hold)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -233,6 +244,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_project_status",
     description: "Get a specific project status by ID from Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -249,6 +261,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_milestones",
     description: "List milestones for a specific project in Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -273,6 +286,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_milestone",
     description: "Get a specific milestone by ID from a project in Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -291,6 +305,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_milestone",
     description: "Create a new milestone in a project. Milestones track key deadlines and deliverables.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -313,6 +328,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_milestone",
     description: "Delete a milestone from a project in Bexio",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -333,6 +349,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_work_packages",
     description: "List work packages for a specific project in Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -357,6 +374,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_work_package",
     description: "Get a specific work package by ID from a project in Bexio",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -375,6 +393,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_work_package",
     description: "Create a new work package in a project. Work packages organize deliverables and track estimated effort.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -397,6 +416,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_work_package",
     description: "Update an existing work package in a project",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -419,6 +439,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_work_package",
     description: "Delete a work package from a project in Bexio",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {

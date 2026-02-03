@@ -13,6 +13,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_timesheets",
     description: "List all timesheet entries with pagination",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -32,6 +33,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_timesheet",
     description: "Get a specific timesheet entry by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -47,6 +49,7 @@ export const toolDefinitions: Tool[] = [
     name: "create_timesheet",
     description:
       "Create a new timesheet entry. Duration must be in HH:MM format (e.g., '02:30' for 2.5 hours)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -95,6 +98,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_timesheet",
     description: "Delete a timesheet entry by ID",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -110,6 +114,7 @@ export const toolDefinitions: Tool[] = [
     name: "search_timesheets",
     description:
       "Search timesheets by criteria (field, value, criteria). Common fields: user_id, pr_project_id, date",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -144,6 +149,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_timesheet_statuses",
     description: "List all timesheet statuses (e.g., open, approved, locked)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {},
@@ -155,6 +161,7 @@ export const toolDefinitions: Tool[] = [
     name: "list_business_activities",
     description:
       "List business activities (service types for time tracking). Used to categorize work.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -174,6 +181,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_business_activity",
     description: "Get a specific business activity by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -188,6 +196,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_business_activity",
     description: "Create a new business activity (service type for time tracking)",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -204,6 +213,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_communication_types",
     description: "List all communication types (e.g., email, phone, meeting)",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -223,6 +233,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_communication_type",
     description: "Get a specific communication type by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {

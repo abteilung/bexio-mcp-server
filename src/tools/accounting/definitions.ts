@@ -13,6 +13,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_accounts",
     description: "List chart of accounts with pagination. Returns all accounts in the chart of accounts.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -32,6 +33,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_account",
     description: "Get a specific account by ID from the chart of accounts",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -46,6 +48,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_account",
     description: "Create a new account in the chart of accounts",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -77,6 +80,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_accounts",
     description: "Search accounts by criteria. Use field/value/criteria pattern for flexible searching.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -111,6 +115,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_account_groups",
     description: "List account groups (read-only hierarchy). Account groups organize the chart of accounts into categories.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -132,6 +137,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_calendar_years",
     description: "List calendar years defined in the system",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -151,6 +157,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_calendar_year",
     description: "Get a specific calendar year by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -167,6 +174,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_business_years",
     description: "List business/fiscal years (read-only). Business years define fiscal periods for accounting.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -188,6 +196,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_manual_entries",
     description: "List manual journal entries",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -207,6 +216,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_manual_entry",
     description: "Get a specific manual entry by ID",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -221,6 +231,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_manual_entry",
     description: "Create a manual journal entry (double-entry bookkeeping). Provide flat params; the handler transforms to nested entries array internally. Bexio validates that debits equal credits.",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -272,6 +283,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "update_manual_entry",
     description: "Update a manual entry",
+    annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
@@ -290,6 +302,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "delete_manual_entry",
     description: "Delete a manual entry",
+    annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -306,6 +319,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "list_vat_periods",
     description: "List VAT periods (read-only). VAT periods define reporting periods for value-added tax.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
@@ -327,6 +341,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "get_journal",
     description: "Query the accounting journal with optional date range. Returns journal entries for the specified period.",
+    annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
