@@ -5,6 +5,22 @@
 
 import { z } from "zod";
 
+// List comments with pagination
+export const ListCommentsParamsSchema = z.object({
+  limit: z.number().int().positive().default(50),
+  offset: z.number().int().min(0).default(0),
+});
+
+export type ListCommentsParams = z.infer<typeof ListCommentsParamsSchema>;
+
+// List contact relations with pagination
+export const ListContactRelationsParamsSchema = z.object({
+  limit: z.number().int().positive().default(50),
+  offset: z.number().int().min(0).default(0),
+});
+
+export type ListContactRelationsParams = z.infer<typeof ListContactRelationsParamsSchema>;
+
 // ===== COMMENTS =====
 
 // Get comment

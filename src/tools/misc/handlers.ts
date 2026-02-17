@@ -6,8 +6,10 @@
 import { BexioClient } from "../../bexio-client.js";
 import { McpError } from "../../shared/errors.js";
 import {
+  ListCommentsParamsSchema,
   GetCommentParamsSchema,
   CreateCommentParamsSchema,
+  ListContactRelationsParamsSchema,
   GetContactRelationParamsSchema,
   CreateContactRelationParamsSchema,
   UpdateContactRelationParamsSchema,
@@ -18,8 +20,9 @@ import type { HandlerFn } from "../index.js";
 
 export const handlers: Record<string, HandlerFn> = {
   // Comments
-  list_comments: async (client) => {
-    return client.listComments();
+  list_comments: async (client, args) => {
+    const params = ListCommentsParamsSchema.parse(args);
+    return client.listComments(params);
   },
 
   get_comment: async (client, args) => {
@@ -37,8 +40,9 @@ export const handlers: Record<string, HandlerFn> = {
   },
 
   // Contact Relations
-  list_contact_relations: async (client) => {
-    return client.listContactRelations();
+  list_contact_relations: async (client, args) => {
+    const params = ListContactRelationsParamsSchema.parse(args);
+    return client.listContactRelations(params);
   },
 
   get_contact_relation: async (client, args) => {
