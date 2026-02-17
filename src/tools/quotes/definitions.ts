@@ -187,4 +187,23 @@ export const toolDefinitions: Tool[] = [
       required: ["quote_id"],
     },
   },
+  {
+    name: "update_quote",
+    description: "Update an existing quote (offer) via PUT /kb_offer/{id}. Pass only the fields you want to change in quote_data.",
+    annotations: { destructiveHint: false },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to update",
+        },
+        quote_data: {
+          type: "object",
+          description: "Fields to update on the quote (e.g. title, positions, contact_id). Only provided fields are sent.",
+        },
+      },
+      required: ["quote_id", "quote_data"],
+    },
+  },
 ];

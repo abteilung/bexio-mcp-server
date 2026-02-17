@@ -444,6 +444,10 @@ export class BexioClient {
     return this.makeRequest("POST", `/kb_offer/${quoteId}/create_invoice`);
   }
 
+  async updateQuote(quoteId: number, quoteData: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/kb_offer/${quoteId}`, undefined, quoteData);
+  }
+
   // ===== INVOICES =====
   async listInvoices(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/kb_invoice", params);

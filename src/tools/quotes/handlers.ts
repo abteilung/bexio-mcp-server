@@ -17,6 +17,7 @@ import {
   SendQuoteParamsSchema,
   CreateOrderFromQuoteParamsSchema,
   CreateInvoiceFromQuoteParamsSchema,
+  UpdateQuoteParamsSchema,
 } from "../../types/index.js";
 import type { HandlerFn } from "../index.js";
 
@@ -106,5 +107,10 @@ export const handlers: Record<string, HandlerFn> = {
   create_invoice_from_quote: async (client, args) => {
     const { quote_id } = CreateInvoiceFromQuoteParamsSchema.parse(args);
     return client.createInvoiceFromQuote(quote_id);
+  },
+
+  update_quote: async (client, args) => {
+    const { quote_id, quote_data } = UpdateQuoteParamsSchema.parse(args);
+    return client.updateQuote(quote_id, quote_data);
   },
 };

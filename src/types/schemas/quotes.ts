@@ -87,3 +87,11 @@ export const CreateInvoiceFromQuoteParamsSchema = z.object({
 export type CreateInvoiceFromQuoteParams = z.infer<
   typeof CreateInvoiceFromQuoteParamsSchema
 >;
+
+// Update quote
+export const UpdateQuoteParamsSchema = z.object({
+  quote_id: z.number().int().positive(),
+  quote_data: z.record(z.unknown()),
+});
+
+export type UpdateQuoteParams = z.infer<typeof UpdateQuoteParamsSchema>;
