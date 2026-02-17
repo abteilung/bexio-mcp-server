@@ -28,6 +28,7 @@ import {
   ListPayrollDocumentsParamsSchema,
 } from "../../types/index.js";
 import { logger } from "../../logger.js";
+import type { HandlerFn } from "../index.js";
 
 // ===== MODULE AVAILABILITY DETECTION =====
 
@@ -105,13 +106,6 @@ async function ensurePayrollAvailable(client: BexioClient): Promise<void> {
     throw payrollUnavailableError();
   }
 }
-
-// ===== HANDLER TYPE =====
-
-export type HandlerFn = (
-  client: BexioClient,
-  args: unknown
-) => Promise<unknown>;
 
 // ===== HANDLERS =====
 

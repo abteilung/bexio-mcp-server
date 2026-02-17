@@ -32,11 +32,7 @@ import {
   // Journal
   GetJournalParamsSchema,
 } from "../../types/index.js";
-
-export type HandlerFn = (
-  client: BexioClient,
-  args: unknown
-) => Promise<unknown>;
+import type { HandlerFn } from "../index.js";
 
 export const handlers: Record<string, HandlerFn> = {
   // ===== ACCOUNTS - Chart of Accounts (ACCT-01) =====

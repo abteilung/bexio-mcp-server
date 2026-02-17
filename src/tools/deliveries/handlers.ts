@@ -11,11 +11,7 @@ import {
   IssueDeliveryParamsSchema,
   SearchDeliveriesParamsSchema,
 } from "../../types/index.js";
-
-export type HandlerFn = (
-  client: BexioClient,
-  args: unknown
-) => Promise<unknown>;
+import type { HandlerFn } from "../index.js";
 
 export const handlers: Record<string, HandlerFn> = {
   list_deliveries: async (client, args) => {

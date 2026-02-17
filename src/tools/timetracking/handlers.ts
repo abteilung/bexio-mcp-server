@@ -14,6 +14,7 @@ import {
   CreateTimesheetParamsSchema,
   DeleteTimesheetParamsSchema,
   SearchTimesheetsParamsSchema,
+  GetProjectTimesheetsParamsSchema,
   // Timesheet Statuses
   ListTimesheetStatusesParamsSchema,
   // Business Activities
@@ -24,11 +25,7 @@ import {
   ListCommunicationTypesParamsSchema,
   GetCommunicationTypeParamsSchema,
 } from "../../types/index.js";
-
-export type HandlerFn = (
-  client: BexioClient,
-  args: unknown
-) => Promise<unknown>;
+import type { HandlerFn } from "../index.js";
 
 export const handlers: Record<string, HandlerFn> = {
   // ===== TIMESHEETS (PROJ-06) =====
@@ -69,6 +66,11 @@ export const handlers: Record<string, HandlerFn> = {
   search_timesheets: async (client, args) => {
     const { search_criteria } = SearchTimesheetsParamsSchema.parse(args);
     return client.searchTimesheets(search_criteria);
+  },
+
+  get_project_timesheets: async (client, args) => {
+    const { project_id } = GetProjectTimesheetsParamsSchema.parse(args);
+    return client.getProjectTimesheets(project_id);
   },
 
   // ===== TIMESHEET STATUSES (PROJ-07) =====

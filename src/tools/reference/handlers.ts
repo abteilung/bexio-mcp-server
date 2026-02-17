@@ -40,11 +40,7 @@ import {
   CreateUnitParamsSchema,
   DeleteUnitParamsSchema,
 } from "../../types/index.js";
-
-export type HandlerFn = (
-  client: BexioClient,
-  args: unknown
-) => Promise<unknown>;
+import type { HandlerFn } from "../index.js";
 
 export const handlers: Record<string, HandlerFn> = {
   // ===== CONTACT GROUPS (REFDATA-01) =====

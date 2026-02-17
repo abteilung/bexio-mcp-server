@@ -21,11 +21,7 @@ import {
   ListAllStatusesParamsSchema,
   InvoiceSearchParams,
 } from "../../types/index.js";
-
-export type HandlerFn = (
-  client: BexioClient,
-  args: unknown
-) => Promise<unknown>;
+import type { HandlerFn } from "../index.js";
 
 export const handlers: Record<string, HandlerFn> = {
   list_invoices: async (client, args) => {
