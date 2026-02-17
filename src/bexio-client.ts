@@ -546,27 +546,15 @@ export class BexioClient {
 
   // ===== TAXES (3.0 API) =====
   async listTaxes(params: PaginationParams = {}): Promise<unknown[]> {
-    const response = await axios.get("https://api.bexio.com/3.0/taxes", {
-      headers: {
-        Authorization: `Bearer ${this.config.apiToken}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+    const response = await this.client.get("https://api.bexio.com/3.0/taxes", {
       params,
     });
     return response.data;
   }
 
   async getTax(taxId: number): Promise<unknown> {
-    const response = await axios.get(
-      `https://api.bexio.com/3.0/taxes/${taxId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${this.config.apiToken}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
+    const response = await this.client.get(
+      `https://api.bexio.com/3.0/taxes/${taxId}`
     );
     return response.data;
   }
@@ -1186,6 +1174,12 @@ export class BexioClient {
 
   async searchTimesheets(searchParams: Record<string, unknown>[]): Promise<unknown[]> {
     return this.makeRequest("POST", "/timesheet/search", undefined, searchParams);
+  }
+
+  async getProjectTimesheets(projectId: number): Promise<unknown[]> {
+    return this.searchTimesheets([
+      { field: "pr_project_id", value: String(projectId), criteria: "=" },
+    ]);
   }
 
   // ===== TIMESHEET STATUSES (PROJ-07) =====
