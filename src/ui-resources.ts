@@ -148,12 +148,27 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
     async () => {
       logger.debug("show_dashboard called");
 
-      // Fetch dashboard data
-      const [openInvoices, overdueInvoices, contacts] = await Promise.all([
-        client.getOpenInvoices(),
-        client.getOverdueInvoices(),
+      // Fetch all invoices once and derive open/overdue from the same dataset (PERF-01)
+      const [allInvoices, contacts] = await Promise.all([
+        client.listAllInvoices(100),
         client.listContacts({ limit: 5 }),
       ]);
+
+      const today = new Date().toISOString().split("T")[0];
+
+      const openInvoices = allInvoices.filter((inv) => {
+        const statusId = (inv as { kb_item_status_id?: number }).kb_item_status_id;
+        return statusId === 7 || statusId === 8;
+      });
+
+      const overdueInvoices = allInvoices.filter((inv) => {
+        const invoice = inv as { kb_item_status_id?: number; is_valid_until?: string };
+        return (
+          invoice.kb_item_status_id === 8 &&
+          invoice.is_valid_until &&
+          invoice.is_valid_until < today
+        );
+      });
 
       // Calculate totals
       const openTotal = openInvoices.reduce((sum: number, inv) => {
@@ -166,7 +181,7 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
         return sum + total;
       }, 0);
 
-      // Get currency from first invoice or default to CHF
+      // Get currency from first open invoice or default to CHF
       const firstInvoice = openInvoices[0] as { currency_id?: number } | undefined;
       const currencyId = firstInvoice?.currency_id || 1;
       const currency = currencyId === 1 ? "CHF" : currencyId === 2 ? "EUR" : "USD";

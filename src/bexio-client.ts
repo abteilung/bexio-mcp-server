@@ -484,6 +484,12 @@ export class BexioClient {
       offset += chunkSize;
     }
 
+    if (offset >= 10000) {
+      logger.warn(
+        `listAllInvoices: 10,000-record ceiling reached — fetched ${invoices.length} records, results may be incomplete`
+      );
+    }
+
     return invoices;
   }
 
