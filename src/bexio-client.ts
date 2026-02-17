@@ -392,6 +392,10 @@ export class BexioClient {
     return this.makeRequest("POST", `/contact/${contactId}`, undefined, contactData);
   }
 
+  async createContact(contactData: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", "/contact", undefined, contactData);
+  }
+
   // ===== QUOTES =====
   async createQuote(quoteData: Record<string, unknown>): Promise<unknown> {
     return this.makeRequest("POST", "/kb_offer", undefined, quoteData);

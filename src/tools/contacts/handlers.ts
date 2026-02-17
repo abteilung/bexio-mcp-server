@@ -13,6 +13,7 @@ import {
   FindContactByNumberParamsSchema,
   FindContactByNameParamsSchema,
   UpdateContactParamsSchema,
+  CreateContactParamsSchema,
 } from "../../types/index.js";
 import type { HandlerFn } from "../index.js";
 
@@ -55,5 +56,10 @@ export const handlers: Record<string, HandlerFn> = {
   update_contact: async (client, args) => {
     const { contact_id, contact_data } = UpdateContactParamsSchema.parse(args);
     return client.updateContact(contact_id, contact_data);
+  },
+
+  create_contact: async (client, args) => {
+    const { contact_data } = CreateContactParamsSchema.parse(args);
+    return client.createContact(contact_data);
   },
 };

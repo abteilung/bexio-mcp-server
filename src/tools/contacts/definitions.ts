@@ -157,4 +157,19 @@ export const toolDefinitions: Tool[] = [
       required: ["contact_id", "contact_data"],
     },
   },
+  {
+    name: "create_contact",
+    description: "Create a new contact in Bexio",
+    annotations: { destructiveHint: false },
+    inputSchema: {
+      type: "object",
+      properties: {
+        contact_data: {
+          type: "object",
+          description: "Contact fields to create (e.g. name_1, contact_type_id, mail, phone_fixed, address, zip, city, country_id)",
+        },
+      },
+      required: ["contact_data"],
+    },
+  },
 ];

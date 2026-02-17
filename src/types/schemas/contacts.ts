@@ -74,3 +74,10 @@ export interface ContactSearchParams extends PaginationParams {
   search_term?: string;
   contact_type_id?: number;
 }
+
+// Create contact
+export const CreateContactParamsSchema = z.object({
+  contact_data: z.record(z.unknown()),
+});
+
+export type CreateContactParams = z.infer<typeof CreateContactParamsSchema>;
