@@ -26,6 +26,37 @@ export async function createHttpServer(
 ): Promise<FastifyInstance> {
   const { host, port } = options;
 
+  // SEC-01 / SEC-02: bearer-token auth
+  const authToken = process.env["HTTP_AUTH_TOKEN"];
+  if (!authToken) {
+    logger.warn(
+      "HTTP_AUTH_TOKEN is not set — all POST endpoints are unprotected. " +
+        "Set HTTP_AUTH_TOKEN to require a bearer token for /mcp, /tools/call, and /n8n/call."
+    );
+  }
+
+  /**
+   * Fastify preHandler that enforces bearer-token auth on protected routes.
+   * If HTTP_AUTH_TOKEN is not set, the check is skipped (backward compat).
+   */
+  const requireAuth: import("fastify").preHandlerHookHandler = async (
+    request,
+    reply
+  ) => {
+    if (!authToken) {
+      // No token configured — allow all requests (backward compat, SEC-02)
+      return;
+    }
+    const authHeader = request.headers["authorization"] ?? "";
+    const expected = `Bearer ${authToken}`;
+    if (authHeader !== expected) {
+      return reply.code(401).send({
+        error: "Unauthorized",
+        message: "A valid Authorization: Bearer <token> header is required.",
+      });
+    }
+  };
+
   // Create handler registry
   const handlerRegistry = createHandlerRegistry(client);
 
@@ -69,7 +100,7 @@ export async function createHttpServer(
       method: string;
       params?: unknown;
     }>;
-  }>("/mcp", async (request, reply) => {
+  }>("/mcp", { preHandler: requireAuth }, async (request, reply) => {
     const body = request.body;
 
     // Handle batch requests
@@ -90,7 +121,7 @@ export async function createHttpServer(
       name: string;
       arguments?: unknown;
     };
-  }>("/tools/call", async (request, reply) => {
+  }>("/tools/call", { preHandler: requireAuth }, async (request, reply) => {
     const toolName = request.body?.name;
     try {
       const { name, arguments: args = {} } = request.body;
@@ -128,7 +159,7 @@ export async function createHttpServer(
       tool: string;
       params?: unknown;
     };
-  }>("/n8n/call", async (request, reply) => {
+  }>("/n8n/call", { preHandler: requireAuth }, async (request, reply) => {
     try {
       const { tool, params = {} } = request.body;
 
