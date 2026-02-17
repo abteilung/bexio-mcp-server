@@ -9,6 +9,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { createRequire } from "node:module";
 import { z } from "zod";
 import { logger } from "./logger.js";
@@ -98,6 +99,31 @@ export class BexioMcpServer {
         }
       );
     }
+
+    // Override tools/list to serve real inputSchemas from toolDefinitions.
+    // The SDK always emits EMPTY_OBJECT_JSON_SCHEMA when tools are registered
+    // with an empty Zod shape ({}). We bypass this by patching the handler on
+    // the underlying Server after registration so clients see the correct schema.
+    const defMap = new Map(definitions.map((d) => [d.name, d]));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const registeredTools = (this.server as any)._registeredTools as Record<
+      string,
+      { enabled: boolean; title?: string; description?: string; annotations?: unknown; execution?: unknown; _meta?: unknown }
+    >;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (this.server as any).server.setRequestHandler(ListToolsRequestSchema, () => ({
+      tools: Object.entries(registeredTools)
+        .filter(([, t]) => t.enabled)
+        .map(([name, t]) => ({
+          name,
+          title: t.title,
+          description: t.description,
+          inputSchema: defMap.get(name)?.inputSchema ?? { type: "object", properties: {} },
+          annotations: t.annotations,
+          execution: t.execution,
+          _meta: t._meta,
+        })),
+    }));
 
     logger.info(`Registered ${definitions.length + 1} tools (including ping)`);
   }
