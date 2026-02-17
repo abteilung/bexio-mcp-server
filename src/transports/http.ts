@@ -7,9 +7,13 @@
 
 import Fastify, { FastifyInstance } from "fastify";
 import cors from "@fastify/cors";
+import { createRequire } from "node:module";
 import { logger } from "../logger.js";
 import { BexioClient } from "../bexio-client.js";
 import { getAllToolDefinitions, createHandlerRegistry } from "../tools/index.js";
+
+const _require = createRequire(import.meta.url);
+const { version: SERVER_VERSION } = _require("../package.json") as { version: string };
 
 export interface HttpServerOptions {
   host: string;
@@ -76,7 +80,7 @@ export async function createHttpServer(
     return {
       status: "running",
       server: "bexio-mcp-server",
-      version: "2.0.0",
+      version: SERVER_VERSION,
       mode: "http",
     };
   });
@@ -233,7 +237,7 @@ async function handleJsonRpcRequest(
           capabilities: { tools: {} },
           serverInfo: {
             name: "bexio-mcp-server",
-            version: "2.0.0",
+            version: SERVER_VERSION,
           },
         },
       };

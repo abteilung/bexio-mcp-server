@@ -9,6 +9,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { createRequire } from "node:module";
 import { z } from "zod";
 import { logger } from "./logger.js";
 import { BexioClient } from "./bexio-client.js";
@@ -16,8 +17,9 @@ import { getAllToolDefinitions, getHandler } from "./tools/index.js";
 import { formatSuccessResponse, formatErrorResponse, McpError } from "./shared/index.js";
 import { registerUIResources } from "./ui-resources.js";
 
+const _require = createRequire(import.meta.url);
+const { version: SERVER_VERSION } = _require("./package.json") as { version: string };
 const SERVER_NAME = "bexio-mcp-server";
-const SERVER_VERSION = "2.0.0";
 
 export class BexioMcpServer {
   private server: McpServer;

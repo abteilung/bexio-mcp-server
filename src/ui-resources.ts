@@ -62,13 +62,25 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
     INVOICE_PREVIEW_URI,
     { mimeType: RESOURCE_MIME_TYPE },
     async () => {
-      const html = await fs.readFile(
-        path.join(uiBasePath, "invoice-preview/invoice-preview.html"),
-        "utf-8"
-      );
-      return {
-        contents: [{ uri: INVOICE_PREVIEW_URI, mimeType: RESOURCE_MIME_TYPE, text: html }],
-      };
+      try {
+        const html = await fs.readFile(
+          path.join(uiBasePath, "invoice-preview/invoice-preview.html"),
+          "utf-8"
+        );
+        return {
+          contents: [{ uri: INVOICE_PREVIEW_URI, mimeType: RESOURCE_MIME_TYPE, text: html }],
+        };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        logger.warn(`UI resource not found: ${msg}`);
+        return {
+          contents: [{
+            uri: INVOICE_PREVIEW_URI,
+            mimeType: RESOURCE_MIME_TYPE,
+            text: `<p>UI resource unavailable: ${msg}</p>`,
+          }],
+        };
+      }
     }
   );
 
@@ -100,13 +112,25 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
     CONTACT_CARD_URI,
     { mimeType: RESOURCE_MIME_TYPE },
     async () => {
-      const html = await fs.readFile(
-        path.join(uiBasePath, "contact-card/contact-card.html"),
-        "utf-8"
-      );
-      return {
-        contents: [{ uri: CONTACT_CARD_URI, mimeType: RESOURCE_MIME_TYPE, text: html }],
-      };
+      try {
+        const html = await fs.readFile(
+          path.join(uiBasePath, "contact-card/contact-card.html"),
+          "utf-8"
+        );
+        return {
+          contents: [{ uri: CONTACT_CARD_URI, mimeType: RESOURCE_MIME_TYPE, text: html }],
+        };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        logger.warn(`UI resource not found: ${msg}`);
+        return {
+          contents: [{
+            uri: CONTACT_CARD_URI,
+            mimeType: RESOURCE_MIME_TYPE,
+            text: `<p>UI resource unavailable: ${msg}</p>`,
+          }],
+        };
+      }
     }
   );
 
@@ -178,13 +202,25 @@ export function registerUIResources(server: McpServer, client: BexioClient): voi
     DASHBOARD_URI,
     { mimeType: RESOURCE_MIME_TYPE },
     async () => {
-      const html = await fs.readFile(
-        path.join(uiBasePath, "dashboard/dashboard.html"),
-        "utf-8"
-      );
-      return {
-        contents: [{ uri: DASHBOARD_URI, mimeType: RESOURCE_MIME_TYPE, text: html }],
-      };
+      try {
+        const html = await fs.readFile(
+          path.join(uiBasePath, "dashboard/dashboard.html"),
+          "utf-8"
+        );
+        return {
+          contents: [{ uri: DASHBOARD_URI, mimeType: RESOURCE_MIME_TYPE, text: html }],
+        };
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        logger.warn(`UI resource not found: ${msg}`);
+        return {
+          contents: [{
+            uri: DASHBOARD_URI,
+            mimeType: RESOURCE_MIME_TYPE,
+            text: `<p>UI resource unavailable: ${msg}</p>`,
+          }],
+        };
+      }
     }
   );
 
