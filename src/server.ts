@@ -98,6 +98,13 @@ export class BexioMcpServer {
           }
         }
       );
+
+      // The SDK's objectFromShape({}) produces a z4mini.object({}) that strips
+      // all unknown keys during validation, so our handlers receive {} instead of
+      // the actual args. Replace with a Zod v3 passthrough schema so all keys are
+      // preserved and passed through to the handler's own Zod validation logic.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this.server as any)._registeredTools[def.name].inputSchema = z.object({}).passthrough();
     }
 
     // Override tools/list to serve real inputSchemas from toolDefinitions.
