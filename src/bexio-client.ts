@@ -72,6 +72,33 @@ export class BexioClient {
     return response.data;
   }
 
+  /**
+   * Make a request to a non-default API version (e.g. 3.0, 4.0).
+   * Bypasses the v2.0 baseURL by constructing the full URL directly.
+   */
+  private async makeVersionedRequest<T = unknown>(
+    version: string,
+    method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
+    endpoint: string,
+    params?: Record<string, unknown> | PaginationParams,
+    data?: unknown
+  ): Promise<T> {
+    const url = `https://api.bexio.com/${version}/${endpoint}`;
+    logger.debug(`${method} ${url}`, { params, hasData: !!data });
+    const response: AxiosResponse<T> = await axios.request({
+      method,
+      url,
+      headers: {
+        Authorization: `Bearer ${this.config.apiToken}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      params,
+      data,
+    });
+    return response.data;
+  }
+
   // ===== CONTACT GROUPS =====
   async listContactGroups(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/contact_group", params);
@@ -546,29 +573,11 @@ export class BexioClient {
 
   // ===== TAXES (3.0 API) =====
   async listTaxes(params: PaginationParams = {}): Promise<unknown[]> {
-    const response = await axios.get("https://api.bexio.com/3.0/taxes", {
-      headers: {
-        Authorization: `Bearer ${this.config.apiToken}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      params,
-    });
-    return response.data;
+    return this.makeVersionedRequest("3.0", "GET", "taxes", params);
   }
 
   async getTax(taxId: number): Promise<unknown> {
-    const response = await axios.get(
-      `https://api.bexio.com/3.0/taxes/${taxId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${this.config.apiToken}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    );
-    return response.data;
+    return this.makeVersionedRequest("3.0", "GET", `taxes/${taxId}`);
   }
 
   // ===== ITEMS (Articles) =====
@@ -1308,101 +1317,100 @@ export class BexioClient {
     return this.makeRequest("GET", "/journal", params);
   }
 
-  // ===== BILLS (Creditor Invoices - PURCH-01) =====
+  // ===== BILLS (Creditor Invoices - PURCH-01, v4.0 API) =====
   async listBills(params: PaginationParams = {}): Promise<unknown[]> {
-    return this.makeRequest("GET", "/kb_bill", params);
+    return this.makeVersionedRequest("4.0", "GET", "purchase/bills", params);
   }
 
-  async getBill(billId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/kb_bill/${billId}`);
+  async getBill(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "GET", `purchase/bills/${billId}`);
   }
 
   async createBill(data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", "/kb_bill", undefined, data);
+    return this.makeVersionedRequest("4.0", "POST", "purchase/bills", undefined, data);
   }
 
-  async updateBill(billId: number, data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}`, undefined, data);
+  async updateBill(billId: string, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "PUT", `purchase/bills/${billId}`, undefined, data);
   }
 
-  async deleteBill(billId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/kb_bill/${billId}`);
+  async deleteBill(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "DELETE", `purchase/bills/${billId}`);
   }
 
   async searchBills(searchParams: Record<string, unknown>[], queryParams?: { limit?: number; offset?: number }): Promise<unknown[]> {
-    return this.makeRequest("POST", "/kb_bill/search", queryParams, searchParams);
+    return this.makeVersionedRequest("4.0", "POST", "purchase/bills/search", queryParams, searchParams);
   }
 
-  async issueBill(billId: number): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/issue`);
+  async issueBill(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "POST", `purchase/bills/${billId}/issue`);
   }
 
-  async markBillAsPaid(billId: number): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/mark_as_paid`);
+  async markBillAsPaid(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "POST", `purchase/bills/${billId}/mark_as_paid`);
   }
 
-  // ===== EXPENSES (PURCH-02) =====
+  // ===== EXPENSES (PURCH-02, v4.0 API) =====
   async listExpenses(params: PaginationParams = {}): Promise<unknown[]> {
-    return this.makeRequest("GET", "/kb_expense", params);
+    return this.makeVersionedRequest("4.0", "GET", "purchase/expenses", params);
   }
 
-  async getExpense(expenseId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/kb_expense/${expenseId}`);
+  async getExpense(expenseId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "GET", `purchase/expenses/${expenseId}`);
   }
 
   async createExpense(data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", "/kb_expense", undefined, data);
+    return this.makeVersionedRequest("4.0", "POST", "purchase/expenses", undefined, data);
   }
 
-  async updateExpense(expenseId: number, data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_expense/${expenseId}`, undefined, data);
+  async updateExpense(expenseId: string, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "PUT", `purchase/expenses/${expenseId}`, undefined, data);
   }
 
-  async deleteExpense(expenseId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/kb_expense/${expenseId}`);
+  async deleteExpense(expenseId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "DELETE", `purchase/expenses/${expenseId}`);
   }
 
-  // ===== PURCHASE ORDERS (PURCH-03) =====
+  // ===== PURCHASE ORDERS (PURCH-03, v3.0 API) =====
   async listPurchaseOrders(params: PaginationParams = {}): Promise<unknown[]> {
-    return this.makeRequest("GET", "/purchase_order", params);
+    return this.makeVersionedRequest("3.0", "GET", "purchase_order", params);
   }
 
   async getPurchaseOrder(purchaseOrderId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/purchase_order/${purchaseOrderId}`);
+    return this.makeVersionedRequest("3.0", "GET", `purchase_order/${purchaseOrderId}`);
   }
 
   async createPurchaseOrder(data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", "/purchase_order", undefined, data);
+    return this.makeVersionedRequest("3.0", "POST", "purchase_order", undefined, data);
   }
 
   async updatePurchaseOrder(purchaseOrderId: number, data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/purchase_order/${purchaseOrderId}`, undefined, data);
+    return this.makeVersionedRequest("3.0", "PUT", `purchase_order/${purchaseOrderId}`, undefined, data);
   }
 
   async deletePurchaseOrder(purchaseOrderId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/purchase_order/${purchaseOrderId}`);
+    return this.makeVersionedRequest("3.0", "DELETE", `purchase_order/${purchaseOrderId}`);
   }
 
-  // ===== OUTGOING PAYMENTS (linked to bills - PURCH-04) =====
-  // Note: Uses nested URL pattern /kb_bill/{id}/payment (mirrors incoming payments on invoices)
-  async listOutgoingPayments(billId: number): Promise<unknown[]> {
-    return this.makeRequest("GET", `/kb_bill/${billId}/payment`);
+  // ===== OUTGOING PAYMENTS (PURCH-04, v4.0 API, flat endpoint) =====
+  async listOutgoingPayments(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeVersionedRequest("4.0", "GET", "purchase/payments", params);
   }
 
-  async getOutgoingPayment(billId: number, paymentId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/kb_bill/${billId}/payment/${paymentId}`);
+  async getOutgoingPayment(paymentId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "GET", `purchase/payments/${paymentId}`);
   }
 
-  async createOutgoingPayment(billId: number, paymentData: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/payment`, undefined, paymentData);
+  async createOutgoingPayment(paymentData: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "POST", "purchase/payments", undefined, paymentData);
   }
 
-  async updateOutgoingPayment(billId: number, paymentId: number, paymentData: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/payment/${paymentId}`, undefined, paymentData);
+  async updateOutgoingPayment(paymentId: string, paymentData: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "PUT", `purchase/payments/${paymentId}`, undefined, paymentData);
   }
 
-  async deleteOutgoingPayment(billId: number, paymentId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/kb_bill/${billId}/payment/${paymentId}`);
+  async deleteOutgoingPayment(paymentId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "DELETE", `purchase/payments/${paymentId}`);
   }
 
   // ===== EMPLOYEES (PAY-01) =====

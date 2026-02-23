@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-02-23
+
+### Fixed
+- Bills, expenses, and outgoing payments now use Bexio v4.0 API (`/4.0/purchase/bills`, `/4.0/purchase/expenses`, `/4.0/purchase/payments`) — fixes 404 errors from deprecated v2.0 endpoints
+- Purchase orders now use Bexio v3.0 API (`/3.0/purchase_order`)
+
+### Changed
+- Bill, expense, and outgoing payment IDs are now UUID strings (previously integers) to match v4.0 API
+- Outgoing payments use a flat endpoint (no longer nested under bills)
+- All v3.0/v4.0 purchase endpoints use PUT for updates (previously POST)
+- Added reusable `makeVersionedRequest` helper for non-v2.0 API calls; refactored tax endpoints to use it
+
 ## [2.0.11] - 2026-02-06
 
 ### Changed
