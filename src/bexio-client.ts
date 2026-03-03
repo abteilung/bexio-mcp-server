@@ -1817,4 +1817,26 @@ export class BexioClient {
   async listDocumentTemplates(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/kb_document_template", params);
   }
+
+  // ===== POSITIONS (POS-01 through POS-07) =====
+
+  async listPositions(documentType: string, documentId: number, positionType: string, params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", `/${documentType}/${documentId}/${positionType}`, params);
+  }
+
+  async getPosition(documentType: string, documentId: number, positionType: string, positionId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/${documentType}/${documentId}/${positionType}/${positionId}`);
+  }
+
+  async createPosition(documentType: string, documentId: number, positionType: string, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", `/${documentType}/${documentId}/${positionType}`, undefined, data);
+  }
+
+  async editPosition(documentType: string, documentId: number, positionType: string, positionId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", `/${documentType}/${documentId}/${positionType}/${positionId}`, undefined, data);
+  }
+
+  async deletePosition(documentType: string, documentId: number, positionType: string, positionId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/${documentType}/${documentId}/${positionType}/${positionId}`);
+  }
 }
