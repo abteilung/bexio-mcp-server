@@ -13,6 +13,10 @@ import {
   FindContactByNumberParamsSchema,
   FindContactByNameParamsSchema,
   UpdateContactParamsSchema,
+  CreateContactParamsSchema,
+  DeleteContactParamsSchema,
+  BulkCreateContactsParamsSchema,
+  RestoreContactParamsSchema,
 } from "../../types/index.js";
 
 export type HandlerFn = (
@@ -59,5 +63,31 @@ export const handlers: Record<string, HandlerFn> = {
   update_contact: async (client, args) => {
     const { contact_id, contact_data } = UpdateContactParamsSchema.parse(args);
     return client.updateContact(contact_id, contact_data);
+  },
+
+  create_contact: async (client, args) => {
+    const { contact_type, ...fields } = CreateContactParamsSchema.parse(args);
+    const contact_type_id = contact_type === "person" ? 1 : 2;
+    return client.createContact({ contact_type_id, ...fields });
+  },
+
+  delete_contact: async (client, args) => {
+    const { contact_id } = DeleteContactParamsSchema.parse(args);
+    await client.deleteContact(contact_id);
+    return { success: true, message: `Contact ${contact_id} deleted` };
+  },
+
+  bulk_create_contacts: async (client, args) => {
+    const { contacts } = BulkCreateContactsParamsSchema.parse(args);
+    const mappedContacts = contacts.map(({ contact_type, ...fields }) => ({
+      contact_type_id: contact_type === "person" ? 1 : 2,
+      ...fields,
+    }));
+    return client.bulkCreateContacts(mappedContacts);
+  },
+
+  restore_contact: async (client, args) => {
+    const { contact_id } = RestoreContactParamsSchema.parse(args);
+    return client.restoreContact(contact_id);
   },
 };
