@@ -154,7 +154,7 @@ Plans:
 
 - [x] **Phase 8: Contacts, New Domains & Reference Gaps** - Contact CRUD, notes, tasks, users, stock, docs, reference data completions
 - [x] **Phase 9: Sales Document Completion** - Edit/delete/PDF/workflow actions on quotes, orders, invoices, reminders, items
-- [ ] **Phase 10: Position Management** - 7 position types x 5 operations for line item manipulation
+- [x] **Phase 10: Position Management** - 7 position types x 5 operations for line item manipulation (completed 2026-03-03)
 
 ## Phase Details
 
@@ -207,9 +207,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 10-01-PLAN.md -- Position Foundation: Zod schemas, type mappings, generic BexioClient position methods (5 CRUD methods)
-- [ ] 10-02-PLAN.md -- Position Tools: All 35 tools for 7 position types (default, item, text, subtotal, discount, pagebreak, sub) with definitions and handlers
-- [ ] 10-03-PLAN.md -- Central Wiring: Register positions domain in aggregator, build verification (310 total tools)
+- [x] 10-01-PLAN.md -- Position Foundation: Zod schemas, type mappings, generic BexioClient position methods (5 CRUD methods)
+- [x] 10-02-PLAN.md -- Position Tools: All 35 tools for 7 position types (default, item, text, subtotal, discount, pagebreak, sub) with definitions and handlers
+- [x] 10-03-PLAN.md -- Central Wiring: Register positions domain in aggregator, build verification (310 total tools)
 
 ## Progress
 
@@ -227,11 +227,11 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 7. Claude Desktop Extension | v2.0 | 3/3 | **Complete** | 2026-02-03 |
 | 8. Contacts, New Domains & Reference Gaps | v2.2 | 4/4 | **Complete** | 2026-03-03 |
 | 9. Sales Document Completion | v2.2 | 4/4 | **Complete** | 2026-03-03 |
-| 10. Position Management | 2/3 | In Progress|  | - |
+| 10. Position Management | v2.2 | 3/3 | **Complete** | 2026-03-03 |
 
 ---
 *Roadmap created: 2026-02-01*
 *Phase 1-7 complete: 2026-02-03*
 *v2.2 phases 8-10 added: 2026-03-03*
 *Phase 10 planned: 2026-03-03*
-*Total requirements: 67 (v2.0) + 44 (v2.2) = 111 | Phases: 10 | Plans: 30 complete + 3 planned*
+*Total requirements: 67 (v2.0) + 44 (v2.2) = 111 | Phases: 10 | Plans: 33/33 complete*
