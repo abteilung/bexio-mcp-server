@@ -1543,4 +1543,76 @@ export class BexioClient {
   async deleteAdditionalAddress(contactId: number, addressId: number): Promise<unknown> {
     return this.makeRequest("DELETE", `/contact/${contactId}/additional_address/${addressId}`);
   }
+
+  // ===== NOTES (NOTES-01) =====
+  async listAllNotes(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/note", params);
+  }
+
+  async listNotes(resourceType: string, resourceId: number, params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/note", {
+      ...params,
+      event_module: resourceType,
+      event_module_id: resourceId,
+    });
+  }
+
+  async getNote(noteId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/note/${noteId}`);
+  }
+
+  async createNote(data: {
+    event_module: string;
+    event_module_id: number;
+    title: string;
+    info?: string;
+    is_public?: boolean;
+  }): Promise<unknown> {
+    return this.makeRequest("POST", "/note", undefined, data);
+  }
+
+  async updateNote(noteId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/note/${noteId}`, undefined, data);
+  }
+
+  async deleteNote(noteId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/note/${noteId}`);
+  }
+
+  async searchNotes(criteria: Record<string, unknown>[], params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("POST", "/note/search", params, criteria);
+  }
+
+  // ===== TASKS (TASKS-01, TASKS-02) =====
+  async listTasks(params: Record<string, unknown> = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/task", params);
+  }
+
+  async getTask(taskId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/task/${taskId}`);
+  }
+
+  async createTask(data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", "/task", undefined, data);
+  }
+
+  async updateTask(taskId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", `/task/${taskId}`, undefined, data);
+  }
+
+  async deleteTask(taskId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/task/${taskId}`);
+  }
+
+  async searchTasks(criteria: Record<string, unknown>[], params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("POST", "/task/search", params, criteria);
+  }
+
+  async listTaskPriorities(): Promise<unknown[]> {
+    return this.makeRequest("GET", "/task_priority");
+  }
+
+  async listTaskStatuses(): Promise<unknown[]> {
+    return this.makeRequest("GET", "/task_status");
+  }
 }
