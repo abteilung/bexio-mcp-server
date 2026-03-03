@@ -37,6 +37,7 @@ import * as notes from "./notes/index.js";
 import * as tasks from "./tasks/index.js";
 import * as stock from "./stock/index.js";
 import * as docs from "./docs/index.js";
+import * as positions from "./positions/index.js";
 
 // Type for handler functions
 export type HandlerFn = (
@@ -44,7 +45,7 @@ export type HandlerFn = (
   args: unknown
 ) => Promise<unknown>;
 
-// Aggregate all tool definitions (275 total)
+// Aggregate all tool definitions (310 total)
 const allDefinitions: Tool[] = [
   ...reference.toolDefinitions,    // 33 tools (contact groups, sectors, salutations, titles, countries, languages, units + update/search)
   ...company.toolDefinitions,      // 6 tools (company profile, permissions, payment types)
@@ -70,6 +71,7 @@ const allDefinitions: Tool[] = [
   ...tasks.toolDefinitions,      // 8 tools (list, get, create, update, delete, search, priorities, statuses)
   ...stock.toolDefinitions,      // 4 tools (stock locations, stock areas)
   ...docs.toolDefinitions,       // 2 tools (document settings, document templates)
+  ...positions.toolDefinitions, // 35 tools (7 position types x 5 CRUD ops on quotes/orders/invoices)
 ];
 
 // Aggregate all handlers
@@ -98,6 +100,7 @@ const allHandlers: Record<string, HandlerFn> = {
   ...tasks.handlers,
   ...stock.handlers,
   ...docs.handlers,
+  ...positions.handlers,
 };
 
 /** Get all tool definitions for registration */
