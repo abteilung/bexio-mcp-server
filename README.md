@@ -2,7 +2,7 @@
 
 Complete Swiss accounting integration for [Bexio](https://www.bexio.com/) via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/). Works with **Claude Desktop**, **n8n**, and any MCP-compatible client.
 
-Manage invoices, contacts, projects, time tracking, and 200+ more tools through AI conversation or workflow automation.
+Manage invoices, contacts, projects, time tracking, and 300+ more tools through AI conversation or workflow automation.
 
 > ⚠️ **Early Release Software**
 >
@@ -88,7 +88,7 @@ BEXIO_API_TOKEN=your-token node dist/index.js
 
 ## Features
 
-This MCP server provides **221 tools** across all Bexio domains:
+This MCP server provides **310 tools** across all Bexio domains:
 
 ### Contacts & CRM
 - Create, update, search contacts
@@ -290,7 +290,7 @@ This project builds upon the original Bexio MCP server created by [Sebastian Bry
 
 ### Development Tools
 
-The v2.0 expansion from 83 to 221 tools was developed using:
+The expansion from 83 to 310 tools was developed using:
 
 - **[Claude Code](https://docs.anthropic.com/en/docs/claude-code)** - Anthropic's AI-powered development environment that enabled rapid iteration and comprehensive API coverage
 - **[GSD Framework](https://github.com/casualjim/get-shit-done)** - The "Get Shit Done" planning framework for structured AI-assisted development workflows

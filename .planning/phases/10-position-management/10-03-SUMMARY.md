@@ -59,7 +59,7 @@ Each task was committed atomically:
 
 1. **Task 1: Register positions domain and verify build** - `5bff3dc` (feat)
 
-**Plan metadata:** pending (docs: complete plan)
+**Plan metadata:** `b898e7d` (docs: complete plan)
 
 ## Files Created/Modified
 - `src/tools/index.ts` - Added positions import, spread into allDefinitions (35 tools) and allHandlers, updated total count comment from 275 to 310

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-03-03
+
+### Added
+- Contact CRUD operations: create, edit, delete, and bulk-delete for contacts and companies
+- Tasks domain with 8 tools for task management
+- Notes domain with 6 tools for contact and company notes
+- Sales document completion: quote, order, invoice, and reminder gap tools for full lifecycle coverage
+- Position management for all 7 document types (quotes, orders, invoices): default, item, text, subtotal, discount, pagebreak, and sub-position CRUD
+- Stock locations and stock areas management
+- Real users listing and document settings tools
+- Additional reference data tools: edit/search for countries, languages, currencies, titles, salutations
+
+### Fixed
+- editOrder, editOrderRepetition, and editInvoice now correctly use PUT instead of POST
+
+### Changed
+- Tool count expanded from 221 to 310 tools across 25 domain modules
+
 ## [2.1.0] - 2026-02-23
 
 ### Fixed
@@ -74,7 +92,9 @@ Initial implementation by [Sebastian Bryner](https://www.linkedin.com/in/sebasti
 - MCP SDK 0.5.0 integration
 - Basic Bexio API client
 
-[unreleased]: https://github.com/promptpartner/bexio-mcp-server/compare/v2.0.11...HEAD
+[unreleased]: https://github.com/promptpartner/bexio-mcp-server/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/promptpartner/bexio-mcp-server/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/promptpartner/bexio-mcp-server/compare/v2.0.11...v2.1.0
 [2.0.11]: https://github.com/promptpartner/bexio-mcp-server/compare/v2.0.10...v2.0.11
 [2.0.9]: https://github.com/promptpartner/bexio-mcp-server/compare/v2.0.8...v2.0.9
 [2.0.8]: https://github.com/promptpartner/bexio-mcp-server/compare/v2.0.0...v2.0.8
