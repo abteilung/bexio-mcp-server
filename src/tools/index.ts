@@ -44,7 +44,7 @@ export type HandlerFn = (
   args: unknown
 ) => Promise<unknown>;
 
-// Aggregate all tool definitions (218 total)
+// Aggregate all tool definitions (253 total)
 const allDefinitions: Tool[] = [
   ...reference.toolDefinitions,    // 33 tools (contact groups, sectors, salutations, titles, countries, languages, units + update/search)
   ...company.toolDefinitions,      // 6 tools (company profile, permissions, payment types)
@@ -55,7 +55,7 @@ const allDefinitions: Tool[] = [
   ...purchase.toolDefinitions,     // 23 tools (bills, expenses, purchase orders, outgoing payments)
   ...files.toolDefinitions,        // 12 tools (files, additional addresses + update/search)
   ...payroll.toolDefinitions,      // 10 tools (employees, absences, payroll docs - conditional)
-  ...contacts.toolDefinitions,     // 7 tools
+  ...contacts.toolDefinitions,     // 11 tools (list, get, search, update, create, delete, bulk create, restore)
   ...invoices.toolDefinitions,   // 15 tools
   ...orders.toolDefinitions,     // 7 tools
   ...quotes.toolDefinitions,     // 11 tools
