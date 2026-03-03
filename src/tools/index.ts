@@ -44,7 +44,7 @@ export type HandlerFn = (
   args: unknown
 ) => Promise<unknown>;
 
-// Aggregate all tool definitions (253 total)
+// Aggregate all tool definitions (275 total)
 const allDefinitions: Tool[] = [
   ...reference.toolDefinitions,    // 33 tools (contact groups, sectors, salutations, titles, countries, languages, units + update/search)
   ...company.toolDefinitions,      // 6 tools (company profile, permissions, payment types)
@@ -56,13 +56,13 @@ const allDefinitions: Tool[] = [
   ...files.toolDefinitions,        // 12 tools (files, additional addresses + update/search)
   ...payroll.toolDefinitions,      // 10 tools (employees, absences, payroll docs - conditional)
   ...contacts.toolDefinitions,     // 11 tools (list, get, search, update, create, delete, bulk create, restore)
-  ...invoices.toolDefinitions,   // 15 tools
-  ...orders.toolDefinitions,     // 7 tools
-  ...quotes.toolDefinitions,     // 11 tools
+  ...invoices.toolDefinitions,   // 19 tools (existing 15 + edit, delete, pdf, revert)
+  ...orders.toolDefinitions,     // 13 tools (list, get, create, search, search_by_customer, create_delivery_from, create_invoice_from, edit, delete, pdf, repetition get/edit/delete)
+  ...quotes.toolDefinitions,     // 18 tools (list, get, create, search, search_by_customer, issue, accept, decline, send, create_order_from, create_invoice_from, edit, delete, revert, reissue, mark_sent, pdf, copy)
   ...payments.toolDefinitions,   // 4 tools
-  ...reminders.toolDefinitions,  // 8 tools
+  ...reminders.toolDefinitions,  // 10 tools (existing 8 + mark_unsent, pdf)
   ...deliveries.toolDefinitions, // 4 tools
-  ...items.toolDefinitions,      // 5 tools
+  ...items.toolDefinitions,      // 8 tools (list, get, create items + list, get taxes + edit, delete, search items)
   ...reports.toolDefinitions,    // 7 tools
   ...users.toolDefinitions,      // 8 tools (real users + fictional users)
   ...misc.toolDefinitions,       // 9 tools
