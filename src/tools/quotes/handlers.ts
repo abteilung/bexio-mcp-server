@@ -17,6 +17,13 @@ import {
   SendQuoteParamsSchema,
   CreateOrderFromQuoteParamsSchema,
   CreateInvoiceFromQuoteParamsSchema,
+  EditQuoteParamsSchema,
+  DeleteQuoteParamsSchema,
+  RevertQuoteParamsSchema,
+  ReissueQuoteParamsSchema,
+  MarkQuoteAsSentParamsSchema,
+  GetQuotePdfParamsSchema,
+  CopyQuoteParamsSchema,
 } from "../../types/index.js";
 import type { HandlerFn } from "../index.js";
 
@@ -106,5 +113,40 @@ export const handlers: Record<string, HandlerFn> = {
   create_invoice_from_quote: async (client, args) => {
     const { quote_id } = CreateInvoiceFromQuoteParamsSchema.parse(args);
     return client.createInvoiceFromQuote(quote_id);
+  },
+
+  edit_quote: async (client, args) => {
+    const { quote_id, quote_data } = EditQuoteParamsSchema.parse(args);
+    return client.editQuote(quote_id, quote_data);
+  },
+
+  delete_quote: async (client, args) => {
+    const { quote_id } = DeleteQuoteParamsSchema.parse(args);
+    return client.deleteQuote(quote_id);
+  },
+
+  revert_quote_to_draft: async (client, args) => {
+    const { quote_id } = RevertQuoteParamsSchema.parse(args);
+    return client.revertQuote(quote_id);
+  },
+
+  reissue_quote: async (client, args) => {
+    const { quote_id } = ReissueQuoteParamsSchema.parse(args);
+    return client.reissueQuote(quote_id);
+  },
+
+  mark_quote_as_sent: async (client, args) => {
+    const { quote_id } = MarkQuoteAsSentParamsSchema.parse(args);
+    return client.markQuoteAsSent(quote_id);
+  },
+
+  get_quote_pdf: async (client, args) => {
+    const { quote_id } = GetQuotePdfParamsSchema.parse(args);
+    return client.getQuotePdf(quote_id);
+  },
+
+  copy_quote: async (client, args) => {
+    const { quote_id } = CopyQuoteParamsSchema.parse(args);
+    return client.copyQuote(quote_id);
   },
 };

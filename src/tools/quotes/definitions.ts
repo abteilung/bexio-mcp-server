@@ -187,4 +187,113 @@ export const toolDefinitions: Tool[] = [
       required: ["quote_id"],
     },
   },
+  {
+    name: "edit_quote",
+    description: "Edit/update an existing quote",
+    annotations: { destructiveHint: false },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to edit",
+        },
+        quote_data: {
+          type: "object",
+          description: "Fields to update on the quote",
+        },
+      },
+      required: ["quote_id", "quote_data"],
+    },
+  },
+  {
+    name: "delete_quote",
+    description: "Delete a quote",
+    annotations: { destructiveHint: true },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to delete",
+        },
+      },
+      required: ["quote_id"],
+    },
+  },
+  {
+    name: "revert_quote_to_draft",
+    description: "Revert an issued quote back to draft status",
+    annotations: { destructiveHint: false },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to revert to draft",
+        },
+      },
+      required: ["quote_id"],
+    },
+  },
+  {
+    name: "reissue_quote",
+    description: "Reissue a quote (re-issue after revert)",
+    annotations: { destructiveHint: false },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to reissue",
+        },
+      },
+      required: ["quote_id"],
+    },
+  },
+  {
+    name: "mark_quote_as_sent",
+    description: "Mark a quote as sent",
+    annotations: { destructiveHint: false },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to mark as sent",
+        },
+      },
+      required: ["quote_id"],
+    },
+  },
+  {
+    name: "get_quote_pdf",
+    description: "Get a quote as PDF (returns base64-encoded content)",
+    annotations: { readOnlyHint: true },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to get as PDF",
+        },
+      },
+      required: ["quote_id"],
+    },
+  },
+  {
+    name: "copy_quote",
+    description: "Copy/duplicate a quote",
+    annotations: { destructiveHint: false },
+    inputSchema: {
+      type: "object",
+      properties: {
+        quote_id: {
+          type: "integer",
+          description: "The ID of the quote to copy",
+        },
+      },
+      required: ["quote_id"],
+    },
+  },
 ];

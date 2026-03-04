@@ -33,7 +33,7 @@ import {
 import type { HandlerFn } from "../index.js";
 
 export const handlers: Record<string, HandlerFn> = {
-  // ===== BILLS =====
+  // ===== BILLS (v4.0, UUID IDs) =====
   list_bills: async (client, args) => {
     const { limit, offset } = ListBillsParamsSchema.parse(args);
     return client.listBills({ limit, offset });
@@ -78,7 +78,7 @@ export const handlers: Record<string, HandlerFn> = {
     return client.markBillAsPaid(bill_id);
   },
 
-  // ===== EXPENSES =====
+  // ===== EXPENSES (v4.0, UUID IDs) =====
   list_expenses: async (client, args) => {
     const { limit, offset } = ListExpensesParamsSchema.parse(args);
     return client.listExpenses({ limit, offset });
@@ -108,7 +108,7 @@ export const handlers: Record<string, HandlerFn> = {
     return client.deleteExpense(expense_id);
   },
 
-  // ===== PURCHASE ORDERS =====
+  // ===== PURCHASE ORDERS (v3.0, integer IDs) =====
   list_purchase_orders: async (client, args) => {
     const { limit, offset } = ListPurchaseOrdersParamsSchema.parse(args);
     return client.listPurchaseOrders({ limit, offset });
@@ -138,15 +138,15 @@ export const handlers: Record<string, HandlerFn> = {
     return client.deletePurchaseOrder(purchase_order_id);
   },
 
-  // ===== OUTGOING PAYMENTS (linked to bills) =====
+  // ===== OUTGOING PAYMENTS (v4.0, flat endpoint, UUID IDs) =====
   list_outgoing_payments: async (client, args) => {
-    const { bill_id } = ListOutgoingPaymentsParamsSchema.parse(args);
-    return client.listOutgoingPayments(bill_id);
+    const { limit, offset } = ListOutgoingPaymentsParamsSchema.parse(args);
+    return client.listOutgoingPayments({ limit, offset });
   },
 
   get_outgoing_payment: async (client, args) => {
-    const { bill_id, payment_id } = GetOutgoingPaymentParamsSchema.parse(args);
-    const payment = await client.getOutgoingPayment(bill_id, payment_id);
+    const { payment_id } = GetOutgoingPaymentParamsSchema.parse(args);
+    const payment = await client.getOutgoingPayment(payment_id);
     if (!payment) {
       throw McpError.notFound("Outgoing Payment", payment_id);
     }
@@ -154,17 +154,17 @@ export const handlers: Record<string, HandlerFn> = {
   },
 
   create_outgoing_payment: async (client, args) => {
-    const { bill_id, payment_data } = CreateOutgoingPaymentParamsSchema.parse(args);
-    return client.createOutgoingPayment(bill_id, payment_data);
+    const { payment_data } = CreateOutgoingPaymentParamsSchema.parse(args);
+    return client.createOutgoingPayment(payment_data);
   },
 
   update_outgoing_payment: async (client, args) => {
-    const { bill_id, payment_id, payment_data } = UpdateOutgoingPaymentParamsSchema.parse(args);
-    return client.updateOutgoingPayment(bill_id, payment_id, payment_data);
+    const { payment_id, payment_data } = UpdateOutgoingPaymentParamsSchema.parse(args);
+    return client.updateOutgoingPayment(payment_id, payment_data);
   },
 
   delete_outgoing_payment: async (client, args) => {
-    const { bill_id, payment_id } = DeleteOutgoingPaymentParamsSchema.parse(args);
-    return client.deleteOutgoingPayment(bill_id, payment_id);
+    const { payment_id } = DeleteOutgoingPaymentParamsSchema.parse(args);
+    return client.deleteOutgoingPayment(payment_id);
   },
 };

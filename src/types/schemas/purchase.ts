@@ -1,11 +1,11 @@
 /**
  * Purchase-related Zod schemas and types.
- * Domain: Bills (kb_bill) and Expenses (kb_expense)
+ * Domain: Bills (v4.0), Expenses (v4.0), Purchase Orders (v3.0), Outgoing Payments (v4.0)
  */
 
 import { z } from "zod";
 
-// ===== BILLS (Creditor Invoices) =====
+// ===== BILLS (Creditor Invoices — v4.0 API, UUID IDs) =====
 
 // List bills
 export const ListBillsParamsSchema = z.object({
@@ -17,7 +17,7 @@ export type ListBillsParams = z.infer<typeof ListBillsParamsSchema>;
 
 // Get single bill
 export const GetBillParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
+  bill_id: z.string(),
 });
 
 export type GetBillParams = z.infer<typeof GetBillParamsSchema>;
@@ -31,7 +31,7 @@ export type CreateBillParams = z.infer<typeof CreateBillParamsSchema>;
 
 // Update bill
 export const UpdateBillParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
+  bill_id: z.string(),
   bill_data: z.record(z.unknown()),
 });
 
@@ -39,7 +39,7 @@ export type UpdateBillParams = z.infer<typeof UpdateBillParamsSchema>;
 
 // Delete bill
 export const DeleteBillParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
+  bill_id: z.string(),
 });
 
 export type DeleteBillParams = z.infer<typeof DeleteBillParamsSchema>;
@@ -55,19 +55,19 @@ export type SearchBillsParams = z.infer<typeof SearchBillsParamsSchema>;
 
 // Issue bill
 export const IssueBillParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
+  bill_id: z.string(),
 });
 
 export type IssueBillParams = z.infer<typeof IssueBillParamsSchema>;
 
 // Mark bill as paid
 export const MarkBillAsPaidParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
+  bill_id: z.string(),
 });
 
 export type MarkBillAsPaidParams = z.infer<typeof MarkBillAsPaidParamsSchema>;
 
-// ===== EXPENSES =====
+// ===== EXPENSES (v4.0 API, UUID IDs) =====
 
 // List expenses
 export const ListExpensesParamsSchema = z.object({
@@ -79,7 +79,7 @@ export type ListExpensesParams = z.infer<typeof ListExpensesParamsSchema>;
 
 // Get single expense
 export const GetExpenseParamsSchema = z.object({
-  expense_id: z.number().int().positive(),
+  expense_id: z.string(),
 });
 
 export type GetExpenseParams = z.infer<typeof GetExpenseParamsSchema>;
@@ -93,7 +93,7 @@ export type CreateExpenseParams = z.infer<typeof CreateExpenseParamsSchema>;
 
 // Update expense
 export const UpdateExpenseParamsSchema = z.object({
-  expense_id: z.number().int().positive(),
+  expense_id: z.string(),
   expense_data: z.record(z.unknown()),
 });
 
@@ -101,12 +101,12 @@ export type UpdateExpenseParams = z.infer<typeof UpdateExpenseParamsSchema>;
 
 // Delete expense
 export const DeleteExpenseParamsSchema = z.object({
-  expense_id: z.number().int().positive(),
+  expense_id: z.string(),
 });
 
 export type DeleteExpenseParams = z.infer<typeof DeleteExpenseParamsSchema>;
 
-// ===== PURCHASE ORDERS =====
+// ===== PURCHASE ORDERS (v3.0 API, integer IDs) =====
 
 // List purchase orders
 export const ListPurchaseOrdersParamsSchema = z.object({
@@ -145,26 +145,25 @@ export const DeletePurchaseOrderParamsSchema = z.object({
 
 export type DeletePurchaseOrderParams = z.infer<typeof DeletePurchaseOrderParamsSchema>;
 
-// ===== OUTGOING PAYMENTS (linked to bills) =====
+// ===== OUTGOING PAYMENTS (v4.0 API, flat endpoint, UUID IDs) =====
 
-// List outgoing payments for a bill
+// List outgoing payments (flat — no longer nested under bills)
 export const ListOutgoingPaymentsParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
+  limit: z.number().int().positive().default(50),
+  offset: z.number().int().min(0).default(0),
 });
 
 export type ListOutgoingPaymentsParams = z.infer<typeof ListOutgoingPaymentsParamsSchema>;
 
 // Get single outgoing payment
 export const GetOutgoingPaymentParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
-  payment_id: z.number().int().positive(),
+  payment_id: z.string(),
 });
 
 export type GetOutgoingPaymentParams = z.infer<typeof GetOutgoingPaymentParamsSchema>;
 
 // Create outgoing payment
 export const CreateOutgoingPaymentParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
   payment_data: z.record(z.unknown()),
 });
 
@@ -172,8 +171,7 @@ export type CreateOutgoingPaymentParams = z.infer<typeof CreateOutgoingPaymentPa
 
 // Update outgoing payment
 export const UpdateOutgoingPaymentParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
-  payment_id: z.number().int().positive(),
+  payment_id: z.string(),
   payment_data: z.record(z.unknown()),
 });
 
@@ -181,8 +179,7 @@ export type UpdateOutgoingPaymentParams = z.infer<typeof UpdateOutgoingPaymentPa
 
 // Delete outgoing payment
 export const DeleteOutgoingPaymentParamsSchema = z.object({
-  bill_id: z.number().int().positive(),
-  payment_id: z.number().int().positive(),
+  payment_id: z.string(),
 });
 
 export type DeleteOutgoingPaymentParams = z.infer<typeof DeleteOutgoingPaymentParamsSchema>;

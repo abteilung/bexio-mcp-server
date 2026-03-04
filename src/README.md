@@ -1,6 +1,6 @@
 # Bexio MCP Server
 
-MCP server that connects Claude Desktop to [Bexio](https://www.bexio.com/), the Swiss accounting platform. 221 tools for invoices, contacts, projects, time tracking, banking, and more.
+MCP server that connects Claude Desktop to [Bexio](https://www.bexio.com/), the Swiss accounting platform. 310 tools for invoices, contacts, projects, time tracking, banking, and more.
 
 > **Early Release** — Functional and tested, but under active development. [Report issues here.](https://github.com/promptpartner/bexio-mcp-server/issues)
 
@@ -75,7 +75,7 @@ BEXIO_API_TOKEN=your-token npx @promptpartner/bexio-mcp-server --mode http --por
 
 ## Features
 
-This MCP server provides **221 tools** across all Bexio domains:
+This MCP server provides **310 tools** across all Bexio domains:
 
 ### Contacts & CRM
 - Create, update, search contacts

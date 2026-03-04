@@ -62,3 +62,18 @@ export * from "./files.js";
 
 // Payroll (Employees, Absences, Payroll Documents - conditional module)
 export * from "./payroll.js";
+
+// Notes (Notes attached to contacts, invoices, quotes, orders, etc.)
+export * from "./notes.js";
+
+// Tasks (Task management with optional resource linking)
+export * from "./tasks.js";
+
+// Stock (Stock Locations, Stock Areas)
+export * from "./stock.js";
+
+// Document Settings (Document Settings, Document Templates)
+export * from "./docs.js";
+
+// Positions (Default, Item, Text, Subtotal, Discount, Pagebreak, Sub positions on sales documents)
+export * from "./positions.js";

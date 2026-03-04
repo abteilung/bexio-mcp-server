@@ -72,6 +72,33 @@ export class BexioClient {
     return response.data;
   }
 
+  /**
+   * Make a request to a non-default API version (e.g. 3.0, 4.0).
+   * Bypasses the v2.0 baseURL by constructing the full URL directly.
+   */
+  private async makeVersionedRequest<T = unknown>(
+    version: string,
+    method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
+    endpoint: string,
+    params?: Record<string, unknown> | PaginationParams,
+    data?: unknown
+  ): Promise<T> {
+    const url = `https://api.bexio.com/${version}/${endpoint}`;
+    logger.debug(`${method} ${url}`, { params, hasData: !!data });
+    const response: AxiosResponse<T> = await axios.request({
+      method,
+      url,
+      headers: {
+        Authorization: `Bearer ${this.config.apiToken}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      params,
+      data,
+    });
+    return response.data;
+  }
+
   // ===== CONTACT GROUPS =====
   async listContactGroups(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/contact_group", params);
@@ -89,6 +116,15 @@ export class BexioClient {
     return this.makeRequest("DELETE", `/contact_group/${groupId}`);
   }
 
+  async updateContactGroup(groupId: number, data: { name: string }): Promise<unknown> {
+    return this.makeRequest("PUT", `/contact_group/${groupId}`, undefined, data);
+  }
+
+  async searchContactGroups(query: string, limit = 100): Promise<unknown[]> {
+    const criteria: SearchCriteria[] = [{ field: "name", value: query, criteria: "like" }];
+    return this.makeRequest("POST", "/contact_group/search", { limit }, criteria);
+  }
+
   // ===== CONTACT SECTORS =====
   async listContactSectors(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/contact_sector", params);
@@ -100,6 +136,11 @@ export class BexioClient {
 
   async createContactSector(data: { name: string }): Promise<unknown> {
     return this.makeRequest("POST", "/contact_sector", undefined, data);
+  }
+
+  async searchContactSectors(query: string, limit = 100): Promise<unknown[]> {
+    const criteria: SearchCriteria[] = [{ field: "name", value: query, criteria: "like" }];
+    return this.makeRequest("POST", "/contact_sector/search", { limit }, criteria);
   }
 
   // ===== SALUTATIONS =====
@@ -119,6 +160,15 @@ export class BexioClient {
     return this.makeRequest("DELETE", `/salutation/${salutationId}`);
   }
 
+  async updateSalutation(salutationId: number, data: { name: string }): Promise<unknown> {
+    return this.makeRequest("PUT", `/salutation/${salutationId}`, undefined, data);
+  }
+
+  async searchSalutations(query: string, limit = 100): Promise<unknown[]> {
+    const criteria: SearchCriteria[] = [{ field: "name", value: query, criteria: "like" }];
+    return this.makeRequest("POST", "/salutation/search", { limit }, criteria);
+  }
+
   // ===== TITLES =====
   async listTitles(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/title", params);
@@ -134,6 +184,15 @@ export class BexioClient {
 
   async deleteTitle(titleId: number): Promise<unknown> {
     return this.makeRequest("DELETE", `/title/${titleId}`);
+  }
+
+  async updateTitle(titleId: number, data: { name: string }): Promise<unknown> {
+    return this.makeRequest("PUT", `/title/${titleId}`, undefined, data);
+  }
+
+  async searchTitles(query: string, limit = 100): Promise<unknown[]> {
+    const criteria: SearchCriteria[] = [{ field: "name", value: query, criteria: "like" }];
+    return this.makeRequest("POST", "/title/search", { limit }, criteria);
   }
 
   // ===== COUNTRIES =====
@@ -329,6 +388,34 @@ export class BexioClient {
     return this.makeRequest("POST", `/kb_order/${orderId}/create_invoice`);
   }
 
+  async editOrder(orderId: number, orderData: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/kb_order/${orderId}`, undefined, orderData);
+  }
+
+  async deleteOrder(orderId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/kb_order/${orderId}`);
+  }
+
+  async getOrderPdf(orderId: number): Promise<unknown> {
+    const response = await this.client.get(`/kb_order/${orderId}/pdf`, {
+      responseType: "arraybuffer",
+    });
+    const base64 = Buffer.from(response.data).toString("base64");
+    return { content: base64, content_type: "application/pdf", filename: `order_${orderId}.pdf` };
+  }
+
+  async getOrderRepetition(orderId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/kb_order/${orderId}/repetition`);
+  }
+
+  async editOrderRepetition(orderId: number, repetitionId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/kb_order/${orderId}/repetition/${repetitionId}`, undefined, data);
+  }
+
+  async deleteOrderRepetition(orderId: number, repetitionId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/kb_order/${orderId}/repetition/${repetitionId}`);
+  }
+
   // ===== CONTACTS =====
   async listContacts(params: ContactSearchParams = {}): Promise<unknown[]> {
     const searchParams: Record<string, unknown> = {
@@ -392,8 +479,36 @@ export class BexioClient {
     return this.makeRequest("POST", `/contact/${contactId}`, undefined, contactData);
   }
 
-  async createContact(contactData: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", "/contact", undefined, contactData);
+  async createContact(data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", "/contact", undefined, data);
+  }
+
+  async deleteContact(contactId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/contact/${contactId}`);
+  }
+
+  async bulkCreateContacts(
+    contacts: Record<string, unknown>[]
+  ): Promise<{ results: Array<{ success: true; contact: unknown } | { success: false; error: string }>; summary: { created: number; failed: number; total: number } }> {
+    const results: Array<{ success: true; contact: unknown } | { success: false; error: string }> = [];
+    for (const contactData of contacts) {
+      try {
+        const contact = await this.makeRequest("POST", "/contact", undefined, contactData);
+        results.push({ success: true, contact });
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        results.push({ success: false, error: message });
+      }
+    }
+    const created = results.filter((r) => r.success).length;
+    return {
+      results,
+      summary: { created, failed: results.length - created, total: results.length },
+    };
+  }
+
+  async restoreContact(contactId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/contact/${contactId}/restore`);
   }
 
   // ===== QUOTES =====
@@ -442,6 +557,38 @@ export class BexioClient {
 
   async createInvoiceFromQuote(quoteId: number): Promise<unknown> {
     return this.makeRequest("POST", `/kb_offer/${quoteId}/create_invoice`);
+  }
+
+  async editQuote(quoteId: number, quoteData: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/kb_offer/${quoteId}`, undefined, quoteData);
+  }
+
+  async deleteQuote(quoteId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/kb_offer/${quoteId}`);
+  }
+
+  async revertQuote(quoteId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/kb_offer/${quoteId}/revert_issue`);
+  }
+
+  async reissueQuote(quoteId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/kb_offer/${quoteId}/reissue`);
+  }
+
+  async markQuoteAsSent(quoteId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/kb_offer/${quoteId}/mark_as_sent`);
+  }
+
+  async getQuotePdf(quoteId: number): Promise<unknown> {
+    const response = await this.client.get(`/kb_offer/${quoteId}/pdf`, {
+      responseType: "arraybuffer",
+    });
+    const base64 = Buffer.from(response.data).toString("base64");
+    return { content: base64, content_type: "application/pdf", filename: `quote_${quoteId}.pdf` };
+  }
+
+  async copyQuote(quoteId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/kb_offer/${quoteId}/copy`);
   }
 
   // ===== INVOICES =====
@@ -554,19 +701,33 @@ export class BexioClient {
     return this.makeRequest("POST", `/kb_invoice/${invoiceId}/copy`);
   }
 
+  async editInvoice(invoiceId: number, invoiceData: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/kb_invoice/${invoiceId}`, undefined, invoiceData);
+  }
+
+  async deleteInvoice(invoiceId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/kb_invoice/${invoiceId}`);
+  }
+
+  async getInvoicePdf(invoiceId: number): Promise<unknown> {
+    const response = await this.client.get(`/kb_invoice/${invoiceId}/pdf`, {
+      responseType: "arraybuffer",
+    });
+    const base64 = Buffer.from(response.data).toString("base64");
+    return { content: base64, content_type: "application/pdf", filename: `invoice_${invoiceId}.pdf` };
+  }
+
+  async revertInvoice(invoiceId: number): Promise<unknown> {
+    return this.makeRequest("POST", `/kb_invoice/${invoiceId}/revert_issue`);
+  }
+
   // ===== TAXES (3.0 API) =====
   async listTaxes(params: PaginationParams = {}): Promise<unknown[]> {
-    const response = await this.client.get("https://api.bexio.com/3.0/taxes", {
-      params,
-    });
-    return response.data;
+    return this.makeVersionedRequest("3.0", "GET", "taxes", params);
   }
 
   async getTax(taxId: number): Promise<unknown> {
-    const response = await this.client.get(
-      `https://api.bexio.com/3.0/taxes/${taxId}`
-    );
-    return response.data;
+    return this.makeVersionedRequest("3.0", "GET", `taxes/${taxId}`);
   }
 
   // ===== ITEMS (Articles) =====
@@ -580,6 +741,24 @@ export class BexioClient {
 
   async createItem(itemData: Record<string, unknown>): Promise<unknown> {
     return this.makeRequest("POST", "/article", undefined, itemData);
+  }
+
+  async editItem(
+    itemId: number,
+    itemData: Record<string, unknown>
+  ): Promise<unknown> {
+    return this.makeRequest("PUT", `/article/${itemId}`, undefined, itemData);
+  }
+
+  async deleteItem(itemId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/article/${itemId}`);
+  }
+
+  async searchItems(query: string, limit = 100): Promise<unknown[]> {
+    const criteria: SearchCriteria[] = [
+      { field: "name_1", value: query, criteria: "like" },
+    ];
+    return this.makeRequest("POST", "/article/search", { limit }, criteria);
   }
 
   // ===== DELIVERIES =====
@@ -680,6 +859,33 @@ export class BexioClient {
     );
   }
 
+  async markReminderAsUnsent(
+    invoiceId: number,
+    reminderId: number
+  ): Promise<unknown> {
+    return this.makeRequest(
+      "POST",
+      `/kb_invoice/${invoiceId}/reminder/${reminderId}/mark_as_unsent`
+    );
+  }
+
+  async getReminderPdf(
+    invoiceId: number,
+    reminderId: number
+  ): Promise<unknown> {
+    const response = await this.client.request({
+      method: "GET",
+      url: `/kb_invoice/${invoiceId}/reminder/${reminderId}/pdf`,
+      responseType: "arraybuffer",
+    });
+    const base64 = Buffer.from(response.data).toString("base64");
+    return {
+      content: base64,
+      content_type: "application/pdf",
+      filename: `reminder_${reminderId}.pdf`,
+    };
+  }
+
   // ===== CONTACT RELATIONS =====
   async listContactRelations(params: PaginationParams = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/contact_relation", params);
@@ -722,7 +928,16 @@ export class BexioClient {
     );
   }
 
-  // ===== USERS =====
+  // ===== REAL USERS (USERS-01, v3.0 API) =====
+  async listUsers(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeVersionedRequest("3.0", "GET", "users", params);
+  }
+
+  async getUser(userId: number): Promise<unknown> {
+    return this.makeVersionedRequest("3.0", "GET", `users/${userId}`);
+  }
+
+  // ===== FICTIONAL USERS & CURRENT USER =====
   async getCurrentUser(): Promise<unknown> {
     return this.makeRequest("GET", "/user/me");
   }
@@ -1312,101 +1527,100 @@ export class BexioClient {
     return this.makeRequest("GET", "/journal", params);
   }
 
-  // ===== BILLS (Creditor Invoices - PURCH-01) =====
+  // ===== BILLS (Creditor Invoices - PURCH-01, v4.0 API) =====
   async listBills(params: PaginationParams = {}): Promise<unknown[]> {
-    return this.makeRequest("GET", "/kb_bill", params);
+    return this.makeVersionedRequest("4.0", "GET", "purchase/bills", params);
   }
 
-  async getBill(billId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/kb_bill/${billId}`);
+  async getBill(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "GET", `purchase/bills/${billId}`);
   }
 
   async createBill(data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", "/kb_bill", undefined, data);
+    return this.makeVersionedRequest("4.0", "POST", "purchase/bills", undefined, data);
   }
 
-  async updateBill(billId: number, data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}`, undefined, data);
+  async updateBill(billId: string, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "PUT", `purchase/bills/${billId}`, undefined, data);
   }
 
-  async deleteBill(billId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/kb_bill/${billId}`);
+  async deleteBill(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "DELETE", `purchase/bills/${billId}`);
   }
 
   async searchBills(searchParams: Record<string, unknown>[], queryParams?: { limit?: number; offset?: number }): Promise<unknown[]> {
-    return this.makeRequest("POST", "/kb_bill/search", queryParams, searchParams);
+    return this.makeVersionedRequest("4.0", "POST", "purchase/bills/search", queryParams, searchParams);
   }
 
-  async issueBill(billId: number): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/issue`);
+  async issueBill(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "POST", `purchase/bills/${billId}/issue`);
   }
 
-  async markBillAsPaid(billId: number): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/mark_as_paid`);
+  async markBillAsPaid(billId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "POST", `purchase/bills/${billId}/mark_as_paid`);
   }
 
-  // ===== EXPENSES (PURCH-02) =====
+  // ===== EXPENSES (PURCH-02, v4.0 API) =====
   async listExpenses(params: PaginationParams = {}): Promise<unknown[]> {
-    return this.makeRequest("GET", "/kb_expense", params);
+    return this.makeVersionedRequest("4.0", "GET", "purchase/expenses", params);
   }
 
-  async getExpense(expenseId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/kb_expense/${expenseId}`);
+  async getExpense(expenseId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "GET", `purchase/expenses/${expenseId}`);
   }
 
   async createExpense(data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", "/kb_expense", undefined, data);
+    return this.makeVersionedRequest("4.0", "POST", "purchase/expenses", undefined, data);
   }
 
-  async updateExpense(expenseId: number, data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_expense/${expenseId}`, undefined, data);
+  async updateExpense(expenseId: string, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "PUT", `purchase/expenses/${expenseId}`, undefined, data);
   }
 
-  async deleteExpense(expenseId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/kb_expense/${expenseId}`);
+  async deleteExpense(expenseId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "DELETE", `purchase/expenses/${expenseId}`);
   }
 
-  // ===== PURCHASE ORDERS (PURCH-03) =====
+  // ===== PURCHASE ORDERS (PURCH-03, v3.0 API) =====
   async listPurchaseOrders(params: PaginationParams = {}): Promise<unknown[]> {
-    return this.makeRequest("GET", "/purchase_order", params);
+    return this.makeVersionedRequest("3.0", "GET", "purchase_order", params);
   }
 
   async getPurchaseOrder(purchaseOrderId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/purchase_order/${purchaseOrderId}`);
+    return this.makeVersionedRequest("3.0", "GET", `purchase_order/${purchaseOrderId}`);
   }
 
   async createPurchaseOrder(data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", "/purchase_order", undefined, data);
+    return this.makeVersionedRequest("3.0", "POST", "purchase_order", undefined, data);
   }
 
   async updatePurchaseOrder(purchaseOrderId: number, data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/purchase_order/${purchaseOrderId}`, undefined, data);
+    return this.makeVersionedRequest("3.0", "PUT", `purchase_order/${purchaseOrderId}`, undefined, data);
   }
 
   async deletePurchaseOrder(purchaseOrderId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/purchase_order/${purchaseOrderId}`);
+    return this.makeVersionedRequest("3.0", "DELETE", `purchase_order/${purchaseOrderId}`);
   }
 
-  // ===== OUTGOING PAYMENTS (linked to bills - PURCH-04) =====
-  // Note: Uses nested URL pattern /kb_bill/{id}/payment (mirrors incoming payments on invoices)
-  async listOutgoingPayments(billId: number): Promise<unknown[]> {
-    return this.makeRequest("GET", `/kb_bill/${billId}/payment`);
+  // ===== OUTGOING PAYMENTS (PURCH-04, v4.0 API, flat endpoint) =====
+  async listOutgoingPayments(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeVersionedRequest("4.0", "GET", "purchase/payments", params);
   }
 
-  async getOutgoingPayment(billId: number, paymentId: number): Promise<unknown> {
-    return this.makeRequest("GET", `/kb_bill/${billId}/payment/${paymentId}`);
+  async getOutgoingPayment(paymentId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "GET", `purchase/payments/${paymentId}`);
   }
 
-  async createOutgoingPayment(billId: number, paymentData: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/payment`, undefined, paymentData);
+  async createOutgoingPayment(paymentData: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "POST", "purchase/payments", undefined, paymentData);
   }
 
-  async updateOutgoingPayment(billId: number, paymentId: number, paymentData: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/kb_bill/${billId}/payment/${paymentId}`, undefined, paymentData);
+  async updateOutgoingPayment(paymentId: string, paymentData: Record<string, unknown>): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "PUT", `purchase/payments/${paymentId}`, undefined, paymentData);
   }
 
-  async deleteOutgoingPayment(billId: number, paymentId: number): Promise<unknown> {
-    return this.makeRequest("DELETE", `/kb_bill/${billId}/payment/${paymentId}`);
+  async deleteOutgoingPayment(paymentId: string): Promise<unknown> {
+    return this.makeVersionedRequest("4.0", "DELETE", `purchase/payments/${paymentId}`);
   }
 
   // ===== EMPLOYEES (PAY-01) =====
@@ -1504,7 +1718,137 @@ export class BexioClient {
     return this.makeRequest("POST", `/contact/${contactId}/additional_address`, undefined, data);
   }
 
+  async updateAdditionalAddress(contactId: number, addressId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/contact/${contactId}/additional_address/${addressId}`, undefined, data);
+  }
+
+  async searchAdditionalAddresses(contactId: number, criteria: SearchCriteria[], limit = 50): Promise<unknown[]> {
+    return this.makeRequest("POST", `/contact/${contactId}/additional_address/search`, { limit }, criteria);
+  }
+
   async deleteAdditionalAddress(contactId: number, addressId: number): Promise<unknown> {
     return this.makeRequest("DELETE", `/contact/${contactId}/additional_address/${addressId}`);
+  }
+
+  // ===== NOTES (NOTES-01) =====
+  async listAllNotes(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/note", params);
+  }
+
+  async listNotes(resourceType: string, resourceId: number, params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/note", {
+      ...params,
+      event_module: resourceType,
+      event_module_id: resourceId,
+    });
+  }
+
+  async getNote(noteId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/note/${noteId}`);
+  }
+
+  async createNote(data: {
+    event_module: string;
+    event_module_id: number;
+    title: string;
+    info?: string;
+    is_public?: boolean;
+  }): Promise<unknown> {
+    return this.makeRequest("POST", "/note", undefined, data);
+  }
+
+  async updateNote(noteId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("PUT", `/note/${noteId}`, undefined, data);
+  }
+
+  async deleteNote(noteId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/note/${noteId}`);
+  }
+
+  async searchNotes(criteria: Record<string, unknown>[], params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("POST", "/note/search", params, criteria);
+  }
+
+  // ===== TASKS (TASKS-01, TASKS-02) =====
+  async listTasks(params: Record<string, unknown> = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/task", params);
+  }
+
+  async getTask(taskId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/task/${taskId}`);
+  }
+
+  async createTask(data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", "/task", undefined, data);
+  }
+
+  async updateTask(taskId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", `/task/${taskId}`, undefined, data);
+  }
+
+  async deleteTask(taskId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/task/${taskId}`);
+  }
+
+  async searchTasks(criteria: Record<string, unknown>[], params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("POST", "/task/search", params, criteria);
+  }
+
+  async listTaskPriorities(): Promise<unknown[]> {
+    return this.makeRequest("GET", "/task_priority");
+  }
+
+  async listTaskStatuses(): Promise<unknown[]> {
+    return this.makeRequest("GET", "/task_status");
+  }
+
+  // ===== STOCK LOCATIONS (STOCK-01) =====
+  async listStockLocations(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/stock_location", params);
+  }
+
+  async searchStockLocations(criteria: SearchCriteria[], limit = 100): Promise<unknown[]> {
+    return this.makeRequest("POST", "/stock_location/search", { limit }, criteria);
+  }
+
+  // ===== STOCK AREAS (STOCK-02) =====
+  async listStockAreas(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/stock_area", params);
+  }
+
+  async searchStockAreas(criteria: SearchCriteria[], limit = 100): Promise<unknown[]> {
+    return this.makeRequest("POST", "/stock_area/search", { limit }, criteria);
+  }
+
+  // ===== DOCUMENT SETTINGS (DOCS-01) =====
+  async listDocumentSettings(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/document_setting", params);
+  }
+
+  // ===== DOCUMENT TEMPLATES (DOCS-02) =====
+  async listDocumentTemplates(params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", "/kb_document_template", params);
+  }
+
+  // ===== POSITIONS (POS-01 through POS-07) =====
+
+  async listPositions(documentType: string, documentId: number, positionType: string, params: PaginationParams = {}): Promise<unknown[]> {
+    return this.makeRequest("GET", `/${documentType}/${documentId}/${positionType}`, params);
+  }
+
+  async getPosition(documentType: string, documentId: number, positionType: string, positionId: number): Promise<unknown> {
+    return this.makeRequest("GET", `/${documentType}/${documentId}/${positionType}/${positionId}`);
+  }
+
+  async createPosition(documentType: string, documentId: number, positionType: string, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", `/${documentType}/${documentId}/${positionType}`, undefined, data);
+  }
+
+  async editPosition(documentType: string, documentId: number, positionType: string, positionId: number, data: Record<string, unknown>): Promise<unknown> {
+    return this.makeRequest("POST", `/${documentType}/${documentId}/${positionType}/${positionId}`, undefined, data);
+  }
+
+  async deletePosition(documentType: string, documentId: number, positionType: string, positionId: number): Promise<unknown> {
+    return this.makeRequest("DELETE", `/${documentType}/${documentId}/${positionType}/${positionId}`);
   }
 }

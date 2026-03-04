@@ -6,7 +6,7 @@
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 
 export const toolDefinitions: Tool[] = [
-  // ===== BILLS (Creditor Invoices) =====
+  // ===== BILLS (Creditor Invoices — v4.0 API) =====
   {
     name: "list_bills",
     description: "List all bills (creditor invoices) with optional pagination",
@@ -27,14 +27,14 @@ export const toolDefinitions: Tool[] = [
   },
   {
     name: "get_bill",
-    description: "Get a specific bill (creditor invoice) by ID",
+    description: "Get a specific bill (creditor invoice) by UUID",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
         bill_id: {
-          type: "integer",
-          description: "The ID of the bill to retrieve",
+          type: "string",
+          description: "The UUID of the bill to retrieve",
         },
       },
       required: ["bill_id"],
@@ -63,8 +63,8 @@ export const toolDefinitions: Tool[] = [
       type: "object",
       properties: {
         bill_id: {
-          type: "integer",
-          description: "The ID of the bill to update",
+          type: "string",
+          description: "The UUID of the bill to update",
         },
         bill_data: {
           type: "object",
@@ -82,8 +82,8 @@ export const toolDefinitions: Tool[] = [
       type: "object",
       properties: {
         bill_id: {
-          type: "integer",
-          description: "The ID of the bill to delete",
+          type: "string",
+          description: "The UUID of the bill to delete",
         },
       },
       required: ["bill_id"],
@@ -120,8 +120,8 @@ export const toolDefinitions: Tool[] = [
       type: "object",
       properties: {
         bill_id: {
-          type: "integer",
-          description: "The ID of the bill to issue",
+          type: "string",
+          description: "The UUID of the bill to issue",
         },
       },
       required: ["bill_id"],
@@ -135,15 +135,15 @@ export const toolDefinitions: Tool[] = [
       type: "object",
       properties: {
         bill_id: {
-          type: "integer",
-          description: "The ID of the bill to mark as paid",
+          type: "string",
+          description: "The UUID of the bill to mark as paid",
         },
       },
       required: ["bill_id"],
     },
   },
 
-  // ===== EXPENSES =====
+  // ===== EXPENSES (v4.0 API) =====
   {
     name: "list_expenses",
     description: "List all expenses with optional pagination",
@@ -164,14 +164,14 @@ export const toolDefinitions: Tool[] = [
   },
   {
     name: "get_expense",
-    description: "Get a specific expense by ID",
+    description: "Get a specific expense by UUID",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
         expense_id: {
-          type: "integer",
-          description: "The ID of the expense to retrieve",
+          type: "string",
+          description: "The UUID of the expense to retrieve",
         },
       },
       required: ["expense_id"],
@@ -200,8 +200,8 @@ export const toolDefinitions: Tool[] = [
       type: "object",
       properties: {
         expense_id: {
-          type: "integer",
-          description: "The ID of the expense to update",
+          type: "string",
+          description: "The UUID of the expense to update",
         },
         expense_data: {
           type: "object",
@@ -219,15 +219,15 @@ export const toolDefinitions: Tool[] = [
       type: "object",
       properties: {
         expense_id: {
-          type: "integer",
-          description: "The ID of the expense to delete",
+          type: "string",
+          description: "The UUID of the expense to delete",
         },
       },
       required: ["expense_id"],
     },
   },
 
-  // ===== PURCHASE ORDERS =====
+  // ===== PURCHASE ORDERS (v3.0 API, integer IDs) =====
   {
     name: "list_purchase_orders",
     description: "List all purchase orders with optional pagination",
@@ -311,100 +311,87 @@ export const toolDefinitions: Tool[] = [
     },
   },
 
-  // ===== OUTGOING PAYMENTS (linked to bills) =====
+  // ===== OUTGOING PAYMENTS (v4.0 API, flat endpoint) =====
   {
     name: "list_outgoing_payments",
-    description: "List all outgoing payments for a specific bill (creditor invoice)",
+    description: "List all outgoing payments with optional pagination",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
-        bill_id: {
+        limit: {
           type: "integer",
-          description: "The ID of the bill to get payments for",
+          description: "Maximum number of payments to return (default: 50)",
+        },
+        offset: {
+          type: "integer",
+          description: "Number of payments to skip (default: 0)",
         },
       },
-      required: ["bill_id"],
     },
   },
   {
     name: "get_outgoing_payment",
-    description: "Get a specific outgoing payment for a bill (creditor invoice)",
+    description: "Get a specific outgoing payment by UUID",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
-        bill_id: {
-          type: "integer",
-          description: "The ID of the bill",
-        },
         payment_id: {
-          type: "integer",
-          description: "The ID of the payment to retrieve",
+          type: "string",
+          description: "The UUID of the payment to retrieve",
         },
       },
-      required: ["bill_id", "payment_id"],
+      required: ["payment_id"],
     },
   },
   {
     name: "create_outgoing_payment",
-    description: "Create a new outgoing payment for a bill (creditor invoice)",
+    description: "Create a new outgoing payment",
     annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
-        bill_id: {
-          type: "integer",
-          description: "The ID of the bill to create a payment for",
-        },
         payment_data: {
           type: "object",
-          description: "Payment data including amount, date, etc.",
+          description: "Payment data including amount, date, bill reference, etc.",
         },
       },
-      required: ["bill_id", "payment_data"],
+      required: ["payment_data"],
     },
   },
   {
     name: "update_outgoing_payment",
-    description: "Update an existing outgoing payment for a bill (creditor invoice)",
+    description: "Update an existing outgoing payment",
     annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
-        bill_id: {
-          type: "integer",
-          description: "The ID of the bill",
-        },
         payment_id: {
-          type: "integer",
-          description: "The ID of the payment to update",
+          type: "string",
+          description: "The UUID of the payment to update",
         },
         payment_data: {
           type: "object",
           description: "Payment data to update",
         },
       },
-      required: ["bill_id", "payment_id", "payment_data"],
+      required: ["payment_id", "payment_data"],
     },
   },
   {
     name: "delete_outgoing_payment",
-    description: "Delete an outgoing payment for a bill (creditor invoice)",
+    description: "Delete an outgoing payment",
     annotations: { destructiveHint: true },
     inputSchema: {
       type: "object",
       properties: {
-        bill_id: {
-          type: "integer",
-          description: "The ID of the bill",
-        },
         payment_id: {
-          type: "integer",
-          description: "The ID of the payment to delete",
+          type: "string",
+          description: "The UUID of the payment to delete",
         },
       },
-      required: ["bill_id", "payment_id"],
+      required: ["payment_id"],
     },
   },
 ];
