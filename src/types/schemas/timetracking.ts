@@ -12,6 +12,7 @@ import { z } from "zod";
 export const ListTimesheetsParamsSchema = z.object({
   limit: z.number().int().positive().default(100),
   offset: z.number().int().min(0).default(0),
+  order_by: z.string().optional(),
 });
 
 export type ListTimesheetsParams = z.infer<typeof ListTimesheetsParamsSchema>;
@@ -31,6 +32,10 @@ export const CreateTimesheetParamsSchema = z.object({
   user_id: z.number().int().positive({ message: "User ID is required and must be positive" }),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"),
   duration: z.string().regex(/^\d{2}:\d{2}$/, "Duration must be in HH:MM format (e.g., '02:30' for 2.5 hours)"),
+
+  // Optional status and contact
+  status_id: z.number().int().positive().optional(),
+  contact_id: z.number().int().positive().optional(),
 
   // Optional linking fields
   pr_project_id: z.number().int().positive().optional(),

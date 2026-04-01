@@ -31,7 +31,12 @@ export const handlers: Record<string, HandlerFn> = {
   // ===== TIMESHEETS (PROJ-06) =====
   list_timesheets: async (client, args) => {
     const params = ListTimesheetsParamsSchema.parse(args);
-    return client.listTimesheets(params);
+    const queryParams: Record<string, unknown> = {
+      limit: params.limit,
+      offset: params.offset,
+    };
+    if (params.order_by) queryParams.order_by = params.order_by;
+    return client.listTimesheets(queryParams);
   },
 
   get_timesheet: async (client, args) => {
@@ -47,6 +52,8 @@ export const handlers: Record<string, HandlerFn> = {
     const params = CreateTimesheetParamsSchema.parse(args);
     return client.createTimesheet({
       user_id: params.user_id,
+      status_id: params.status_id,
+      contact_id: params.contact_id,
       date: params.date,
       duration: params.duration,
       pr_project_id: params.pr_project_id,

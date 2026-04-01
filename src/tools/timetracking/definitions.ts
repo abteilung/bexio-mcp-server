@@ -12,7 +12,7 @@ export const toolDefinitions: Tool[] = [
   // ===== TIMESHEETS (PROJ-06) =====
   {
     name: "list_timesheets",
-    description: "List all timesheet entries with pagination",
+    description: "List all timesheet entries with pagination and sorting. Use order_by='id_desc' to get newest entries first.",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
@@ -26,6 +26,10 @@ export const toolDefinitions: Tool[] = [
           type: "integer",
           description: "Number of results to skip (default: 0)",
           default: 0,
+        },
+        order_by: {
+          type: "string",
+          description: "Sort order. Use 'id_desc' for newest first, 'id_asc' for oldest first (default: id_asc)",
         },
       },
     },
@@ -86,13 +90,21 @@ export const toolDefinitions: Tool[] = [
           type: "string",
           description: "Description of the work performed (optional)",
         },
+        status_id: {
+          type: "integer",
+          description: "Timesheet status ID (1=Offen, 2=In Arbeit, 3=Erledigt). Required.",
+        },
+        contact_id: {
+          type: "integer",
+          description: "Contact/customer ID to associate with this entry (optional, resolved from project if omitted)",
+        },
         allowable_bill: {
           type: "boolean",
           description: "Whether this time is billable (default: true)",
           default: true,
         },
       },
-      required: ["user_id", "date", "duration"],
+      required: ["user_id", "date", "duration", "status_id", "client_service_id"],
     },
   },
   {
@@ -113,7 +125,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "search_timesheets",
     description:
-      "Search timesheets by criteria (field, value, criteria). Common fields: user_id, pr_project_id, date",
+      "Search timesheets by criteria (field, value, criteria). Supported fields: user_id, pr_project_id, contact_id, status_id, client_service_id. NOTE: 'date' is NOT supported by the Bexio search API for timesheets.",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",

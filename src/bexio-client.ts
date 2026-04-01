@@ -44,6 +44,7 @@ export class BexioClient {
           throw McpError.bexioApi(message, status, {
             url: error.config?.url,
             method: error.config?.method,
+            responseData: error.response.data,
           });
         } else if (error.request) {
           throw McpError.bexioApi("No response received from server", undefined, {
@@ -939,7 +940,7 @@ export class BexioClient {
 
   // ===== FICTIONAL USERS & CURRENT USER =====
   async getCurrentUser(): Promise<unknown> {
-    return this.makeRequest("GET", "/user/me");
+    return this.makeVersionedRequest("3.0", "GET", "users/me");
   }
 
   async listFictionalUsers(params: PaginationParams = {}): Promise<unknown[]> {
@@ -1371,7 +1372,7 @@ export class BexioClient {
 
   // ===== TIMESHEETS (PROJ-06) =====
   // Note: Duration format is "HH:MM" (e.g., "02:30" for 2.5 hours)
-  async listTimesheets(params: PaginationParams = {}): Promise<unknown[]> {
+  async listTimesheets(params: PaginationParams & { order_by?: string } = {}): Promise<unknown[]> {
     return this.makeRequest("GET", "/timesheet", params);
   }
 
@@ -1381,6 +1382,8 @@ export class BexioClient {
 
   async createTimesheet(data: {
     user_id: number;
+    status_id?: number;
+    contact_id?: number;
     date: string;
     duration: string; // HH:MM format
     pr_project_id?: number;
@@ -1390,7 +1393,17 @@ export class BexioClient {
     text?: string;
     allowable_bill?: boolean;
   }): Promise<unknown> {
-    return this.makeRequest("POST", "/timesheet", undefined, data);
+    // Bexio API expects date/duration inside a "tracking" object, not as top-level fields
+    const { date, duration, ...rest } = data;
+    const payload = {
+      ...rest,
+      tracking: {
+        type: "duration",
+        date,
+        duration,
+      },
+    };
+    return this.makeRequest("POST", "/timesheet", undefined, payload);
   }
 
   async deleteTimesheet(timesheetId: number): Promise<unknown> {
@@ -1841,7 +1854,9 @@ export class BexioClient {
   }
 
   async createPosition(documentType: string, documentId: number, positionType: string, data: Record<string, unknown>): Promise<unknown> {
-    return this.makeRequest("POST", `/${documentType}/${documentId}/${positionType}`, undefined, data);
+    // Subtotal and pagebreak positions don't accept a request body — sending {} causes a 415
+    const hasData = Object.keys(data).length > 0;
+    return this.makeRequest("POST", `/${documentType}/${documentId}/${positionType}`, undefined, hasData ? data : undefined);
   }
 
   async editPosition(documentType: string, documentId: number, positionType: string, positionId: number, data: Record<string, unknown>): Promise<unknown> {
