@@ -14,13 +14,13 @@ const POSITION_TYPES = [
     key: "default",
     label: "default (custom)",
     createHint:
-      "Custom free-text line item. Required fields: text (string), amount (string, e.g. '2'), unit_price (string, e.g. '160'), tax_id (integer), account_id (integer). Optional: discount_in_percent (string), unit_id (integer), parent_id (integer — set to a sub_position ID to nest this item inside a Sammelposition/group).",
+      "Custom free-text line item. Required fields: text (string), amount (string, e.g. '2'), unit_price (string, e.g. '160'), tax_id (integer), account_id (integer — MUST be looked up via search_accounts or list_accounts, do NOT guess). Optional: discount_in_percent (string), unit_id (integer), parent_id (integer — set to a sub_position ID to nest this item inside a Sammelposition/group).",
   },
   {
     key: "item",
     label: "item (article/product)",
     createHint:
-      "Article/product from catalog. Required fields: article_id (integer), amount (string), unit_price (string), tax_id (integer), account_id (integer). Optional: discount_in_percent (string), text (string override), parent_id (integer — to nest inside a sub_position group).",
+      "Article/product from catalog. Required fields: article_id (integer), amount (string), unit_price (string), tax_id (integer), account_id (integer — MUST be looked up via search_accounts or list_accounts, do NOT guess). Optional: discount_in_percent (string), text (string override), parent_id (integer — to nest inside a sub_position group).",
   },
   {
     key: "text",
