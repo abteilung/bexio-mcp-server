@@ -90,7 +90,8 @@ export const ContactCreateFieldsSchema = z.object({
   language_id: z.number().int().positive().optional(),
   contact_group_ids: z.array(z.number().int().positive()).optional(),
   sector_id: z.number().int().positive().optional(),
-  user_id: z.number().int().positive().optional(),
+  user_id: z.number().int().positive(),
+  owner_id: z.number().int().positive(),
 });
 
 // Create a single contact

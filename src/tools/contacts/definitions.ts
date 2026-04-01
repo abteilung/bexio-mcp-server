@@ -160,7 +160,7 @@ export const toolDefinitions: Tool[] = [
   {
     name: "create_contact",
     description:
-      "Create a new contact in Bexio. Set contact_type to 'person' for individuals or 'company' for organizations.",
+      "Create a new contact in Bexio. Use get_current_user to obtain user_id/owner_id first.",
     annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
@@ -178,6 +178,8 @@ export const toolDefinitions: Tool[] = [
           type: "string",
           description: "First name (person) or additional name (company)",
         },
+        user_id: { type: "integer", description: "Bexio user ID (get via get_current_user)" },
+        owner_id: { type: "integer", description: "Owner user ID (same as user_id, get via get_current_user)" },
         mail: { type: "string", description: "Email address" },
         phone_fixed: { type: "string", description: "Landline phone number" },
         phone_mobile: { type: "string", description: "Mobile phone number" },
@@ -198,9 +200,8 @@ export const toolDefinitions: Tool[] = [
           description: "Array of contact group IDs",
         },
         sector_id: { type: "integer", description: "Sector ID" },
-        user_id: { type: "integer", description: "Owner user ID" },
       },
-      required: ["contact_type", "name_1"],
+      required: ["contact_type", "name_1", "user_id", "owner_id"],
     },
   },
   {

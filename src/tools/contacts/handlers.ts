@@ -66,9 +66,9 @@ export const handlers: Record<string, HandlerFn> = {
   },
 
   create_contact: async (client, args) => {
-    const { contact_type, ...fields } = CreateContactParamsSchema.parse(args);
+    const { contact_type, user_id, owner_id, ...fields } = CreateContactParamsSchema.parse(args);
     const contact_type_id = contact_type === "person" ? 1 : 2;
-    return client.createContact({ contact_type_id, ...fields });
+    return client.createContact({ contact_type_id, user_id, owner_id, ...fields });
   },
 
   delete_contact: async (client, args) => {
