@@ -144,17 +144,40 @@ export const toolDefinitions: Tool[] = [
   },
   {
     name: "search_contact_relations",
-    description: "Search contact relations with filters",
+    description:
+      "Search contact relations with filters. Use this to find which contacts are linked (e.g., contact persons of a company).",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
-        search_params: {
-          type: "object",
-          description: "Search parameters for contact relations",
+        search_criteria: {
+          type: "array",
+          description:
+            "List of search criteria. Valid fields: 'contact_id', 'contact_sub_id', 'updated_at'.",
+          items: {
+            type: "object",
+            properties: {
+              field: {
+                type: "string",
+                description:
+                  "Field to search: 'contact_id' (main contact), 'contact_sub_id' (related contact), 'updated_at'",
+              },
+              value: {
+                type: ["string", "number"],
+                description: "Value to search for",
+              },
+              criteria: {
+                type: "string",
+                description:
+                  "Search operator ('=', '!=', '>', '<', 'like', etc.)",
+                default: "=",
+              },
+            },
+            required: ["field", "value"],
+          },
         },
       },
-      required: ["search_params"],
+      required: ["search_criteria"],
     },
   },
 ];

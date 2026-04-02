@@ -78,7 +78,13 @@ export type DeleteContactRelationParams = z.infer<
 
 // Search contact relations
 export const SearchContactRelationsParamsSchema = z.object({
-  search_params: z.record(z.unknown()),
+  search_criteria: z.array(
+    z.object({
+      field: z.string(),
+      value: z.union([z.string(), z.number()]).transform(String),
+      criteria: z.string().default("="),
+    })
+  ),
 });
 
 export type SearchContactRelationsParams = z.infer<

@@ -71,7 +71,7 @@ export const handlers: Record<string, HandlerFn> = {
   },
 
   search_contact_relations: async (client, args) => {
-    const { search_params } = SearchContactRelationsParamsSchema.parse(args);
-    return client.searchContactRelations(search_params);
+    const { search_criteria } = SearchContactRelationsParamsSchema.parse(args);
+    return client.searchContactRelations(search_criteria);
   },
 };

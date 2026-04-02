@@ -919,13 +919,13 @@ export class BexioClient {
   }
 
   async searchContactRelations(
-    searchParams: Record<string, unknown>
+    searchCriteria: SearchCriteria[]
   ): Promise<unknown[]> {
     return this.makeRequest(
       "POST",
       "/contact_relation/search",
       undefined,
-      searchParams
+      searchCriteria
     );
   }
 
