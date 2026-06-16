@@ -5,14 +5,6 @@
 
 import { z } from "zod";
 
-// List comments with pagination
-export const ListCommentsParamsSchema = z.object({
-  limit: z.number().int().positive().default(50),
-  offset: z.number().int().min(0).default(0),
-});
-
-export type ListCommentsParams = z.infer<typeof ListCommentsParamsSchema>;
-
 // List contact relations with pagination
 export const ListContactRelationsParamsSchema = z.object({
   limit: z.number().int().positive().default(50),
@@ -22,9 +14,20 @@ export const ListContactRelationsParamsSchema = z.object({
 export type ListContactRelationsParams = z.infer<typeof ListContactRelationsParamsSchema>;
 
 // ===== COMMENTS =====
+// Comments are nested under document types: kb_offer, kb_order, kb_invoice, kb_delivery
+
+// List comments
+export const ListCommentsParamsSchema = z.object({
+  document_type: z.enum(["kb_offer", "kb_order", "kb_invoice", "kb_delivery"]),
+  document_id: z.number().int().positive(),
+});
+
+export type ListCommentsParams = z.infer<typeof ListCommentsParamsSchema>;
 
 // Get comment
 export const GetCommentParamsSchema = z.object({
+  document_type: z.enum(["kb_offer", "kb_order", "kb_invoice", "kb_delivery"]),
+  document_id: z.number().int().positive(),
   comment_id: z.number().int().positive(),
 });
 
@@ -32,6 +35,8 @@ export type GetCommentParams = z.infer<typeof GetCommentParamsSchema>;
 
 // Create comment
 export const CreateCommentParamsSchema = z.object({
+  document_type: z.enum(["kb_offer", "kb_order", "kb_invoice", "kb_delivery"]),
+  document_id: z.number().int().positive(),
   comment_data: z.record(z.unknown()),
 });
 
@@ -78,13 +83,15 @@ export type DeleteContactRelationParams = z.infer<
 
 // Search contact relations
 export const SearchContactRelationsParamsSchema = z.object({
-  search_criteria: z.array(
-    z.object({
-      field: z.string(),
-      value: z.union([z.string(), z.number()]).transform(String),
-      criteria: z.string().default("="),
-    })
-  ),
+  query: z.string().optional(),
+  field: z.string().optional(),
+  operator: z.string().optional(),
+  filters: z.array(z.object({
+    field: z.string(),
+    operator: z.string(),
+    value: z.any(),
+  })).optional(),
+  limit: z.number().int().positive().optional(),
 });
 
 export type SearchContactRelationsParams = z.infer<

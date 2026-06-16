@@ -6,55 +6,73 @@
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 
 export const toolDefinitions: Tool[] = [
-  // Comments
+  // Comments (nested under document type)
   {
     name: "list_comments",
-    description: "List comments with optional pagination",
+    description: "List all comments for a specific document (quote, order, invoice, or delivery)",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
-        limit: {
-          type: "integer",
-          description: "Maximum number of comments to return (default: 50)",
-          default: 50,
+        document_type: {
+          type: "string",
+          enum: ["kb_offer", "kb_order", "kb_invoice", "kb_delivery"],
+          description: "The document type (kb_offer=quote, kb_order=order, kb_invoice=invoice, kb_delivery=delivery)",
         },
-        offset: {
+        document_id: {
           type: "integer",
-          description: "Number of comments to skip (default: 0)",
-          default: 0,
+          description: "The ID of the document",
         },
       },
+      required: ["document_type", "document_id"],
     },
   },
   {
     name: "get_comment",
-    description: "Get a specific comment by ID",
+    description: "Get a specific comment by ID from a document",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
+        document_type: {
+          type: "string",
+          enum: ["kb_offer", "kb_order", "kb_invoice", "kb_delivery"],
+          description: "The document type (kb_offer=quote, kb_order=order, kb_invoice=invoice, kb_delivery=delivery)",
+        },
+        document_id: {
+          type: "integer",
+          description: "The ID of the document",
+        },
         comment_id: {
           type: "integer",
           description: "The ID of the comment to retrieve",
         },
       },
-      required: ["comment_id"],
+      required: ["document_type", "document_id", "comment_id"],
     },
   },
   {
     name: "create_comment",
-    description: "Create a new comment",
+    description: "Create a new comment on a document",
     annotations: { destructiveHint: false },
     inputSchema: {
       type: "object",
       properties: {
+        document_type: {
+          type: "string",
+          enum: ["kb_offer", "kb_order", "kb_invoice", "kb_delivery"],
+          description: "The document type (kb_offer=quote, kb_order=order, kb_invoice=invoice, kb_delivery=delivery)",
+        },
+        document_id: {
+          type: "integer",
+          description: "The ID of the document",
+        },
         comment_data: {
           type: "object",
           description: "Comment data to create",
         },
       },
-      required: ["comment_data"],
+      required: ["document_type", "document_id", "comment_data"],
     },
   },
   // Contact Relations
@@ -144,40 +162,24 @@ export const toolDefinitions: Tool[] = [
   },
   {
     name: "search_contact_relations",
-    description:
-      "Search contact relations with filters. Use this to find which contacts are linked (e.g., contact persons of a company).",
+    description: "Search contact relations via the Bexio search endpoint. Use query for simple text search, or filters for advanced criteria.",
     annotations: { readOnlyHint: true },
     inputSchema: {
       type: "object",
       properties: {
-        search_criteria: {
-          type: "array",
-          description:
-            "List of search criteria. Valid fields: 'contact_id', 'contact_sub_id', 'updated_at'.",
+        query: { type: "string", description: "Free-text value matched with LIKE" },
+        field: { type: "string", description: "Field to search (default: contact_id)", default: "contact_id" },
+        operator: { type: "string", description: "Comparison operator (LIKE, =, >)", default: "=" },
+        filters: {
+          type: "array", description: "Explicit Bexio search filters",
           items: {
             type: "object",
-            properties: {
-              field: {
-                type: "string",
-                description:
-                  "Field to search: 'contact_id' (main contact), 'contact_sub_id' (related contact), 'updated_at'",
-              },
-              value: {
-                type: ["string", "number"],
-                description: "Value to search for",
-              },
-              criteria: {
-                type: "string",
-                description:
-                  "Search operator ('=', '!=', '>', '<', 'like', etc.)",
-                default: "=",
-              },
-            },
-            required: ["field", "value"],
+            properties: { field: { type: "string" }, operator: { type: "string" }, value: {} },
+            required: ["field", "operator", "value"],
           },
         },
+        limit: { type: "integer", description: "Maximum results" },
       },
-      required: ["search_criteria"],
     },
   },
 ];

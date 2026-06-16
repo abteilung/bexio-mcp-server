@@ -63,7 +63,7 @@ export const toolDefinitions: Tool[] = [
         },
         date: {
           type: "string",
-          description: "Date of the work in YYYY-MM-DD format (required)",
+          description: "Date of the work in YYYY-MM-DD format (will be converted to DD.MM.YYYY for Bexio) (required)",
         },
         duration: {
           type: "string",
@@ -84,19 +84,11 @@ export const toolDefinitions: Tool[] = [
         },
         client_service_id: {
           type: "integer",
-          description: "ID of the business activity/service type (optional)",
+          description: "ID of the business activity/service type (required — use list_business_activities to find valid IDs)",
         },
         text: {
           type: "string",
           description: "Description of the work performed (optional)",
-        },
-        status_id: {
-          type: "integer",
-          description: "Timesheet status ID (1=Offen, 2=In Arbeit, 3=Erledigt). Required.",
-        },
-        contact_id: {
-          type: "integer",
-          description: "Contact/customer ID to associate with this entry (optional, resolved from project if omitted)",
         },
         allowable_bill: {
           type: "boolean",
@@ -104,7 +96,7 @@ export const toolDefinitions: Tool[] = [
           default: true,
         },
       },
-      required: ["user_id", "date", "duration", "status_id", "client_service_id"],
+      required: ["user_id", "date", "duration", "client_service_id"],
     },
   },
   {
