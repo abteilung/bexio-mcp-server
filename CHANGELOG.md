@@ -7,6 +7,70 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-07-01
+
+### Added — Multiple Bexio companies (mandates) from one server
+Bexio binds each API token to a single company, so multi-company users previously had
+to run one server instance per company (≈314 tools each in the system prompt). Now **one
+instance can hold several companies' tokens and switch between them**, adding just two
+tools.
+- **`BEXIO_API_TOKENS`** env var configures multiple companies, as JSON
+  (`{"Acme":"<token>","Globex":"<token>"}`) or a delimited list
+  (`Acme:<token>,Globex:<token>`). **`BEXIO_DEFAULT_COMPANY`** picks the company active at
+  startup. The existing single **`BEXIO_API_TOKEN`** still works unchanged.
+- **`list_companies`** — shows each configured company's label, real company name, and
+  which is active. **`select_company`** — switches the active company; every other tool
+  then operates on it ("in Globex, list open invoices"). These two tools are registered
+  only when `BEXIO_API_TOKENS` is set, so single-company setups are byte-for-byte
+  unchanged (still 314 tools; 316 in multi-company mode).
+- In multi-company mode, successful responses include `active_company` in their `meta`
+  block so it's always clear which company a result came from.
+- The Claude Desktop extension (`.mcpb`) gained optional **Additional companies** and
+  **Default company label** config fields.
+- Tokens are never logged or returned; `list_companies` exposes labels + company names
+  only.
+
+### Notes
+- The active company is **process-global** — ideal for the Claude Desktop (stdio) use
+  case. For concurrent multi-tenant HTTP/n8n deployments, continue running one instance
+  per company.
+
+## [2.4.1] - 2026-06-30
+
+### Fixed (7 issues reported against the bill/payment lifecycle — #6–#12, all live-verified)
+- **`update_bill` no longer silently destroys data (#7).** Bexio's v4 `PUT /purchase/bills/{id}` replaces the whole bill and drops every field you don't resend — most damagingly `document_no`, whose loss then blocks booking. `update_bill` is now a safe partial update: it fetches the current bill, deep-merges your changes, and writes back only the writable fields (preserving `document_no`). Send the full `line_items` array to change a line; omit it to leave lines untouched.
+- **`issue_bill` works (#6).** The old `POST /purchase/bills/{id}/issue` returned 404 (no such sub-path). Booking a DRAFT bill now uses `PUT /purchase/bills/{id}/bookings/BOOKED`.
+- **`mark_bill_as_paid` returns actionable guidance instead of a 404 (#6).** Bexio has no mark-as-paid endpoint; a bill is marked paid by recording a payment. The tool now points you to `create_outgoing_payment` with the bill's `bill_id` (which flips the bill to PAID) rather than firing a request that always fails.
+- **`update_outgoing_payment` works (#8).** The old `PUT /purchase/outgoing-payments/{id}` returned 405. The update now uses the collection path with `payment_id` in the body and is reduced to the fields Bexio actually accepts (so passing back a full payment object no longer fails). Note: Bexio only allows updating IBAN/QR payments, not MANUAL ones.
+- **`create_bill` / `create_outgoing_payment` now document the real fields (#9).** Schemas were corrected from the wrong `contact_id`/`positions` to the actual `supplier_id`, `line_items` (with `booking_account_id`, not `account_id`), structured `address`, `contact_partner_id`, `manual_amount`/`amount_calc`; and for payments `payment_type` (IBAN/QR/MANUAL), `sender_bank_account_id`, `reference_no` (QR) vs `message` (IBAN), `fee_type`.
+- **`download_file` no longer overflows context on large files (#10).** Files above a threshold (default 64 KB decoded, override via `BEXIO_DOWNLOAD_INLINE_MAX_BYTES`) are written to disk and the tool returns `file_path` instead of inline base64. Small files still inline (backward-compatible). New optional `output_path` chooses the destination. In HTTP/n8n mode the path is on the server host.
+- **stdio server no longer orphans (#11).** When the MCP client disconnects (stdin closes) or sends SIGINT/SIGTERM, the process now shuts down and exits instead of lingering with the API token. HTTP mode is unaffected.
+- **`create_iban_payment` / `create_qr_payment` warn that they are NOT bill-linked (#12).** Their descriptions now steer you to `create_outgoing_payment` (with `bill_id`) when you actually mean to pay a supplier bill, and a `_hint` is attached to the response. `update_iban_payment` notes a bill cannot be attached afterward.
+
+### Added
+- Unit tests (vitest) for the new `mergeBillData` (#7) and `shouldInline`/`writeDownloadToTemp` (#10) logic, plus test infra (`vitest.config.ts`).
+
+## [2.4.0] - 2026-06-16
+
+### Added (314 tools, +4)
+- **`get_account_balances` (Saldenliste)** — account balances computed from the accounting journal, since Bexio's API has no native balance endpoint. `balance = sum(debits) − sum(credits)` per account over a date range, enriched with `account_no`/`name`. Defaults to the current business year (includes opening/carry-forward entries, so it reflects the current balance). Optional `account_id` filter and `start_date`/`end_date` override. Paginates the journal with a logged safety cap.
+- **`get_currency_exchange_rates`** and **`list_currency_codes`** — wrap the Bexio v3.0 currency exchange-rate and ISO-code endpoints (added by Bexio in 2024) for multi-currency reporting.
+- **`get_employee_payslip_pdf`** — fetch one employee's payslip (Lohnabrechnung) as a base64 PDF for a given year/month (`/4.0/payroll/employees/{id}/paystub-pdf/{year}/{month}`), replacing the non-functional `list_payroll_documents` stub (which Bexio's API never supported). Requires the Payroll module.
+
+### Notes
+- Account balances are **computed, not authoritative**: the figure equals the live balance when the date range covers the full business year (the default); for partial ranges it is the period movement. Validate against Bexio's own Saldenliste/Kontenblatt.
+
+## [2.3.1] - 2026-06-16
+
+### Fixed (critical — server crashed on startup for everyone)
+- **Server no longer crashes during the `initialize` handshake.** v2.3.0 registered the MCP Apps UI panels using `path.join(import.meta.dirname, "ui/ui")`. `import.meta.dirname` only exists on Node ≥ 20.11; on the older Node bundled by some Claude Desktop / claude.ai runtimes it is `undefined`, so `path.join(undefined, …)` threw synchronously inside `initialize()` (before the transport connected), which propagated to the top-level handler and called `process.exit(1)` — killing the process ~50 ms after receiving `initialize`, so **no tools ever appeared**. The UI base path is now resolved via a Node-version-safe helper (`import.meta.url` → `cwd` fallback) that can never throw at registration time.
+- Global `uncaughtException` / `unhandledRejection` handlers now log the full stack to stderr (and keep the server alive), so a future peripheral failure is diagnosable instead of a silent exit.
+
+### Changed
+- **Interactive UI panels (MCP Apps: `preview_invoice`, `show_contact_card`, `show_dashboard`) are now opt-in.** They register only when `BEXIO_ENABLE_UI=true`, and registration is wrapped in try/catch so a UI failure can never take down the 310 core data tools. Default behaviour: all data tools, no UI.
+- `.env` loading is now awaited before environment variables are read (the previous fire-and-forget `import("dotenv")` raced the reads, leaving npm/.env users with an undefined token). MCPB / claude.ai users — whose env is injected by the host — are unaffected. The tool registry is imported after env load so `BEXIO_ENABLED_CATEGORIES` is honoured from `.env` too.
+- `serverInfo.version` reported over MCP now matches the package version (was hardcoded `2.0.0`).
+
 ## [2.3.0] - 2026-05-28
 
 ### Added

@@ -13,7 +13,7 @@ import { ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { createRequire } from "node:module";
 import { z } from "zod";
 import { logger } from "./logger.js";
-import { BexioClient } from "./bexio-client.js";
+import { companyManager } from "./company-manager.js";
 import { getAllToolDefinitions, getHandler } from "./tools/index.js";
 import { formatSuccessResponse, formatErrorResponse, McpError } from "./shared/index.js";
 import { registerUIResources } from "./ui-resources.js";
@@ -23,9 +23,9 @@ const _require = createRequire(import.meta.url);
 const { version: SERVER_VERSION } = _require("./package.json") as { version: string };
 const SERVER_NAME = "bexio-mcp-server";
 
+
 export class BexioMcpServer {
   private server: McpServer;
-  private client: BexioClient | null = null;
 
   constructor() {
     this.server = new McpServer({
@@ -34,12 +34,30 @@ export class BexioMcpServer {
     });
   }
 
-  /** Initialize with Bexio client and register tools */
-  initialize(client: BexioClient): void {
-    this.client = client;
+  /** Register tools. The active Bexio company is resolved per call via
+   * companyManager (initialized in index.ts before this runs). */
+  initialize(): void {
     this.registerTools();
-    registerUIResources(this.server, client);
-    logger.info(`Initialized with ${getAllToolDefinitions().length} tools + 3 UI tools`);
+
+    // Interactive UI panels (MCP Apps) are OPT-IN. They are non-essential for the
+    // core data tools, and a UI registration failure must NEVER take down the 310
+    // data tools — so registration is both gated behind BEXIO_ENABLE_UI and wrapped
+    // in try/catch as belt-and-suspenders. This is what makes a peripheral UI bug
+    // (like the v2.3.0 import.meta.dirname crash) unable to break the whole server.
+    const toolCount = getAllToolDefinitions().length;
+    if (process.env["BEXIO_ENABLE_UI"] === "true") {
+      try {
+        registerUIResources(this.server, companyManager.getActiveClient());
+        logger.info(`Initialized with ${toolCount} tools + 3 UI tools (MCP Apps enabled)`);
+      } catch (error) {
+        logger.error(
+          "UI registration failed (non-fatal); core tools remain available:",
+          error instanceof Error ? (error.stack ?? error.message) : String(error)
+        );
+      }
+    } else {
+      logger.info(`Initialized with ${toolCount} tools (UI disabled; set BEXIO_ENABLE_UI=true to enable MCP Apps panels)`);
+    }
   }
 
   private registerTools(): void {
@@ -90,15 +108,15 @@ export class BexioMcpServer {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         inputShape as any,
         async (args: unknown) => {
-          if (!this.client) {
-            return formatErrorResponse(
-              McpError.internal("Bexio client not initialized")
-            );
-          }
-
           try {
-            const result = await handler(this.client, args);
-            return formatSuccessResponse(def.name, result);
+            // Resolve the currently-active company's client per call so
+            // select_company switches take effect immediately.
+            const client = companyManager.getActiveClient();
+            const result = await handler(client, args);
+            const meta = companyManager.hasMultiple()
+              ? { active_company: companyManager.getActiveLabel() }
+              : undefined;
+            return formatSuccessResponse(def.name, result, meta);
           } catch (error) {
             if (error instanceof McpError) {
               return formatErrorResponse(error);
@@ -160,5 +178,34 @@ export class BexioMcpServer {
     await this.server.connect(transport);
 
     logger.info("Server connected to stdio transport");
+
+    // #11: in stdio mode the parent MCP client owns our lifecycle. When it
+    // disconnects it closes our stdin; if it doesn't, the process used to linger
+    // forever as an orphan still holding the API token. Exit on stdin
+    // end/close and on termination signals. `closing` makes this idempotent so
+    // several triggers (e.g. stdin 'end' then SIGTERM) can't double-close.
+    // This path is stdio-only — HTTP mode never calls run() (see index.ts).
+    let closing = false;
+    const shutdown = async (reason: string): Promise<void> => {
+      if (closing) return;
+      closing = true;
+      logger.info(`Shutting down (${reason})`);
+      try {
+        await this.server.close();
+      } catch (error) {
+        logger.error(
+          "Error during shutdown:",
+          error instanceof Error ? error.message : String(error)
+        );
+      }
+      process.exit(0);
+    };
+
+    process.stdin.on("end", () => void shutdown("stdin end"));
+    process.stdin.on("close", () => void shutdown("stdin close"));
+    process.on("SIGINT", () => void shutdown("SIGINT"));
+    process.on("SIGTERM", () => void shutdown("SIGTERM"));
+    // Ensure stdin is flowing so 'end'/'close' actually fire on client disconnect.
+    process.stdin.resume();
   }
 }
